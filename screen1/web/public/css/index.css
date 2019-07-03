@@ -1,0 +1,538 @@
+
+.main {
+    width: 100%;
+    min-height: 56vw; /*overflow: hidden;*/
+    position: relative;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.head {
+    width: 100%;
+    /*height: .84rem;*/
+    overflow: hidden;
+    background-color: #0E0E20;
+}
+
+.head .head_left {
+    width: 32.8%;
+    padding: .27rem .6rem;
+    overflow: hidden;
+}
+
+.head_left span {
+    font-size: .18rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.head_left .iconwendu {
+    color: #FDB201;
+    font-size: .3rem;
+}
+
+.head_left .iconshuye {
+    color: #3ACE74;
+    font-size: .3rem;
+}
+
+.head_left .l1 {
+    color: #FDB201;
+    margin-right: .36rem;
+    font-size: .18rem;
+}
+
+.head_left .l2 {
+    color: #3ACE74;
+    font-size: .18rem;
+    margin-right: .36rem;
+}
+
+.head_left .l3 {
+    color: #AAE9FF;
+}
+
+.head_left .l3 span {
+}
+
+.head_left .l3 .cloudy {
+    width: .39rem;
+    height: .39rem;
+    position: relative;
+    margin-right: .05rem;
+}
+
+
+.head_left .l3 .cloudy img {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: .1rem;
+}
+
+.head .head_right {
+    width: 32.8%;
+}
+
+.head .head_mind {
+    font-weight: bold;
+    color: #fff;
+    font-size: .36rem;
+    padding: .25rem 0;
+    width: 32.8%;
+    text-align: center;
+}
+
+.section {
+    padding: 0.5rem 1rem;
+    background-color: #1D1D32;
+}
+
+.section > .title {
+    position: relative;
+}
+
+.section > .title p {
+    font-size: 0.95rem;
+    line-height: 150%;
+}
+
+.section > .title p.en {
+    font-size: 0.7rem;
+}
+
+.section > .title span {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    vertical-align: bottom;
+}
+
+
+.st1 {
+    width: 25rem;
+    height: 21rem;
+    position: relative;
+    top: 5rem;
+    left: 1rem;
+}
+
+.st1 .cont {
+    padding-top: 0.5rem;
+}
+
+.st1 .chart1 {
+    width: 100%;
+    height: 17rem;
+}
+
+
+.st2 {
+    width: 25rem;
+    height: 14rem;
+    position: relative;
+    top: 27rem;
+    left: 1rem;
+}
+
+.st2 .cont {
+    padding-top: 0.5rem;
+}
+
+.st2 .chart2 {
+    width: 100%;
+    height: 10rem;
+}
+
+
+.st3 {
+    width: 25rem;
+    height: 13rem;
+    position: relative;
+    top: 42rem;
+    left: 1rem;
+}
+
+.st3 .cont {
+    padding-top: 0.5rem;
+}
+
+.st3 .chart3 {
+    width: 100%;
+    height: 9rem;
+}
+
+
+.st4 {
+    width: 46rem;
+    height: 31rem;
+    position: relative;
+    top: 7rem;
+    left: 27rem;
+}
+
+.st4 .cont {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.st4 .chart4 {
+    width: 44.1rem;
+    height: 25.2rem;
+    position: relative;
+    top: 1.5rem;
+    left: 0.95rem;
+}
+
+.st4 .chart4 .map {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    background-size: 100% 100%;
+}
+
+.st4 .chart4 .info {
+    width: 15rem;
+    height: 20rem;
+    padding: 1rem 1rem 1rem 1.5rem;
+    position: relative;
+    top: 2rem;
+    right: 3rem;
+    background-color: rgba(0, 210, 255, 0.8);
+    border: 0.25rem solid rgba(0, 210, 255, 0.5);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 0.25rem 0.25rem rgba(0, 104, 183, 1);
+}
+
+.st4 .chart4 .info .addr {
+    margin-bottom: 0.5rem;
+    background: url(../img/icon3.png) left center / 1.2rem 1.2rem no-repeat;
+    padding-left: 2rem;
+    font-size: 0.8rem;
+    line-height: 2rem;
+    color: #00333F;
+    font-weight: bold;
+}
+
+.st4 .chart4 .info p {
+    font-size: 0.8rem;
+    line-height: 2.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.st4 .chart4 .info p span {
+    font-size: 1.5rem;
+}
+
+.st4 .chart4 .info button {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    font-size: 0.7rem;
+    line-height: 2rem;
+    text-align: center;
+    cursor: text;
+}
+
+.st4 .chart4 .info button.online {
+    background-color: #77C90C;
+}
+
+.st4 .chart4 .info button.offline {
+    background-color: #535353;
+}
+
+.st4 .chart4 ul {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+}
+
+.st4 .chart4 ul li {
+    width: 0;
+    height: 0;
+    position: relative;
+}
+
+.st4 .chart4 ul li:nth-child(1) {
+    top: 10rem;
+    left: 17rem;
+}
+
+.st4 .chart4 ul li:nth-child(2) {
+    top: 10.7rem;
+    left: 18rem;
+}
+
+.st4 .chart4 ul li:nth-child(3) {
+    top: 11.3rem;
+    left: 19rem;
+}
+
+.st4 .chart4 ul li:nth-child(4) {
+    top: 17.5rem;
+    left: 16.2rem;
+}
+
+.st4 .chart4 ul li:nth-child(5) {
+    top: 18.2rem;
+    left: 15.3rem;
+}
+
+.st4 .chart4 ul li:nth-child(6) {
+    top: 19rem;
+    left: 14.5rem;
+}
+
+.st4 .chart4 ul li .point {
+    width: 0.6rem;
+    height: 0.6rem;
+    position: relative;
+    top: -0.3rem;
+    left: -0.3rem;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: #556FB5;
+    border: 0.3rem solid rgba(85, 111, 181, 0.5);
+    box-shadow: 0 0 0.3rem 0.3rem rgba(85, 111, 181, 1);
+    cursor: pointer;
+}
+
+.st4 .chart4 ul li .point:hover,
+.st4 .chart4 ul li.on .point {
+    background-color: #00D2FF;
+    border: 0.3rem solid rgba(0, 210, 255, 0.5);
+    box-shadow: 0 0 0.3rem 0.3rem rgba(0, 210, 255, 1);
+    z-index: 11;
+}
+
+.st4 .chart4 ul li .line {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    background-size: 100% 100%;
+    background-image: url(../img/line1.png);
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.st4 .chart4 ul li:nth-child(1) .line {
+    display: none;
+    width: 9rem;
+    height: 8rem;
+}
+
+.st4 .chart4 ul li:nth-child(2) .line {
+    display: none;
+    width: 8rem;
+    height: 8rem;
+}
+
+.st4 .chart4 ul li:nth-child(3) .line {
+    display: none;
+    width: 7rem;
+    height: 7rem;
+}
+
+.st4 .chart4 ul li:nth-child(4) .line {
+    display: none;
+    width: 10.5rem;
+    height: 14rem;
+}
+
+.st4 .chart4 ul li:nth-child(5) .line {
+    display: none;
+    width: 11rem;
+    height: 14rem;
+}
+
+.st4 .chart4 ul li:nth-child(6) .line {
+    display: none;
+    width: 12rem;
+    height: 14rem;
+}
+
+.st4 .chart4 ul li.on .line {
+    display: block;
+}
+
+.st4 .countinfo {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    padding-top: 0.5rem;
+    padding-left: 2rem;
+    position: relative;
+    bottom: 0.5rem;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.st4 .countinfo .cell {
+    margin-right: 2rem;
+}
+
+.st4 .countinfo .p1 {
+    font-size: 0.95rem;
+    line-height: 150%;
+    color: #50D4FF;
+    font-weight: bold;
+}
+
+.st4 .countinfo .p2 {
+    font-size: 0.7rem;
+    line-height: 3rem;
+}
+
+.st4 .countinfo .p2 span {
+    padding-right: 0.7rem;
+    font-size: 2rem;
+    line-height: 3rem;
+}
+
+
+.st5 {
+    width: 46rem;
+    height: 16rem;
+    position: relative;
+    top: 39rem;
+    left: 27rem;
+}
+
+.st5 .cont {
+    padding-top: 0.5rem;
+    position: relative;
+}
+
+.st5 .chart5 {
+    width: 100%;
+    height: 15rem;
+    position: relative;
+    top: -3rem;
+}
+
+
+.st6 {
+    width: 25rem;
+    height: 20rem;
+    position: relative;
+    top: 5rem;
+    left: 74rem;
+}
+
+.st6 .cont {
+    padding-top: 0.5rem;
+}
+
+.st6 .chart6 {
+    width: 100%;
+    height: 16rem;
+}
+
+
+.st7 {
+    width: 25rem;
+    height: 15rem;
+    position: relative;
+    top: 26rem;
+    left: 74rem;
+}
+
+.st7 .cont {
+    padding-top: 0.5rem;
+}
+
+.st7 .info {
+    width: 100%;
+    height: 2rem;
+    position: relative;
+}
+
+.st7 .info .c1 {
+    float: left;
+    max-width: 6rem;
+    height: 2rem;
+    margin-right: 0.6rem;
+    font-size: 0.7rem;
+    line-height: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.st7 .info .c2 {
+    float: left;
+    width: 9rem;
+    height: 2rem;
+    margin-right: 0.6rem;
+    background-image: url(../img/icon4.png);
+    background-size: 0.9rem 1rem;
+    background-position: left center;
+    background-repeat: repeat-x;
+}
+
+.st7 .info .c3 {
+    float: left;
+    width: 5rem;
+    height: 2rem;
+    font-size: 0.7rem;
+    line-height: 2rem;
+}
+
+.st7 .chart7 {
+    width: 100%;
+    height: 8rem;
+    margin-top: 1rem;
+}
+
+
+.st8 {
+    width: 25rem;
+    height: 13rem;
+    position: relative;
+    top: 42rem;
+    left: 74rem;
+}
+
+.st8 .cont {
+    padding-top: 0.5rem;
+}
+
+.st8 .chart8 {
+    width: 100%;
+    height: 9rem;
+}
+
+
+.gray {
+    opacity: 0.6;
+    /*-webkit-filter: hue-rotate(-30deg) grayscale(70%);
+    -webkit-filter: hue-rotate(-30deg) grayscale(100%);
+    -moz-filter: hue-rotate(-30deg) grayscale(100%);
+    -ms-filter: hue-rotate(-30deg) grayscale(100%);
+    -o-filter: hue-rotate(-30deg) grayscale(100%);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    _filter: none;*/
+}
+
+

@@ -1,0 +1,47 @@
+{
+  "name": "moni_center3",
+  "version": "1.1.1",
+  "description": "海洋博物馆",
+  "keywords": [
+    "electron"
+  ],
+  "main": "main.js",
+  "build": {
+    "appId": "ocean.museum.moni_center3",
+    "mac": {
+    	"icon": "icon.ico",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+    	"icon": "icon.ico",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "files": [
+      "package.json",
+      "main.js",
+      "icon.ico"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true
+    }
+  },
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-builder": "^20.38.4"
+  },
+  "dependencies": {
+    "electron-updater": "^4.0.6"
+  }
+}
