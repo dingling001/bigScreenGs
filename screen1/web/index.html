@@ -14,156 +14,75 @@
     <script type="text/javascript" src="./public/js/fontsize.js"></script>
     <link rel="stylesheet" type="text/css" href="public/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/index.css"/>
-    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_m26rmory3yq.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_ifvk4l1e4u.css">
 </head>
 
 <body>
 <div class="main" id="main" v-cloak>
     <div class="head">
         <div class="head_left left">
-            <span class="l1"><span class="iconfont iconwendu "></span><span>{{tmp}} ℃</span></span>
-            <span class="l2"><span :class="['iconfont iconshuye',qlty=='良'?'color1':''   ]"></span><span>{{qlty}}</span></span>
+            <span>
+                   <span class="l1" :style="{color:wlist[windex]}">
+                       <span class="iconfont iconwendu" :style="{color:wlist[windex]}"></span><span>{{tmp}} ℃</span>
+                     </span>
+            <span :class="['l2',qlty=='良'?'color1':'',qlty=='轻度污染'?'color2':'',qlty=='中度污染'?'color3':'',qlty=='重度污染'?'color4':'',qlty=='严重污染'?'color5':'' ]">
+                <span :class="['iconfont iconshuye' ]"></span>
+                <span>{{qlty}}</span>
+            </span>
             <span class="l3"><span class="cloudy">
-                <img :src="'./public/img/cloudys/cond_icon_'+cond_code +'.png'"alt=""></span>
+                <img :src="'./public/img/cloudys/cond_icon_'+cond_code +'.png'" alt=""></span>
                 <span>{{cond_txt}}</span>
+            </span>
             </span>
         </div>
         <div class="head_mind left">{{name}}</div>
         <div class="head_right right"><span class="iconfont iconshijian"></span><span>{{newdate}}</span></div>
     </div>
-<div class="section_box">
-    <div class="section st1">
-        <div class="title">
-            <p>数字智慧导览使用情况</p>
-        </div>
-        <div class="cont">
-            <div class="chart1" id="chart1"></div>
-        </div>
-    </div>
-
-    <div class="section st2">
-        <div class="title">
-            <p>热门参观路线</p>
-            <p class="en">Popular Touring Routes</p>
-        </div>
-        <div class="cont">
-            <div class="chart2" id="chart2"></div>
-        </div>
-    </div>
-
-    <div class="section st3">
-        <div class="title">
-            <p>活动累计参加人次</p>
-            <p class="en">Total Attendance of the Activity <span>{{ Comfun.toSplit(watchFilmNu) }}</span></p>
-        </div>
-        <div class="cont">
-            <div class="chart3" id="chart3"></div>
-        </div>
-    </div>
-
-    <div class="section st4">
-        <div class="title">
-            <p>自助租赁柜使用情况</p>
-            <p class="en">Service Condition of Self-Service Audio Guide Renting Cabinet</p>
-        </div>
-        <div class="cont">
-            <div class="chart4">
-                <div class="map gray" style=" background-image: url(public/img/map2.png);"></div>
-                <div class="info" v-if="cabinet_list[cabinet_i]">
-                    <div class="addr">{{ cabinet_list_init[cabinet_i].addr }}</div>
-                    <p>设备编号：<span>{{cabinet_list[cabinet_i].cabinet_num}}</span></p>
-                    <p>可租借设备：<span>{{cabinet_list[cabinet_i].can_rent_dlj_num}}</span></p>
-                    <p>维修中的仓数：<span>{{cabinet_list[cabinet_i].need_repair_dlj_num}}</span></p>
-                    <p>可归还仓数：<span>{{cabinet_list[cabinet_i].can_return_dlj_num}}</span></p>
-                    <p>累计订单数：<span>{{cabinet_list[cabinet_i].order_count}}</span></p>
-                    <!--<button class="online">在线中</button>-->
-                    <button :class="{'online':cabinet_list[cabinet_i].is_online==1}"
-                            v-if="cabinet_list[cabinet_i].is_online==1">在线中
-                    </button>
-                    <button :class="{'offline':cabinet_list[cabinet_i].is_online!=1}"
-                            v-if="cabinet_list[cabinet_i].is_online!=1">离线
-                    </button>
-                </div>
-                <ul>
-                    <li :class="{'on':cabinet_i==i}" v-for="a,i in cabinet_list_init">
-                        <div class="point"></div>
-                        <div class="line" v-if="cabinet_list[cabinet_i]"></div>
-                    </li>
-                </ul>
+    <div class="section_box">
+        <div class="section st1">
+            <div class="title">
+                <p>数字智慧导览使用情况</p>
             </div>
-            <div class="countinfo">
-                <div class="cell c1">
-                    <p class="p1">租赁中订单</p>
-                    <p class="p2"><span>{{guidUseData.renting_order_num||'0'}}</span>单</p>
-                </div>
-                <div class="cell c2">
-                    <p class="p1">待结算订单</p>
-                    <p class="p2"><span>{{guidUseData.waiting_balance_order_num||'0'}}</span>单</p>
-                </div>
-                <div class="cell c3">
-                    <p class="p1">可租借设备数量</p>
-                    <p class="p2"><span>{{guidUseData.can_borrow_dlj_num||"0"}}</span>台</p>
-                </div>
-                <div class="cell c4">
-                    <p class="p1">需维修设备数量</p>
-                    <p class="p2"><span>{{guidUseData.need_repair_dlj_num||'0'}}</span>台</p>
-                </div>
-                <div class="cell c5">
-                    <p class="p1">今日收入</p>
-                    <p class="p2"><span>{{guidUseData.today_input||'0'}}</span>元</p>
-                </div>
+            <div class="cont">
+                <div class="chart1" id="chart1"></div>
+                <div class="name_box"><span v-for="item in initChart1Data">{{item.name}}</span></div>
+            </div>
+        </div>
+        <div class="section st1 st2">
+            <div class="title">
+                <p>下载量</p>
+            </div>
+            <div class="cont">
+                <div class="chart1" id="chart2"></div>
+            </div>
+        </div>
+        <div class="section st1 st2">
+            <div class="title">
+                <p>门票各平台预约统计</p>
+            </div>
+            <div class="cont">
+                <div class="chart1" id="chart3"></div>
+            </div>
+        </div>
+        <div class="section st1 st3">
+            <div class="title">
+                <p>七日智慧笔租赁次数</p>
+            </div>
+            <div class="cont">
+                <div class="chart1" id="chart4"></div>
+            </div>
+        </div>
+        <div class="section st1 st4">
+            <div class="title">
+                <p>观众意见反馈平台分析</p>
+            </div>
+            <div class="cont">
+                <div class="chart1" id="chart5"></div>
+                <span class="icon_box"><span class="iconfont  iconpc"></span></span>
+                <span class="icon_box1"><span class="iconfont  iconshouji"></span></span>
             </div>
         </div>
     </div>
-
-    <div class="section st5">
-        <div class="title">
-            <p>租赁订单统计</p>
-            <p class="en">Statistics of Renting Orders</p>
-        </div>
-        <div class="cont">
-            <div class="chart5" id="chart5"></div>
-        </div>
-    </div>
-
-    <div class="section st6">
-        <div class="title">
-            <p>海博馆创收建设数据</p>
-            <p class="en">Data of Revenue-Generating Construction</p>
-        </div>
-        <div class="cont">
-            <div class="chart6" id="chart6"></div>
-        </div>
-    </div>
-
-    <div class="section st7">
-        <div class="title">
-            <p>影片累计观看人次</p>
-            <p class="en">Total Number of Viewers of the Film <span>{{ Comfun.toSplit(total_num) }}</span></p>
-        </div>
-        <div class="cont">
-            <div class="info">
-                <div class="c1">{{movieData.length&&movieData[movieI].movie_name}}</div>
-                <div class="c2"></div>
-                <div class="c3">{{movieData.length&&movieData[movieI].num}}</div>
-            </div>
-            <div class="chart7" id="chart7"></div>
-        </div>
-    </div>
-
-    <div class="section st8">
-        <div class="title">
-            <p>今日影院预约人数</p>
-            <p class="en">
-                Today’s Cinema Reservations
-                <span>{{ Comfun.toSplit(today_num) }}</span>
-            </p>
-        </div>
-        <div class="cont">
-            <div class="chart8" id="chart8"></div>
-        </div>
-    </div>
-</div>
 </div>
 </body>
 <script src="public/js/jquery.min.3.3.1.js"></script>
