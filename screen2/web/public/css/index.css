@@ -1,0 +1,96 @@
+
+.main{ width: 100%; min-height: 56vw; /*overflow: hidden;*/ position: relative;}
+
+.head{ width: 100%; height: 7rem; padding-top: 1rem; position: absolute; top: 0; background: url(../img/head_bg.png) center top / 100% 100% no-repeat; text-align: center;}
+.head p{ font-size: 2rem; line-height: 120%;}
+.head p.en{ font-size: 1.05rem;}
+
+
+.st_left{ width: 25rem; height: 50rem; position: absolute; top: 5rem; left: 1rem; z-index: 101; background-color: #1D1D32;}
+.left_btn{ width: 100%; height: 3rem; padding-top: 1rem; padding-left: 1rem; display: flex; justify-content: flex-start;}
+.left_btn li{ width: 4rem; height: 2rem; margin-right: 1rem; padding: 0 0.5rem; border-radius: 1rem; background-color: #374466; font-size: 0.95rem; line-height: 2rem; text-align: center; color: #fff; cursor: pointer; transition: all .2s ease-out 0s; -webkit-user-select: auto;}
+.left_btn li:hover,
+.left_btn li.on{ background-color: #53B0FF;}
+
+
+.section{ padding: 0.5rem 1rem; background-color: #1D1D32;}
+.section>.title{ position: relative;}
+.section>.title p{ font-size: 0.95rem; line-height: 150%;}
+.section>.title p.en{ font-size: 0.7rem;}
+.section>.title span{ display: block; position: absolute; bottom: 0; left: 8rem; font-size: 1.1rem; font-weight: bold;}
+
+
+.st1{ width: 25rem; height: 14rem; margin-top: 1rem;}
+.st1 .cont{ padding-top: 0.5rem;}
+.st1 .orderchart{ width: 100%; height: 10rem;}
+
+
+.st2{ width: 25rem; height: 14.5rem; margin-top: 1rem;}
+.st2 .cont{ padding-top: 0.5rem;}
+.st2 .visitchart{ width: 100%; height: 10.5rem;}
+
+
+.st3{ width: 25rem; height: 15.5rem; margin-top: 1rem;}
+.st3 .cont{ padding-top: 0.5rem;}
+.st3 .cardtypechart{ width: 100%; height: 11.5rem;}
+
+
+.st4{ width: 46rem; height: 48rem; position: absolute; top: 7rem; left: 27rem; background: none;}
+.st4 .cont{ padding-top: 0.5rem;}
+.st4 ul{ width: 100%; height: auto; position: absolute; top: 0; left: 0;}
+.st4 ul li{ width: 100%; height: 15rem; margin-top: 1rem; position: relative;}
+.st4 .heatchart{ /*width: 34rem;*/ width: 26.25rem; height: 15rem; position: absolute; top: 0; right: 3rem; background-size: 100% 100%;}
+.st4 .heattitle{ width: 8rem; height: auto; position: absolute; top: 50%; left: 2rem; transform: translateY(-50%);}
+.st4 .heattitle .r1{ width: 100%; height: auto; overflow: hidden;}
+.st4 .heattitle .r1 .c1{ float: left; margin-right: 0.5rem; font-size: 1rem; line-height: 2rem;}
+.st4 .heattitle .r1 .c2{ float: left; font-size: 1.2rem; font-weight: bold; line-height: 2rem; color: #67B700;}
+.st4 .heattitle .r2{ width: 100%; height: auto; overflow: hidden;}
+.st4 .heattitle .r2 .c1{ float: left; margin-right: 0.5rem; font-size: 0.95rem; line-height: 1.5rem;}
+.st4 .heattitle .r2 .c2{ float: left; padding-right: 1rem; position: relative; font-size: 0.95rem; line-height: 1.5rem; color: #67B700;}
+.st4 .heattitle .r2 .c2:after{ display: block; content: " "; width: 0; height: 0; position: absolute; right: 0; border-width: 0.3rem; border-style: solid;}
+.st4 .heattitle .r1 .c2.status1{ color: #67B700;}
+.st4 .heattitle .r1 .c2.status2{ color: #E59C00;}
+.st4 .heattitle .r1 .c2.status3{ color: #E53600;}
+.st4 .heattitle .r2 .c2.down{ color: #67B700;}
+.st4 .heattitle .r2 .c2.up{ color: #FF4800;}
+.st4 .heattitle .r2 .c2.down:after{ top: 0.75rem; border-color: #67B700 transparent transparent transparent;}
+.st4 .heattitle .r2 .c2.up:after{ bottom: 0.5rem; border-color: transparent transparent #FF4800 transparent;}
+
+
+.st5{ width: 25rem; height: 13rem; position: absolute; top: 5rem; left: 74rem;}
+.st5 .cont{ padding-top: 0.5rem;}
+.st5 .hallnumchart{ width: 100%; height: 9rem;}
+.st5 .hallnumchart ul{}
+.st5 .hallnumchart ul li{ width: 100%; height: 1.6rem; margin-bottom: 0.2rem; position: relative;}
+.st5 .hallnumchart .c1{ width: 6rem; height: 1.6rem; position: absolute; top: 0; left: 0; font-size: 0.7rem; line-height: 1.6rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.st5 .hallnumchart .c2{ width: 11.5rem; height: 0.4rem; position: absolute; top: 0.6rem; left: 7rem; background-color: rgba(53,53,53,0.8);}
+.st5 .hallnumchart .c2 .in{ width: 20%; height: 0.3rem; position: relative; background: linear-gradient(to right, #00B372, #FCFF00); border-radius: 0.15rem; transition: width .3s ease-out 0s;}
+.st5 .hallnumchart .c2 .in:after{ display: block; content: " "; width: 0.5rem; height: 0.5rem; position: absolute; top: -0.1rem; right: -0.1rem; background-color: #FCFF00; border-radius: 50%; box-shadow: 0 0 0.5rem #FCFF00;}
+.st5 .hallnumchart .c3{ width: 3.5rem; height: 1.6rem; position: absolute; top: 0; right: 0; font-size: 0.95rem; line-height: 1.6rem;}
+
+
+.st6{ width: 25rem; height: 14rem; position: absolute; top: 19rem; left: 74rem;}
+.st6 .cont{ padding-top: 0.5rem;}
+.st6 .hallrangechart{ width: 100%; height: 9rem;}
+.st6 .hallrangechart ul{}
+.st6 .hallrangechart ul li{ width: 100%; height: 1.6rem; margin-bottom: 0.05rem; position: relative;}
+.st6 .hallrangechart .c1{ width: 6rem; height: 1.6rem; position: absolute; top: 0; left: 0; font-size: 0.7rem; line-height: 1.6rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.st6 .hallrangechart .c2{ width: 15rem; height: 0.4rem; position: absolute; top: 0.6rem; left: 7rem; background-color: rgba(53,53,53,0.8);}
+.st6 .hallrangechart .c2 .in{ width: 20%; height: 0.4rem; position: relative; background: linear-gradient(to right, #7349D0, #30D5ED); border-radius: 0.2rem; transition: width .3s ease-out 0s;}
+.st6 .hallrangechart li:nth-child(1) .c2 .in,
+.st6 .hallrangechart li:nth-child(2) .c2 .in,
+.st6 .hallrangechart li:nth-child(3) .c2 .in{ background: linear-gradient(to right, #7349D0, #30D5ED);}
+.st6 .hallrangechart li:nth-child(4) .c2 .in{ background: linear-gradient(to right, #CBCDCD, #CBCDCD);}
+.st6 .hallrangechart li:nth-child(5) .c2 .in{ background: linear-gradient(to right, #6B6B6B, #CBCDCD);}
+.st6 .hallrangechart li:nth-child(6) .c2 .in{ background: linear-gradient(to right, #6B6B6B, #6B6B6B);}
+
+
+.st7{ width: 25rem; height: 21rem; position: absolute; top: 34rem; left: 74rem;}
+.st7 .cont{ padding-top: 0.5rem;}
+.st7 .exhibitchart{ width: 100%; height: 17rem;}
+.section.st7>.title span{ height: 1rem; padding-left: 1.5rem; background: url(../img/icon1.png) left center / 1rem 1rem no-repeat; font-size: 0.6rem; line-height: 1rem; color: #1296DB;}
+
+
+
+
+

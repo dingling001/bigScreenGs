@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>监控中心二</title>
+<link rel="stylesheet" type="text/css" href="public/css/common.css" />
+<link rel="stylesheet" type="text/css" href="public/css/index.css" />
+</head>
+
+<body>
+	<div class="main" id="main" v-cloak>
+		<div class="head">
+			<p>国家海洋博物馆智慧博物馆数据监控中心</p>
+			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p>
+		</div>
+		
+		<div class="st_left">
+			<ul class="left_btn">
+				<li :class="{'on':navi==0}" @click="changeNav(0)">今日</li>
+				<li :class="{'on':navi==1}" @click="changeNav(1)">近一周</li>
+				<li :class="{'on':navi==2}" @click="changeNav(2)">近一月</li>
+				<li :class="{'on':navi==3}" @click="changeNav(3)">近一年</li>
+			</ul>
+			
+			<div class="section st1">
+				<div class="title">
+					<p>观众预约总数</p>
+					<p class="en">Total Reservations</p>
+					<span style=" left: 7.5rem;">{{ Comfun.toSplit(yy_value_total) }}</span>
+				</div>
+				<div class="cont">
+					<div class="orderchart" id="chart1"></div>
+				</div>
+			</div>
+			
+			<div class="section st2">
+				<div class="title">
+					<p>观众进馆参观总数</p>
+					<p class="en">Total Visitors</p>
+					<span style=" left: 9rem;">{{ Comfun.toSplit(ck_value_total) }}</span>
+				</div>
+				<div class="cont">
+					<div class="visitchart" id="chart2"></div>
+				</div>
+			</div>
+			
+			<div class="section st3">
+				<div class="title">
+					<p>预约证件类型</p>
+					<p class="en">Types of Certificates for Reservation</p>
+				</div>
+				<div class="cont">
+					<div class="cardtypechart" id="chart3"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="section st4">
+			<div class="title">
+				<p>当前馆内观众热力图</p>
+				<p class="en">Heat Map of Current Audience</p>
+			</div>
+			<div class="cont">
+				<ul>
+					<li>
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">1F</div>
+								<div class="c2 status1">正常</div>
+							</div>
+							<div class="r2">
+								<div class="c1">环比</div>
+								<!-- <div :class="[map3>0 ? 'up' : 'down', 'c2']">{{map1}}%</div> -->
+								<div class="c2">{{map1}}%</div>
+							</div>
+						</div>
+						<div class="heatchart" id="chart4_1" style=" background-image: url(public/img/map1.png);"></div>
+					</li>
+					<li>
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">2F</div>
+								<div class="c2 status1">正常</div>
+							</div>
+							<div class="r2">
+								<div class="c1">环比</div>
+								<div class="c2">{{map2}}%</div>
+							</div>
+						</div>
+						<div class="heatchart" id="chart4_2" style=" background-image: url(public/img/map2.png);"></div>
+					</li>
+					<li>
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">3F</div>
+								<div class="c2 status1">正常</div>
+							</div>
+							<div class="r2">
+								<div class="c1">环比</div>
+								<div class="c2">{{map3}}%</div>
+							</div>
+						</div>
+						<div class="heatchart" id="chart4_3" style=" background-image: url(public/img/map3.png);"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="section st5">
+			<div class="title">
+				<p>当前展厅人数</p>
+				<p class="en">Current Visitors</p>
+			</div>
+			<div class="cont">
+				<div class="hallnumchart">
+					<ul>
+						<li v-for="a,i in hallnumlist">
+							<div class="c1">{{ a.probe_exhibition_name }}</div>
+							<div class="c2">
+								<div class="in" :style="{ 'width': comphallnumPerc(a.counts)}"></div>
+							</div>
+							<div class="c3">{{ comphallnumPerc(a.counts) }}</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="section st6">
+			<div class="title">
+				<p>热门展厅排行</p>
+				<p class="en">Rankings of Popular Exhibition Halls</p>
+			</div>
+			<div class="cont">
+				<div class="hallrangechart">
+					<ul>
+						<li v-for="a,i in hallrangelist">
+							<div class="c1">{{ a.probe_exhibition_name }}</div>
+							<div class="c2">
+								<div class="in" :style="{ 'width': comphallrangePerc(a.counts)}"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="section st7">
+			<div class="title">
+				<p>热门展品排行</p>
+				<p class="en">Favorite Exhibit of the Audience</p>
+				<span style=" left: 12rem;">点赞数</span>
+			</div>
+			<div class="cont">
+				<div class="exhibitchart" id="chart7"></div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+<script src="public/js/jquery.min.3.3.1.js"></script>
+<script src="public/js/vue.min.2.2.2.js"></script>
+<script src="public/js/echarts.min.js"></script>
+<script src="public/js/heatmap.min.js"></script>
+<script src="public/js/common.js"></script>
+<script src="public/js/index.js"></script>
+</html>

@@ -14,28 +14,27 @@
     <script type="text/javascript" src="./public/js/fontsize.js"></script>
     <link rel="stylesheet" type="text/css" href="public/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/index.css"/>
-    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_auypqf7rrbv.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_m26rmory3yq.css">
 </head>
 
 <body>
 <div class="main" id="main" v-cloak>
     <div class="head">
         <div class="head_left left">
-            <span class="l1"><span class="iconfont iconwendu"></span><span>{{tmp}} ℃</span></span>
-            <span class="l2"><span class="iconfont iconshuye"></span><span>{{qlty}}</span></span>
+            <span class="l1"><span class="iconfont iconwendu "></span><span>{{tmp}} ℃</span></span>
+            <span class="l2"><span :class="['iconfont iconshuye',qlty=='良'?'color1':''   ]"></span><span>{{qlty}}</span></span>
             <span class="l3"><span class="cloudy">
                 <img :src="'./public/img/cloudys/cond_icon_'+cond_code +'.png'"alt=""></span>
                 <span>{{cond_txt}}</span>
             </span>
         </div>
-        <div class="head_mind left">甘肃科技馆指挥中心信息管理平台</div>
-        <div class="head_right right"></div>
+        <div class="head_mind left">{{name}}</div>
+        <div class="head_right right"><span class="iconfont iconshijian"></span><span>{{newdate}}</span></div>
     </div>
-
+<div class="section_box">
     <div class="section st1">
         <div class="title">
             <p>数字智慧导览使用情况</p>
-            <p class="en">Service Condition of Digital Smart Guide</p>
         </div>
         <div class="cont">
             <div class="chart1" id="chart1"></div>
@@ -164,7 +163,7 @@
             <div class="chart8" id="chart8"></div>
         </div>
     </div>
-
+</div>
 </div>
 </body>
 <script src="public/js/jquery.min.3.3.1.js"></script>

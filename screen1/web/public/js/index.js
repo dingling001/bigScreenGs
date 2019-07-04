@@ -1,10 +1,12 @@
 var VM = new Vue({
     el: "#main",
     data: {
+        name: '甘肃科技馆指挥中心信息管理平台',
         tmp: 0,//温度
         qlty: '优',//空气质量
         cond_txt: '晴',
         cond_code: '100',
+        newdate:'获取时间中...',
         scale: 2,
         chart1: null,
         chart2: null,
@@ -61,8 +63,14 @@ var VM = new Vue({
     },
     mounted: function () {
         var vm = this;
+        // 温度
         vm.setWeather();
-        vm.air()
+        vm.air();
+        // 当前时间
+        setInterval(function () {
+            var date = new Date();
+            vm.newdate = date.toLocaleString('chinese', {hour12: false});
+        },1000);
         vm.chart1 = echarts.init(document.querySelector("#chart1"));
         vm.chart2 = echarts.init(document.querySelector("#chart2"));
         vm.chart3 = echarts.init(document.querySelector("#chart3"));
