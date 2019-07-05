@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>甘肃科技馆指挥中心信息管理平台</title>
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+
+<body>
+	<div class="main" id="main" v-cloak>
+		<!-- 甘肃科技馆指挥中心信息管理平台 screen header -->
+		<div class="head">
+			<!-- <p>甘肃科技馆指挥中心信息管理平台</p>
+			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p> -->
+		</div>
+		
+		<div class="st_left">
+			<div class="section st1">
+                <div class="title">
+                    <p>热门展厅排行</p>
+                    <!-- <p class="en">Rankings of Popular Exhibition Halls</p> -->
+                </div>
+                <div class="cont">
+                    <div class="hallrangechart">
+                        <ul>
+                            <li v-for="a,i in hallrangelist">
+                                <div class="c1">{{ a.probe_exhibition_name }}</div>
+                                <div class="c2">
+                                    <div class="in" :style="{ 'width': comphallrangePerc(a.counts)}"></div>
+								</div>
+								<div class="c3">NO.{{i+1}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section st2">
+                <div class="title">
+                    <p>热门展品排行</p>
+                    <!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+                </div>
+                <div class="cont">
+                    <div class="exhibitchart" id="chart7"></div>
+                </div>
+            </div>	
+		</div>
+		<div class="section st4">
+			<div class="title">
+				<p>当前馆内观众热力图</p>
+				<!-- <p class="en">Heat Map of Current Audience</p> -->
+            </div>
+            <div class="heat-type" style=" background-image: url(images/relitu@2x.png);"></div>
+			<div class="cont">
+				<ul>
+					<li style="margin-top: 5.5rem;">
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">1F</div>
+								<div class="c2 status1">正常</div>
+							</div>
+						</div>
+						<div class="heatchart" id="chart4_1" style=" background-image: url(images/1F.png);"></div>
+					</li>
+					<li>
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">2F</div>
+								<div class="c2 status1">正常</div>
+							</div>	
+						</div>
+						<div class="heatchart" id="chart4_2" style=" background-image: url(images/2F.png);"></div>
+					</li>
+					<li>
+						<div class="heattitle">
+							<div class="r1">
+								<div class="c1">3F</div>
+								<div class="c2 status1">正常</div>
+							</div>
+						</div>
+						<div class="heatchart" id="chart4_3" style=" background-image: url(images/3F.png);"></div>
+					</li>
+				</ul>
+			</div>
+        </div>
+        <div class="st_right">
+            <div class="section st5">
+                <div class="title">
+					<p>当前观众在馆人数</p>
+					<span class='total-value'>{{ Comfun.toSplit(ck_value_total) }}</span>
+                    <!-- <p class="en">Current Visitors</p> -->
+                </div>
+                <div class="cont">
+                    <div class="visitchart" id="chart2"></div>
+                </div>
+            </div>
+            <div class="section st6">
+                <div class="title">
+                    <p>七日预约/进馆人数</p>
+                </div>
+                <div class="cont">
+					<div class="orderchart" id="chart1"></div>
+				</div>
+            </div>
+        </div>
+	</div>
+</body>
+<script src="lib/jquery.min.3.3.1.js"></script>
+<script src="lib/vue.min.2.2.2.js"></script>
+<script src="lib/echarts.min.js"></script>
+<script src="lib/heatmap.min.js"></script>
+<script src="lib/common.js"></script>
+<script src="js/index.js"></script>
+<!-- <script src="lib/fontsize.js"></script> -->
+</html>

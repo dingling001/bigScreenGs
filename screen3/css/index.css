@@ -1,0 +1,84 @@
+
+.main{ width: 100%; min-height: 56vw; overflow: hidden; position: relative;}
+
+.head{ width: 100%; height: 7rem; padding-top: 1rem; position: absolute; top: 0;  text-align: center;}
+.head p{ font-size: 2rem; line-height: 120%;}
+.head p.en{ font-size: 1.05rem;}
+
+
+.st_left{ width: 32rem; height: 48rem; position: absolute; top: 7rem; z-index: 101;}
+
+.section{ padding: 1.5rem 1.5rem; background-color:#0E0E20;}
+.section>.title{ position: relative;}
+.section>.title p{ font-size: 1.2rem; line-height: 150%; font-weight: bold;}
+/* .section>.title p.en{ font-size: 0.7rem;} */
+.section>.title span{ display: block; position: absolute; bottom: 0; left: 12rem; font-size: 1.6rem; font-weight: bold;}
+
+
+.st1{ width: 100%; height: 23.5rem;}
+.st1 .cont{ padding-top: 2rem;}
+.st1 .hallrangechart{ width: 100%; height: 17rem;}
+.st1 .hallrangechart ul{}
+.st1 .hallrangechart ul li{ width: 100%; height: 1.6rem; margin-bottom: 1rem; position: relative;}
+.st1 .hallrangechart .c1{ width: 7rem; height: 1.6rem; position: absolute; top: 0; left: 0; font-size: 0.7rem; line-height: 1.6rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.st1 .hallrangechart .c2{ width: 16rem; height: 0.8rem; position: absolute; top: 0.4rem; left: 7rem; border-radius: 0.5rem;background-color: rgba(53,53,53,0.8);}
+.st1 .hallrangechart .c2 .in{ width: 20%; height: 0.8rem; position: relative; border-radius: 0.5rem; transition: width .3s ease-out 0s;}
+.st1 .hallrangechart .c3{ width: 3.5rem; height: 1.6rem;position: absolute; right: 1rem; font-size: 1.1rem; color: #fff; border-radius: 0.2rem; 
+                          text-align: center;                          
+}
+.st1 .hallrangechart li:nth-child(1) .c1 { color:#FF2045;}
+.st1 .hallrangechart li:nth-child(2) .c1 { color:#EB4A12;}
+.st1 .hallrangechart li:nth-child(3) .c1 { color: #FFCC00;}
+.st1 .hallrangechart li:nth-child(4) .c1,
+.st1 .hallrangechart li:nth-child(5) .c1,
+.st1 .hallrangechart li:nth-child(6) .c1{ color: #6272B6}
+
+.st1 .hallrangechart li:nth-child(1) .c2 .in, .st1 .hallrangechart li:nth-child(1) .c3{ background-color:#FF2045;}
+.st1 .hallrangechart li:nth-child(2) .c2 .in, .st1 .hallrangechart li:nth-child(2) .c3{ background-color:#EB4A12;}
+.st1 .hallrangechart li:nth-child(3) .c2 .in, .st1 .hallrangechart li:nth-child(3) .c3{ background-color: #FFCC00;}
+.st1 .hallrangechart li:nth-child(4) .c2 .in,
+.st1 .hallrangechart li:nth-child(5) .c2 .in,
+.st1 .hallrangechart li:nth-child(6) .c2 .in{ background: linear-gradient(to right, #1F46F0, #33FFEE);}
+.st1 .hallrangechart li:nth-child(4) .c3,
+.st1 .hallrangechart li:nth-child(5) .c3,
+.st1 .hallrangechart li:nth-child(6) .c3{ background-color: #203544;color: #2A9FAA}
+
+.st2{ width: 100%; height: 23.5rem; margin-top: 1rem;}
+.st2 .cont{ padding-top: 2rem;}
+.st2 .exhibitchart{ width: 100%; height: 17rem;}
+
+
+
+.st4{ width: 34rem; height: 48rem; position: absolute; top: 7rem; left: 33rem; background-color: #0E0E20;;}
+.st4 .heat-type{width: 2rem; height: 3.5rem; position: absolute; background-size: 100% 100%; margin-top: 1rem;}
+.st4 .cont{ padding-top: 0.5rem;}
+.st4 ul{ width: 100%; height: auto; position: absolute; top: 0; left: 0;}
+.st4 ul li{ width: 100%; height: 13rem; margin-top: 1rem; position: relative;}
+.st4 .heatchart{ /*width: 34rem;*/ width: 21.4rem; height: 11.4rem; position: absolute; top: 1rem; right: 3rem; background-size: 100% 100%;}
+.st4 .heattitle{ width: 8rem; height: auto; position: absolute; top: 50%; left: 2rem; transform: translateY(-50%);}
+.st4 .heattitle .r1{ width: 100%; height: auto; overflow: hidden;}
+.st4 .heattitle .r1 .c1{ float: left; margin-right: 0.5rem; font-size: 1rem; line-height: 2rem;}
+.st4 .heattitle .r1 .c2{ float: left; font-size: 1.2rem; font-weight: bold; line-height: 2rem; color: #67B700;}
+.st4 .heattitle .r2{ width: 100%; height: auto; overflow: hidden;}
+.st4 .heattitle .r2 .c1{ float: left; margin-right: 0.5rem; font-size: 0.95rem; line-height: 1.5rem;}
+.st4 .heattitle .r2 .c2{ float: left; padding-right: 1rem; position: relative; font-size: 0.95rem; line-height: 1.5rem; color: #67B700;}
+.st4 .heattitle .r2 .c2:after{ display: block; content: " "; width: 0; height: 0; position: absolute; right: 0; border-width: 0.3rem; border-style: solid;}
+.st4 .heattitle .r1 .c2.status1{ color: #67B700;}
+.st4 .heattitle .r1 .c2.status2{ color: #E59C00;}
+.st4 .heattitle .r1 .c2.status3{ color: #E53600;}
+.st4 .heattitle .r2 .c2.down{ color: #67B700;}
+.st4 .heattitle .r2 .c2.up{ color: #FF4800;}
+.st4 .heattitle .r2 .c2.down:after{ top: 0.75rem; border-color: #67B700 transparent transparent transparent;}
+.st4 .heattitle .r2 .c2.up:after{ bottom: 0.5rem; border-color: transparent transparent #FF4800 transparent;}
+
+.st_right{ width: 32rem; height: 90rem; position: absolute; top: 7rem; right: 0; z-index: 101;}
+
+.st5{ height: 23.5rem; }
+.st5 .cont{ padding-top: 2rem;}
+/* .st5 .total-value{display: block;position: absolute;  left: 12rem; font-size: 3rem;font-weight: bold;} */
+.st5 .visitchart{ width: 100%; height: 17rem;}
+
+.st6{  height: 23.5rem; margin-top: 1rem;}
+.st6 .cont{ padding-top: 2rem;}
+.st6 .orderchart{ width: 100%; height: 17rem;}
+
