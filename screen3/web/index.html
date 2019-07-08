@@ -31,9 +31,9 @@
                     <div class="hallrangechart">
                         <ul>
                             <li v-for="a,i in hallrangelist">
-                                <div class="c1">{{ a.probe_exhibition_name }}</div>
+                                <div class="c1">{{ a.name }}</div>
                                 <div class="c2">
-                                    <div class="in" :style="{ 'width': comphallrangePerc(a.counts)}"></div>
+                                    <div class="in" :style="{ 'width': comphallrangePerc(a.see_num)}"></div>
 								</div>
 								<div class="c3">NO.{{i+1}}</div>
                             </li>

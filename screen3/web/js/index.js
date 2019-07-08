@@ -24,15 +24,7 @@ var VM = new Vue({
 		hallnumTotal: 0,
 		hallrangelist: [],
 		hallrangeTotal: 0,
-		basehost: "https://www.hymuseum.org.cn", 
-		basecinema: "https://cinema.hymuseum.org.cn", 
-		basezulin: "https://tourjoy.smartechnology.com.cn",
-		basevol: "https://volunteer.hymuseum.org.cn",
-		baseguide: "https://guide.hymuseum.org.cn", 
-		baseticket: "https://pw.hymuseum.org.cn",
-		basekeliu: "https://keliu.hymuseum.org.cn", 
-		baseactive: "https://active.hymuseum.org.cn", 
-		baseweb: "https://www.hymuseum.org.cn"
+		baseweb: "http://192.168.10.158:8316"
 	},
 	created: function () {
 		var vm = this;
@@ -66,19 +58,19 @@ var VM = new Vue({
 			});
 		})
 		vm.getScreeByDay();
-		vm.getVisitList();
+		//vm.getVisitList();
 		vm.getProbe();
 		vm.getProbeFbt();
 		vm.getCurrentProbePersons();
-		vm.getHotProbePersons();
+		//vm.getHotProbePersons();
 		vm.getHotExhibits();
 		// 定时执行
 		setInterval(function(){
-		 	vm.getVisitList();
+		 	//vm.getVisitList();
 		 	vm.getProbe();
 		 	vm.getProbeFbt();
 		 	vm.getCurrentProbePersons();
-		 	vm.getHotProbePersons();
+		 	//vm.getHotProbePersons();
 		 	vm.getHotExhibits();
 		},60000)
 		setInterval(function(){
@@ -176,17 +168,18 @@ var VM = new Vue({
 				}
 			});
 		},
-		//获取观众预约(检票，证件类型)总数
+		//获取观众在管人数
 		getVisitList: function () {
 			var vm = this;
 			$.ajax({
 				type: 'get',
 				data: {
-					p: "w",
-					yy_t_date_range: vm.getTimeQuantum()
+					//p: "t",
+					//yy_t_date_range: vm.getTimeQuantum()
 				},
-				url: this.baseticket + "/api/stat/b_screen",
+				url: 'http://keliu.gsstm.org/api/time_flow?p=t',
 				success: function (rlt) {
+					console.log('获取在场观众人数',)
 					var arr = rlt.data.people_line;
 					var arr3 = rlt.data.cardtype_stat;
 					var cardtypeData = [arr3[0]];
@@ -273,25 +266,7 @@ var VM = new Vue({
 				}
 			});
 		},
-		//数据可视化探针-热门展厅排行
-		getHotProbePersons: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					p: "w"
-				},
-				url: this.baseweb + "/api/datas_probe_hot_exhibition",
-				success: function (rlt) {
-					var data = rlt.data;
-					vm.getHallrange(data);
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
-		//获取热门展品
+		//获取热门展品&热门展厅
 		getHotExhibits: function () {
 			var vm = this;
 			$.ajax({
@@ -299,10 +274,14 @@ var VM = new Vue({
 				data: {
 					p: "w"
 				},
-				url: this.baseweb + "/api/expert/exhibit",
+				url: this.baseweb + "/api/big_stat",
 				success: function (rlt) {
 					var data = rlt.data;
-					vm.updateChart7(data)
+					var exhibit = data.exhibit;
+					var exhibition = data.exhibition;
+					console.log('获取热门展品&热门展厅:',data)
+					vm.updateChart7(exhibit);
+					vm.getHallrange(exhibition);
 				},
 				error: function (err) {
 					console.log(err)
@@ -736,12 +715,12 @@ var VM = new Vue({
 		renderHallrange: function (data) {
 			var vm = this;
 			data = data.sort(function (a, b) {
-				return b.counts - a.counts;
+				return b.see_num - a.see_num;
 			}).slice(0, 6);
 			vm.hallrangelist = data;
 			vm.hallrangeTotal = 0;
 			vm.hallrangelist.forEach(function (a, i) {
-				vm.hallrangeTotal += a.counts
+				vm.hallrangeTotal += a.see_num
 			})
 		},
 		// 热门展厅排行-计算百分比
@@ -860,12 +839,12 @@ var VM = new Vue({
 			var vm = this;
 			var colors = ['#30D5ED', '#7349D0', '#CBCDCD', '#6B6B6B'];
 			var xArr = [], dataArr = [], dataArrstack = [];
-			data = data.sort(function (a, b) {
-				return b.total - a.total
-			}).slice(0, 7);
+			// data = data.sort(function (a, b) {
+			// 	return b.total - a.total
+			// }).slice(0, 7);
 			data.forEach(function (a, i) {
 				xArr.push(a.exhibit_name);
-				dataArrstack.push(data[0].total * 0.05)
+				dataArrstack.push(data.length * 0.05)
 				var color;
 				if (i < 3) {
 					color = {
@@ -886,7 +865,7 @@ var VM = new Vue({
 					color = colors[3]
 				}
 				var obj = {
-					value: a.total,
+					value: a.look_num,
 					itemStyle: {
 						color: color
 					}
