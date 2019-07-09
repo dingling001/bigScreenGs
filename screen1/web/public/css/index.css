@@ -1,6 +1,6 @@
 
 .main {
-    min-height: 56vw; /*overflow: hidden;*/
+    /*min-height: 56vw; !*overflow: hidden;*!*/
     position: relative;
 }
 
@@ -160,6 +160,7 @@
 .st1 {
     width: 32.8125%;
     /*width: 100%;*/
+    overflow: hidden;
 }
 
 .st1 .cont {
@@ -171,7 +172,11 @@
     width: 100%;
     height: 5rem;
 }
-
+.st1 .chart51,.st1 .chart52{
+    width: 50%;
+    float: left;
+    position: relative;
+}
 .st1 .name_box {
     position: absolute;
     z-index: 10;
@@ -195,17 +200,32 @@
 
 .st2 .chart2 {
     width: 100%;
-    height: 5rem;
+    overflow: hidden;
+    height: 5.25rem;
 }
-
+.st2 .label{
+    width: 5.1rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 1.45rem;
+}
+.st2 .label1{
+    background-image: url("../../public/img/init31.png");
+}
+.st2 .label2{
+    background-image: url("../../public/img/init32.png");
+}
 .st3 {
     margin-top: .15rem;
 }
 
 .st4 {
     margin: .15rem;
+    padding: .5rem 0;
 }
-
+.st4 .title{
+    padding: 0 .5rem;
+}
 .st5 {
     width: 46rem;
     height: 16rem;
@@ -228,16 +248,14 @@
 
 .icon_box {
     position: absolute;
-    left: 32%;
-    top: 42%;
-    z-index: 1;
+    left: 30%;
+    top: 261px;
 }
 
 .icon_box1 {
     position: absolute;
-    right: 27%;
-    top: 43%;
-    z-index: 1;
+    right: 30%;
+    top: 261px;
 }
 
 .icon_box .iconpc, .icon_box1 .iconshouji {

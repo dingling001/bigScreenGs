@@ -22,23 +22,25 @@ var VM = new Vue({
             '#A00010',
             '#640000'
         ],
-        feedback:[
+        feedback: [
             {
                 name: 'PC端',
                 value: 0
             }, {
                 name: '移动端',
-                value:0
+                value: 0
             }
         ],
-        total:0,
+        appdownloadnum:0,
+        total: 0,
         scale: 2,
         chart1: null,
         chart2: null,
         chart3: null,
         chart4: null,
         watchFilmNu: 0,
-        chart5: null,
+        chart51: null,
+        chart52: null,
         chart6: null,
         chart7: null,
         chart8: null,
@@ -99,7 +101,9 @@ var VM = new Vue({
         // vm.chart2 = echarts.init(document.querySelector("#chart2"));
         vm.chart3 = echarts.init(document.querySelector("#chart3"));
         vm.chart4 = echarts.init(document.querySelector("#chart4"));
-        vm.chart5 = echarts.init(document.querySelector("#chart5"));
+        vm.chart51 = echarts.init(document.querySelector("#chart51"));
+        vm.chart52 = echarts.init(document.querySelector("#chart52"));
+
         // // vm.chart6 = echarts.init(document.querySelector("#chart6"));
         // vm.chart7 = echarts.init(document.querySelector("#chart7"));
         // vm.chart8 = echarts.init(document.querySelector("#chart8"));
@@ -130,19 +134,13 @@ var VM = new Vue({
             maskColor: '#0E0E20',
             zlevel: 0
         });
-        vm.chart5.showLoading({
-            text: 'loading',
-            color: '#fff',
-            textColor: '#fff',
-            maskColor: '#0E0E20',
-            zlevel: 0
-        });
         vm.setWeather();
         vm.air();
         vm.wxData();
         vm.getStat();
         vm.initChart1();//第一屏
         vm.initChart4();
+        vm.getAppnum()
         // setInterval(function () {
         //     // 温度
         //     vm.setWeather();
@@ -157,10 +155,12 @@ var VM = new Vue({
         setInterval(function () {
             vm.movieI == vm.movieData.length - 1 ? vm.movieI = 0 : vm.movieI++
             vm.cabinet_i == vm.cabinet_list_init.length - 1 ? vm.cabinet_i = 0 : vm.cabinet_i++
-        }, 10000)
+        }, 10000);
+
     },
     methods: {
-        // 设置天气
+
+// 设置天气
         setWeather: function () {
             var vm = this;
             $.ajax({
@@ -246,13 +246,15 @@ var VM = new Vue({
                     vm.initChart1Data[0].value = 10;
                     vm.initChart1Data[1].value = rlt.data.dlstat.wx_total;
                     vm.initChart1Data[2].value = rlt.data.dlstat.app_total;
-                    vm.feedback[0].value=rlt.data.feedback.pc;
-                    vm.feedback[1].value=rlt.data.feedback.wap;
-                    vm.total=rlt.data.feedback.total;
+                    vm.feedback[0].value = rlt.data.feedback.pc;
+                    vm.feedback[1].value = rlt.data.feedback.wap;
+                    vm.total = rlt.data.feedback.total;
+                    // vm.feedback[0].value=10;
+                    // vm.feedback[1].value=10;
+                    // vm.total=22;
                     vm.initChart1();
                     vm.initChart5();
                     vm.chart1.hideLoading();
-                    vm.chart5.hideLoading();
                 },
                 error: function (err) {
                     console.log(err)
@@ -472,7 +474,7 @@ var VM = new Vue({
                         type: 'pie',
                         hoverAnimation: false,
                         center: ['50%', '55%'],
-                        radius: ['45%', '47%'],
+                        radius: ['45%', '48%'],
                         label: {
                             color: '#fff'
                         },
@@ -661,142 +663,360 @@ var VM = new Vue({
             // 	total += a.value
             // })
             total = vm.total;
-            total == 0 ? total = 1 : '';
-            var seriesArr = [];
-            data.forEach(function (item, index) {
-                seriesArr.push(
-                    {
-                        type: 'pie',
-                        name: item.name,
-                        clockWise: true,
-                        startAngle: 180,
-                        hoverAnimation: false,
-                        radius: ['25%', '25%'],
-                        center: [index * 30 + 37 + '%', '50%'],
-                        itemStyle: {
-                            normal: {
-                                color: '#EA68A2',
-                                borderWidth: 10,
-                                borderColor: '#EA68A2',
-                                label: {
-                                    show: false
+            // total == 0 ? total = 1 : '';
+            var seriesArr1 = [
+                {
+                    name: '',
+                    type: 'pie',
+                    radius: ['40%', '50%'],
+                    hoverAnimation: false,
+                    avoidLabelOverlap: false,
+                    center: ['70%', '60%'],
+                    itemStyle: {
+                        normal: {
+                            color: '#666F9A',
+                            borderWidth: 1,
+                            borderColor: '#666F9A',
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'center',
+                            padding: (function (val) {
+                                return [0, 250, 0, 0]
+                                // if (item.name == data[0].name) {
+                                //     return [0, 300, 0, 0]
+                                // } else if (item.name == data[1].name) {
+                                //     return [0, 0, 0, 300]
+                                // }
+                            })(),
+                            formatter: function (val) {
+                                var str1, str2, str3;
+                                // str1 = '{a1|pc端}' + '\n';
+                                // str2 = '{b1|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                // str3 = '{c1|' + val.value + '}';
+                                if (val.name == data[0].name) {
+                                    str1 = '{a1|' + data[0].name + '}' + '\n';
+                                    str2 = '{b1|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                    str3 = '{c1|' + val.value + '}';
+                                    return str1 + str2 + str3
+                                } else {
+
+                                }
+                                // else if (val.name == data[1].name) {
+                                //     str1 = '{a2|' + item.name + '}' + '\n';
+                                //     str2 = '{b2|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                //     str3 = '{c2|' + val.value + '}';
+                                // }
+                            },
+                            rich: {
+                                a1: {
+                                    color: "#808080",
+                                    fontSize: 19,
+                                    lineHeight: 40,
+                                    align: 'center'
                                 },
-                                labelLine: {
-                                    show: false
-                                }
+                                b1: {
+                                    color: "#fff",
+                                    fontSize: 19,
+                                    lineHeight: 30,
+                                    align: 'center'
+                                },
+                                c1: {
+                                    color: "#fff",
+                                    fontSize: 19,
+                                    lineHeight: 20,
+                                    align: 'center'
+                                },
                             }
-                        },
-                        data: [{
-                            name: '',
-                            value: 0.15 * total,
-                            itemStyle: {
-                                normal: {
-                                    color: 'rgba(255,255,255,0)',
-                                    borderColor: 'rgba(255,255,255,0)'
-                                }
-                            }
-                        }, {
-                            name: '',
-                            value: total - item.value - 0.15 * total,
-                            itemStyle: {
-                                normal: {
-                                    color: '#666F9A',
-                                    borderColor: '#666F9A'
-                                }
-                            }
-                        }, {
-                            name: item.name,
-                            value: item.value,
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: vm.total - data[0].value, name: ''},
+                        {
+                            name: 'PC端',
+                            value: data[0].value,
                             itemStyle: {
                                 normal: {
                                     color: (function (val) {
-                                        if (item.name == data[0].name) {
-                                            return '#2FE4C3'
-                                        } else if (item.name == data[1].name) {
-                                            return '#EA68A2'
-                                        }
+                                        return '#2FE4C3'
+                                        // if (item.name == data[0].name) {
+                                        //     return '#2FE4C3'
+                                        // } else if (item.name == data[1].name) {
+                                        //     return '#EA68A2'
+                                        // }
                                     })(),
                                     borderColor: (function (val) {
-                                        if (item.name == data[0].name) {
-                                            return '#2FE4C3'
-                                        } else if (item.name == data[1].name) {
-                                            return '#EA68A2'
-                                        }
+                                        return '#2FE4C3'
+                                        // if (item.name == data[0].name) {
+                                        //     return '#2FE4C3'
+                                        // } else if (item.name == data[1].name) {
+                                        //     return '#EA68A2'
+                                        // }
                                     })(),
                                 }
                             },
+                        }
+                    ]
+                }
+            ];
+            var seriesArr2 = [
+                {
+                    name: '',
+                    type: 'pie',
+                    radius: ['40%', '50%'],
+                    hoverAnimation: false,
+                    avoidLabelOverlap: false,
+                    center: ['30%', '60%'],
+                    itemStyle: {
+                        normal: {
+                            color: '#666F9A',
+                            borderWidth: 1,
+                            borderColor: '#666F9A',
                             label: {
-                                normal: {
-                                    show: true,
-                                    position: 'center',
-                                    padding: (function (val) {
-                                        if (item.name == data[0].name) {
-                                            return [0, 300, 0, 0]
-                                        } else if (item.name == data[1].name) {
-                                            return [0, 0, 0, 300]
-                                        }
-                                    })(),
-                                    formatter: function (val) {
-                                        var str1, str2, str3;
-                                        if (val.name == data[0].name) {
-                                            str1 = '{a1|' + item.name + '}' + '\n';
-                                            str2 = '{b1|' + Math.round(val.value / total*100) + '%}' + '\n';
-                                            str3 = '{c1|' + val.value + '}';
-                                        } else if (val.name == data[1].name) {
-                                            str1 = '{a2|' + item.name + '}' + '\n';
-                                            str2 = '{b2|' + Math.round(val.value / total*100) + '%}' + '\n';
-                                            str3 = '{c2|' + val.value + '}';
-                                        }
-                                        return str1 + str2 + str3
-                                    },
-                                    rich: {
-                                        a1: {
-                                            color: "#808080",
-                                            fontSize: 17,
-                                            lineHeight: 40,
-                                            align: 'center'
-                                        },
-                                        b1: {
-                                            color: "#fff",
-                                            fontSize: 19,
-                                            lineHeight: 30,
-                                            align: 'center'
-                                        },
-                                        c1: {
-                                            color: "#fff",
-                                            fontSize: 17,
-                                            lineHeight: 20,
-                                            align: 'center'
-                                        },
-                                        a2: {
-                                            color: "#808080",
-                                            fontSize: 17,
-                                            lineHeight: 40,
-                                            align: 'center'
-                                        },
-                                        b2: {
-                                            color: "#fff",
-                                            fontSize: 19,
-                                            lineHeight: 30,
-                                            align: 'center'
-                                        },
-                                        c2: {
-                                            color: "#fff",
-                                            fontSize: 19,
-                                            lineHeight: 20,
-                                            align: 'center'
-                                        }
-                                    }
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'center',
+                            padding: (function (val) {
+                                return [0, 0, 0, 250]
+                                // if (item.name == data[0].name) {
+                                //     return [0, 300, 0, 0]
+                                // } else if (item.name == data[1].name) {
+                                //     return [0, 0, 0, 300]
+                                // }
+                            })(),
+                            formatter: function (val) {
+                                var str1, str2, str3;
+                                // str1 = '{a1|pc端}' + '\n';
+                                // str2 = '{b1|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                // str3 = '{c1|' + val.value + '}';
+                                if (val.name == data[1].name) {
+                                    str1 = '{a2|' + data[1].name + '}' + '\n';
+                                    str2 = '{b2|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                    str3 = '{c2|' + val.value + '}';
+                                    return str1 + str2 + str3
+                                }
+                                // else if (val.name == data[1].name) {
+                                //     str1 = '{a2|' + item.name + '}' + '\n';
+                                //     str2 = '{b2|' + Math.round(val.value / total * 100) + '%}' + '\n';
+                                //     str3 = '{c2|' + val.value + '}';
+                                // }
+                            },
+                            rich: {
+                                a2: {
+                                    color: "#808080",
+                                    fontSize: 19,
+                                    lineHeight: 40,
+                                    align: 'center'
+                                },
+                                b2: {
+                                    color: "#fff",
+                                    fontSize: 19,
+                                    lineHeight: 30,
+                                    align: 'center'
+                                },
+                                c2: {
+                                    color: "#fff",
+                                    fontSize: 19,
+                                    lineHeight: 20,
+                                    align: 'center'
                                 }
                             }
-                        }]
-                    }
-                )
-            });
-            var option = {
-                series: seriesArr
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: vm.total - data[1].value, name: ''},
+                        {
+                            name: '移动端',
+                            value: data[1].value,
+                            itemStyle: {
+                                normal: {
+                                    color: (function (val) {
+                                        return '#EA68A2'
+                                        // if (item.name == data[0].name) {
+                                        //     return '#2FE4C3'
+                                        // } else if (item.name == data[1].name) {
+                                        //     return '#EA68A2'
+                                        // }
+                                    })(),
+                                    borderColor: (function (val) {
+                                        return '#EA68A2'
+                                        // if (item.name == data[0].name) {
+                                        //     return '#2FE4C3'
+                                        // } else if (item.name == data[1].name) {
+                                        //     return '#EA68A2'
+                                        // }
+                                    })(),
+                                }
+                            },
+                        }
+                    ]
+                }
+            ];
+
+            // data.forEach(function (item, index) {
+            //     seriesArr.push(
+            //         {
+            //             type: 'pie',
+            //             name: item.name,
+            //             clockWise: true,
+            //             startAngle: 180,
+            //             hoverAnimation: false,
+            //             radius: ['25%', '25%'],
+            //             center: [index * 30 + 37 + '%', '50%'],
+            //             itemStyle: {
+            //                 normal: {
+            //                     color: '#EA68A2',
+            //                     borderWidth: 10,
+            //                     borderColor: '#EA68A2',
+            //                     label: {
+            //                         show: false
+            //                     },
+            //                     labelLine: {
+            //                         show: false
+            //                     }
+            //                 }
+            //             },
+            //             data: [{
+            //                 name: '',
+            //                 value: item.value==0?.001:0,
+            //                 itemStyle: {
+            //                     normal: {
+            //                         color: 'rgba(255,255,255,0)',
+            //                         borderColor: 'rgba(255,255,255,0)'
+            //                     }
+            //                 }
+            //             }, {
+            //                 name: '',
+            //                 value: total - item.value - 0.15 * total,
+            //                 itemStyle: {
+            //                     normal: {
+            //                         color: '#666F9A',
+            //                         borderColor: '#666F9A'
+            //                     }
+            //                 }
+            //             }, {
+            //                 name: item.name,
+            //                 value: item.value,
+            //                 itemStyle: {
+            //                     normal: {
+            //                         color: (function (val) {
+            //                             if (item.name == data[0].name) {
+            //                                 return '#2FE4C3'
+            //                             } else if (item.name == data[1].name) {
+            //                                 return '#EA68A2'
+            //                             }
+            //                         })(),
+            //                         borderColor: (function (val) {
+            //                             if (item.name == data[0].name) {
+            //                                 return '#2FE4C3'
+            //                             } else if (item.name == data[1].name) {
+            //                                 return '#EA68A2'
+            //                             }
+            //                         })(),
+            //                     }
+            //                 },
+            //                 label: {
+            //                     normal: {
+            //                         show: true,
+            //                         position: 'center',
+            //                         padding: (function (val) {
+            //                             if (item.name == data[0].name) {
+            //                                 return [0, 300, 0, 0]
+            //                             } else if (item.name == data[1].name) {
+            //                                 return [0, 0, 0, 300]
+            //                             }
+            //                         })(),
+            //                         formatter: function (val) {
+            //                             var str1, str2, str3,str4;
+            //                             if (val.name == data[0].name) {
+            //                                 str1 = '{a1|' + item.name + '}' + '\n';
+            //                                 str2 = '{b1|' + Math.round(val.value / total*100) + '%}' + '\n';
+            //                                 str3 = '{c1|' + val.value + '}';
+            //                             } else if (val.name == data[1].name) {
+            //                                 str1 = '{a2|' + item.name + '}' + '\n';
+            //                                 str2 = '{b2|' + Math.round(val.value / total*100) + '%}' + '\n';
+            //                                 str3 = '{c2|' + val.value + '}';
+            //                             }
+            //                             return str1 + str2 + str3
+            //                         },
+            //                         rich: {
+            //                             a1: {
+            //                                 color: "#808080",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 40,
+            //                                 align: 'center'
+            //                             },
+            //                             b1: {
+            //                                 color: "#fff",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 30,
+            //                                 align: 'center'
+            //                             },
+            //                             c1: {
+            //                                 color: "#fff",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 20,
+            //                                 align: 'center'
+            //                             },
+            //                             a2: {
+            //                                 color: "#808080",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 40,
+            //                                 align: 'center'
+            //                             },
+            //                             b2: {
+            //                                 color: "#fff",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 30,
+            //                                 align: 'center'
+            //                             },
+            //                             c2: {
+            //                                 color: "#fff",
+            //                                 fontSize: 19,
+            //                                 lineHeight: 20,
+            //                                 align: 'center'
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //             }]
+            //         }
+            //     )
+            // });
+            var option1 = {
+                series: seriesArr1
             };
-            vm.chart5.setOption(option);
+            var option2 = {
+                series: seriesArr2
+            };
+            vm.chart51.setOption(option1);
+            vm.chart52.setOption(option2);
         },
 
         // 海博馆创收建设数据-图表初始化
@@ -844,7 +1064,8 @@ var VM = new Vue({
                 ]
             };
             vm.chart6.setOption(option);
-        },
+        }
+        ,
         updateChart6: function (data) {
             var vm = this;
             var colors = ['#BFBFBF', '#FFFFFF', '#5A20F5', '#313131', '#535353'];
@@ -937,7 +1158,8 @@ var VM = new Vue({
                     data: dataArr
                 }]
             });
-        },
+        }
+        ,
 
         // 影片累计观看人次-图表初始化
         initChart7: function () {
@@ -1001,7 +1223,8 @@ var VM = new Vue({
                 }]
             };
             vm.chart7.setOption(option);
-        },
+        }
+        ,
         // 影片累计观看人次-更新数据
         updateChart7: function (data) {
             var vm = this;
@@ -1049,7 +1272,8 @@ var VM = new Vue({
                     data: dataArr
                 }]
             });
-        },
+        }
+        ,
         // 今日影院预约人数-图表初始化
         initChart8: function (data) {
             var vm = this;
@@ -1164,16 +1388,19 @@ var VM = new Vue({
                 series: seriesArr
             }
             vm.chart8.setOption(option);
-        },
+        }
+        ,
         // 今日影院预约人数-更新数据
         updateChart8: function (data) {
             var vm = this;
-        },
+        }
+        ,
         // 自助租赁柜使用情况
         chooseCabinet: function (i) {
             var vm = this;
             vm.cabinet_i = i;
-        },
+        }
+        ,
         // 获取自助导览机使用数量
         guideData: function () {
             var vm = this;
@@ -1193,7 +1420,8 @@ var VM = new Vue({
                     console.log(err)
                 }
             });
-        },
+        }
+        ,
         // 获取微信/app 导览使用数量
         // 热门参观路线top6
         hotRoads: function () {
@@ -1212,7 +1440,8 @@ var VM = new Vue({
                     console.log(err)
                 }
             });
-        },
+        }
+        ,
         // 热门参观路线top6
         activeNumPro: function () {
             var vm = this;
@@ -1230,7 +1459,8 @@ var VM = new Vue({
                     console.log(err)
                 }
             });
-        },
+        }
+        ,
         // 获取影院统计
         getCinemaData: function () {
             var vm = this;
@@ -1253,6 +1483,24 @@ var VM = new Vue({
                     console.log(err)
                 }
             });
+        },
+        // 获取下载量
+        getAppnum: function () {
+            var vm = this;
+            $.ajax({
+                type: 'get',
+                data: {
+                    p: "t"
+                },
+                headers: {'Accept': 'application/json'},
+                url: baseurl1 + "api/version/download_num",
+                success: function (rlt) {
+                    vm.appdownloadnum=rlt.data;
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
         }
     }
-});		
+});
