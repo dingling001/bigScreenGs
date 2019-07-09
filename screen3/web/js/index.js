@@ -50,27 +50,24 @@ var VM = new Vue({
 				blur: .75,
 				maxOpacity: 1,
 				gradient: {
-					0.15: "rgb(0,0,255)",
+					0.15: "rgb(100,162,5)",
 					0.5: "rgb(0,255,0)",
 					0.85: "rgb(255,255,0)",
 					1.0: "rgb(255,0,0)"
 				}
 			});
 		})
-		vm.getScreeByDay();
-		//vm.getVisitList();
-		vm.getProbe();
+		
+		vm.getVisitList();
+		vm.getReservationSevenDay();
 		vm.getProbeFbt();
-		vm.getCurrentProbePersons();
-		//vm.getHotProbePersons();
 		vm.getHotExhibits();
 		// 定时执行
 		setInterval(function(){
-		 	//vm.getVisitList();
-		 	vm.getProbe();
+			 vm.getVisitList();
+			 vm.getReservationSevenDay();
+		 
 		 	vm.getProbeFbt();
-		 	vm.getCurrentProbePersons();
-		 	//vm.getHotProbePersons();
 		 	vm.getHotExhibits();
 		},60000)
 		setInterval(function(){
@@ -83,9 +80,10 @@ var VM = new Vue({
 			this.yy_value_total='';
 			this.ck_value_total='';
 			if(n==0){
-				this.getScreeByDay()
+				//this.getScreeByDay()
 			}else{
 				this.getVisitList()
+				this.getReservationSevenDay();
 			}
 		}
 	},
@@ -126,48 +124,6 @@ var VM = new Vue({
 		changeNav: function (i) {
 			this.navi = i;
 		},
-		//单日大屏统计数据---获取观众预约(检票，证件类型)总数
-		getScreeByDay: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					p: "w",
-					yy_t_date_range: vm.getTimeQuantum()
-				},
-				url: this.baseticket + "/api/stat/b_screen_by_day",
-				success: function (rlt) {
-					var arr = rlt.data.yy_stat;
-					var reservationNumber = { dates: [], values: [] };
-					var tickeNumber = { dates: [], values: [] };
-//					for (var i = 0; i < arr.length; i++) {
-//						reservationNumber.dates.push(arr[i].name)
-//						reservationNumber.values.push(arr[i].yy_value)
-//						tickeNumber.dates.push(arr[i].name)
-//						tickeNumber.values.push(arr[i].ck_value)
-//					}
-					/* 修改 */
-					var d = new Date();
-					for (var a of arr) {
-						if(d.getHours()<Number(a.name.split(":")[0])){
-							break
-						}
-						vm.yy_value_total = +vm.yy_value_total+a.yy_value
-						vm.ck_value_total = +vm.ck_value_total+a.ck_value
-						reservationNumber.dates.push(a.name)
-						reservationNumber.values.push(a.yy_value)
-						tickeNumber.dates.push(a.name)
-						tickeNumber.values.push(a.ck_value)
-					}
-					/* 修改 */
-					vm.updateChart1(reservationNumber);
-					vm.updateChart2(tickeNumber);
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
 		//获取观众在管人数
 		getVisitList: function () {
 			var vm = this;
@@ -179,31 +135,20 @@ var VM = new Vue({
 				},
 				url: 'http://keliu.gsstm.org/api/time_flow?p=t',
 				success: function (rlt) {
-					console.log('获取在场观众人数',)
-					var arr = rlt.data.people_line;
-					var arr3 = rlt.data.cardtype_stat;
-					var cardtypeData = [arr3[0]];
-					var rest = { name: '其他', value: 0 }
-					for (let k = 1; k < arr3.length; k++) {
-						rest.value += arr3[k].value;
-					}
-					cardtypeData.push(rest);
+					
+					var arr = rlt.data.time_flow;
 					var reservationNumber = { dates: [], values: [] };
-					var tickeNumber = { dates: [], values: [] };
-					for (var i = 0; i < arr.length; i++) {
-						vm.yy_value_total = +vm.yy_value_total+arr[i].value
-						vm.ck_value_total = +vm.yy_value_total+arr[i].value_ck
-						reservationNumber.dates.push(arr[i].name)
-						reservationNumber.values.push(arr[i].value)
-						tickeNumber.dates.push(arr[i].name)
-						tickeNumber.values.push(arr[i].value_ck)
-					}
+					vm.ck_value_total = rlt.data.total_stay_num;
+					for(var j in arr ){
+						//arrList.push(arr[j]);
+						reservationNumber.dates.push(j)
+						reservationNumber.values.push(arr[j])
+					}	
+					console.log('获取在场观众人数',reservationNumber)
 					if (vm.navi==0) {
 						//vm.updateChart3(cardtypeData);
 					} else {
-						vm.updateChart1(reservationNumber);
-						vm.updateChart2(tickeNumber);
-						//vm.updateChart3(cardtypeData);
+						vm.updateChart2(reservationNumber);
 					}
 				},
 				error: function (err) {
@@ -211,19 +156,32 @@ var VM = new Vue({
 				}
 			});
 		},
-		//数据可视化探针-楼层时刻环比
-		getProbe: function () {
+		//最近7天预约人数
+		getReservationSevenDay: function(){
 			var vm = this;
 			$.ajax({
 				type: 'get',
 				data: {
-					p: "w"
+					//p: "t",
+					//yy_t_date_range: vm.getTimeQuantum()
 				},
-				url: this.baseweb + "/api/datas_probe_hb",
+				url: 'http://192.168.10.158:18895/api/stat/stat?p=w',
 				success: function (rlt) {
-					vm.map1 = rlt.data[0];
-					vm.map2 = rlt.data[1];
-					vm.map3 = rlt.data[2];
+					
+					var arr = rlt.data.seven_order_stat;
+					var resSevenDay = { dates: [], yyValues: [], reValues:[]};
+					for (var i = 6; i >=0 ; i--) {
+						
+						resSevenDay.dates.push(arr[i].t_date)
+						resSevenDay.yyValues.push(arr[i].yy_count)
+						resSevenDay.reValues.push(arr[i].re_count)
+					}
+					if (vm.navi==0) {
+						//vm.updateChart3(cardtypeData);
+					} else {
+						console.log('最近7天预约',resSevenDay)
+						vm.updateChart1(resSevenDay);
+					}
 				},
 				error: function (err) {
 					console.log(err)
@@ -238,8 +196,9 @@ var VM = new Vue({
 				data: {
 					p: "w"
 				},
-				url: this.baseweb + "/api/datas_probe_fbt",
+				url: "http://keliu.gsstm.org/api/keliu_combine?p=t",
 				success: function (rlt) {
+					console.log('热力图数据',rlt);
 					var data = rlt.data;
 					vm.renderHeatmap(data);
 				},
@@ -248,24 +207,7 @@ var VM = new Vue({
 				}
 			});
 		},
-		//数据可视化探针-楼层时刻环比
-		getCurrentProbePersons: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					p: "w"
-				},
-				url: this.baseweb + "/api/datas_probe_current_persons",
-				success: function (rlt) {
-					var data = rlt.data;
-					vm.getHallnum(data);
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
+
 		//获取热门展品&热门展厅
 		getHotExhibits: function () {
 			var vm = this;
@@ -292,6 +234,7 @@ var VM = new Vue({
 		initChart1: function () {
 			var vm = this;
 			var option = {
+				color:['#7F55C4','#DB5D09'],
 				grid: {
 					top: 60,
 					bottom: 30,
@@ -419,7 +362,7 @@ var VM = new Vue({
 			vm.chart1.setOption(option);
 		},
 		// 观众预约总数-更新数据
-		updateChart1: function (data) {
+		updateChart1: async function (data) {
 			var vm = this;
 			vm.chart1.setOption({
 				xAxis: {
@@ -427,10 +370,10 @@ var VM = new Vue({
 				},
 				series: [{
 					name: '预约人数',
-					data: data.values
+					data: data.yyValues
 				},{
 					name:'进馆人数',
-					data: [1300,2000,1800,4800,6100,2300,4900,6900]
+					data: data.reValues
 				}]
 			})
 		},
@@ -461,14 +404,14 @@ var VM = new Vue({
 						interval: 'auto',
 						fontSize: 10,
 						color: '#808080',
-						formatter: function (val) {
-							if (vm.navi == 0) {
-								return val
-							}else{
-								var arr = val.split('-');
-								return arr[1] + '/' + arr[2]
-							}
-						}
+						// formatter: function (val) {
+						// 	if (vm.navi == 0) {
+						// 		return val
+						// 	}else{
+						// 		var arr = val.split('-');
+						// 		return arr[1] + '/' + arr[2]
+						// 	}
+						// }
 					},
 					data: []
 				},
@@ -553,150 +496,108 @@ var VM = new Vue({
 				}]
 			})
 		},
-		// 预约证件类型-图表初始化
-		initChart3: function () {
-			var vm = this;
-			var option = {
-				series: [
-					{
-						name: '预约证件类型',
-						type: 'pie',
-						radius: ["25%", "70%"],
-						center: ["50%", "50%"],
-						avoidLabelOverlap: false,
-						// roseType: 'radius',
-						label: {
-							normal: {
-								show: true,
-								position: 'outside',
-								fontSize: 30
-							},
-							emphasis: {
-								show: true
-							}
-						},
-						labelLine: {
-							normal: {
-								show: true
-							}
-						},
-						data: []
-					}
-				]
-			};
-			vm.chart3.setOption(option);
-		},
-		// 预约证件类型-更新数据
-		updateChart3: function (data) {
-			var vm = this;
-			// var colors = ['#37a2da', '#32c5e9', '#9fe6b8', '#ffdb5c', '#ff9f7f', '#fb7293', '#e7bcf3'];
-			var colors = ['#37a2da', '#fb7293'];
-			var total = 0;
-			data.forEach(function (a) {
-				total += a.value
-			});
-			total <= 0 ? total = 1 : '';
-			var dataArr = [];
-			data.forEach(function (a, i) {
-				var obj = {
-					name: a.name,
-					value: a.value,
-					label: {
-						formatter: function (val) {
-							var perc = parseInt(val.value) / total * 100
-							return val.name + " " + perc.toFixed(2) + "%"
-						}
-					},
-					itemStyle: {
-						normal: {
-							color: colors[i % colors.length]
-						}
-					}
-				}
-				dataArr.push(obj)
-			})
-			vm.chart3.setOption({
-				series: [
-					{
-						data: dataArr
-					}
-				]
-			});
-		},
 		// 热力图数据渲染
 		renderHeatmap: function (data) {
 			var vm = this;
 			var scale = document.querySelector("#chart4_1").clientWidth / 1400;
-			// data = [
-			// 	[
-			// 		{
-			// 			x: 750,
-			// 			y: 150,
-			// 			value: 150
-			// 		},
-			// 		{
-			// 			x: 850,
-			// 			y: 270,
-			// 			value: 125
-			// 		},
-			// 		{
-			// 			x: 500,
-			// 			y: 550,
-			// 			value: 175
-			// 		}
-			// 	],
-			// 	[
-			// 		{
-			// 			x: 127,
-			// 			y: 140,
-			// 			value: 80
-			// 		}
-			// 	],
-			// 	[
-			// 		{
-			// 			x: 500,
-			// 			y: 550,
-			// 			value: 36
-			// 		}
-			// 	]
-			// ];
+			var list = [
+				[
+					
+					{
+						title: "甘肃科技展厅",
+						x: 1120,
+						y: 410,
+						value: 0
+					},
+					{
+						title: "科技馆展厅",
+						x: 830,
+						y: 380,
+						value: 0
+					},
+					{
+						title: "泡芙宝展厅",
+						x: 700,
+						y: 460,
+						value: 0
+					},
+					{
+						title: "像素世界展厅",
+						x: 820,
+						y: 560,
+						value: 0
+					},
+					{
+						title: "临时展厅",
+						x: 560,
+						y: 200,
+						value: 0
+					},
+					{
+						title: "预约门票取票处",
+						x: 440,
+						y: 290,
+						value: 0
+					}
+				],
+				[
+					{
+						title: "科技生活展厅",
+						x: 1050,
+						y: 360,
+						value: 0
+					},
+					{
+						title: "书吧",
+						x: 720,
+						y: 540,
+						value: 0
+					}
+				],
+				[
+					{
+						title: "宇宙探索展厅",
+						x: 1060,
+						y: 400,
+						value: 0
+					},
+					{
+						title: "探索发现B展厅",
+						x: 690,
+						y: 360,
+						value: 0
+					},
+					{
+						title: "探索发现A展厅",
+						x: 700,
+						y: 560,
+						value: 0
+					}
+				]
+			];
 			data.forEach(function (a, i) {
-				var tem = a;
-				if (tem.length > 1) {
-					tem.sort(function (a, b) {
-						return b.value - a.value;
+				var tem = a.exhibition_list;
+				list[i].forEach(function(b){
+					tem.forEach(function (c) {
+						if(c.title === b.title){
+							delete b.title;
+							b.value = c.value;
+							b.x = parseInt(b.x * scale);
+							b.y = parseInt(b.y * scale);
+						}
 					});
-				}
-				tem.forEach(function (b) {
-					b.x = parseInt(b.x * scale);
-					b.y = parseInt(b.y * scale);
+					
 				});
+				
 				// 取最大值作为参考阈值
-				var max = Math.ceil(tem[0].value * 1.3) > 10 ? Math.ceil(tem[0].value * 1.3) : 10;
 				vm.heatmap[i].map.setData({
-					min: 1,
-					max: max,
-					data: tem
+					min: 0,
+					max: 4,
+					data: list[i]
 				});
 			});
-		},
-		// 当前展厅人数-获取数据
-		getHallnum: function (data) {
-			var vm = this;
-			// data = vm.hallnumlist;
-			vm.renderHallnum(data);
-		},
-		// 当前展厅人数-渲染数据
-		renderHallnum: function (data) {
-			var vm = this;
-			data = data.sort(function (a, b) {
-				return b.counts - a.counts;
-			}).slice(0, 5);
-			vm.hallnumlist = data;
-			vm.hallnumTotal = 0;
-			vm.hallnumlist.forEach(function (a, i) {
-				vm.hallnumTotal += a.counts
-			})
+			console.log(list);
+			
 		},
 		// 当前展厅人数-计算百分比
 		comphallnumPerc: function (val) {
