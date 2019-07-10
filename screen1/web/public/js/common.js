@@ -16,6 +16,7 @@ var Comfun = {
             }
         }, o.extend));
     },
+
     /*截取指定长度字符串，超出显示...*/
     cutStr: function (str, len) {
         if (!len || len != 0) {
@@ -65,7 +66,16 @@ var Comfun = {
         } else {
             return ''
         }
-    }
+    },
+    // 转为万
+    toWan: function (str) {
+        var s = parseFloat(str);
+        if (s > 9999) {
+            return (s / 1e4) + '万'
+        } else {
+            return s
+        }
+    },
 }
 
 

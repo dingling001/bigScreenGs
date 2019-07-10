@@ -20,7 +20,7 @@
 
 .head .head_left {
     width: 33%;
-    padding: .27rem .6rem;
+    padding: .2rem .6rem;
     overflow: hidden;
 }
 
@@ -138,6 +138,7 @@
     background-color: #0E0E20;
     color: #fff;
     float: left;
+    height: 4.72rem;
 }
 
 .section > .title {
@@ -170,19 +171,22 @@
 
 .st1 .chart1 {
     width: 100%;
-    height: 5rem;
+    height: 4rem;
 }
-.st1 .chart51,.st1 .chart52{
+
+.st1 .chart51, .st1 .chart52 {
     width: 50%;
     float: left;
     position: relative;
 }
+
 .st1 .name_box {
     position: absolute;
     z-index: 10;
-    bottom: 1.3rem;
+    bottom: 1rem;
     overflow: hidden;
     width: 100%;
+    left: 0;
 }
 
 .st1 .name_box span {
@@ -203,18 +207,42 @@
     overflow: hidden;
     height: 5.25rem;
 }
-.st2 .label{
-    width: 5.1rem;
+
+.st2 .label {
+    /*width: 5.1rem;*/
     background-repeat: no-repeat;
     background-size: cover;
     height: 1.45rem;
+    border-radius: 5px;
+    overflow: hidden;
+    padding:  .4rem .3rem;
+    font-weight: bold;
+
 }
-.st2 .label1{
+
+.st2 .label1 {
     background-image: url("../../public/img/init31.png");
 }
-.st2 .label2{
+
+.st2 .label .left span {
+    font-size: .24rem;
+}
+.st2 .label .right span{
+    font-size: .6rem;
+}
+
+.st2 .label .left .unit {
+    font-size: .18rem;
+    display: block;
+    text-align: center;
+    line-height: 4;
+}
+
+.st2 .label2 {
+    margin-top: 90px;
     background-image: url("../../public/img/init32.png");
 }
+
 .st3 {
     margin-top: .15rem;
 }
@@ -223,9 +251,11 @@
     margin: .15rem;
     padding: .5rem 0;
 }
-.st4 .title{
+
+.st4 .title {
     padding: 0 .5rem;
 }
+
 .st5 {
     width: 46rem;
     height: 16rem;
@@ -249,121 +279,19 @@
 .icon_box {
     position: absolute;
     left: 30%;
-    top: 261px;
+    top: 211px;
 }
 
 .icon_box1 {
     position: absolute;
     right: 30%;
-    top: 261px;
+    top: 211px;
 }
 
 .icon_box .iconpc, .icon_box1 .iconshouji {
     color: #666F9A;
     font-size: .6rem;
 }
-
-.st6 {
-    width: 25rem;
-    height: 20rem;
-    position: relative;
-    top: 5rem;
-    left: 74rem;
+.st6{
+    margin: .15rem 0 0 0;
 }
-
-.st6 .cont {
-    padding-top: 0.5rem;
-}
-
-.st6 .chart6 {
-    width: 100%;
-    height: 16rem;
-}
-
-
-.st7 {
-    width: 25rem;
-    height: 15rem;
-    position: relative;
-    top: 26rem;
-    left: 74rem;
-}
-
-.st7 .cont {
-    padding-top: 0.5rem;
-}
-
-.st7 .info {
-    width: 100%;
-    height: 2rem;
-    position: relative;
-}
-
-.st7 .info .c1 {
-    float: left;
-    max-width: 6rem;
-    height: 2rem;
-    margin-right: 0.6rem;
-    font-size: 0.7rem;
-    line-height: 2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.st7 .info .c2 {
-    float: left;
-    width: 9rem;
-    height: 2rem;
-    margin-right: 0.6rem;
-    background-image: url(../img/icon4.png);
-    background-size: 0.9rem 1rem;
-    background-position: left center;
-    background-repeat: repeat-x;
-}
-
-.st7 .info .c3 {
-    float: left;
-    width: 5rem;
-    height: 2rem;
-    font-size: 0.7rem;
-    line-height: 2rem;
-}
-
-.st7 .chart7 {
-    width: 100%;
-    height: 8rem;
-    margin-top: 1rem;
-}
-
-
-.st8 {
-    width: 25rem;
-    height: 13rem;
-    position: relative;
-    top: 42rem;
-    left: 74rem;
-}
-
-.st8 .cont {
-    padding-top: 0.5rem;
-}
-
-.st8 .chart8 {
-    width: 100%;
-    height: 9rem;
-}
-
-
-.gray {
-    opacity: 0.6;
-    /*-webkit-filter: hue-rotate(-30deg) grayscale(70%);
-    -webkit-filter: hue-rotate(-30deg) grayscale(100%);
-    -moz-filter: hue-rotate(-30deg) grayscale(100%);
-    -ms-filter: hue-rotate(-30deg) grayscale(100%);
-    -o-filter: hue-rotate(-30deg) grayscale(100%);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
-    _filter: none;*/
-}
-
-

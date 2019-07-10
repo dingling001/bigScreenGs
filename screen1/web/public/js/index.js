@@ -1,3 +1,4 @@
+Vue.use(VueCountUp);
 var VM = new Vue({
     el: "#main",
     data: {
@@ -31,7 +32,11 @@ var VM = new Vue({
                 value: 0
             }
         ],
-        appdownloadnum:0,
+        appdownloadnum: 0,
+        webvisit: 0,
+        numTimer: null,
+        oneData: {},
+        countDat: {},
         total: 0,
         scale: 2,
         chart1: null,
@@ -90,7 +95,7 @@ var VM = new Vue({
         movieI: 0,
         today_num: 0, //今日观影人数
         total_num: 0, //累计观影人数
-        movieData: [] //影片信息
+        movieData: [], //影片信息
     },
     created: function () {
         var vm = this;
@@ -140,7 +145,8 @@ var VM = new Vue({
         vm.getStat();
         vm.initChart1();//第一屏
         vm.initChart4();
-        vm.getAppnum()
+        vm.getAppnum();
+        vm._learn_rate();
         // setInterval(function () {
         //     // 温度
         //     vm.setWeather();
@@ -246,6 +252,17 @@ var VM = new Vue({
                     vm.initChart1Data[0].value = 10;
                     vm.initChart1Data[1].value = rlt.data.dlstat.wx_total;
                     vm.initChart1Data[2].value = rlt.data.dlstat.app_total;
+                    vm.webvisit = rlt.data.webvisit;
+                    // vm.numTimer = setInterval(
+                    //     function () {
+                    //         if (vm.webvisit > rlt.data.webvisit) {
+                    //             clearInterval(vm.numTimer)
+                    //             vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
+                    //         } else {
+                    //             vm.webvisit++
+                    //         }
+                    //     }, );
+                    // vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
                     vm.feedback[0].value = rlt.data.feedback.pc;
                     vm.feedback[1].value = rlt.data.feedback.wap;
                     vm.total = rlt.data.feedback.total;
@@ -641,19 +658,6 @@ var VM = new Vue({
             vm.chart4.setOption(option);
             vm.chart4.hideLoading();
         },
-        // 观众预约总数-更新数据
-        updateChart4: function (data) {
-            var vm = this;
-            vm.chart1.setOption({
-                xAxis: {
-                    data: data.dates
-                },
-                series: [{
-                    name: 'number',
-                    data: data.values
-                }]
-            })
-        },
         // 观众意见反馈-pc端、移动端反馈
         initChart5: function () {
             var vm = this;
@@ -1019,212 +1023,6 @@ var VM = new Vue({
             vm.chart52.setOption(option2);
         },
 
-        // 海博馆创收建设数据-图表初始化
-        initChart6: function () {
-            var vm = this;
-            var option = {
-                title: {
-                    text: '{a|总收入：}{b|￥ 0 元}',
-                    textStyle: {
-                        color: '#FF4E00',
-                        rich: {
-                            a: {
-                                fontSize: 12 * vm.scale,
-                                lineHeight: 30 * vm.scale
-                            },
-                            b: {
-                                fontSize: 16 * vm.scale,
-                                lineHeight: 30 * vm.scale,
-                                fontWeight: 'bolder'
-                            }
-                        }
-                    }
-                },
-                tooltip: {},
-                color: ['#BFBFBF', '#FFFFFF', '#5A20F5', '#313131', '#535353'],
-                series: [
-                    {
-                        type: 'pie',
-                        hoverAnimation: false,
-                        center: ['50%', '55%'],
-                        radius: ['45%', '47%'],
-                        label: {
-                            color: '#fff'
-                        },
-                        labelLine: {
-                            //							show: false,
-                            length: 5 * vm.scale,
-                            length2: 10 * vm.scale
-                        },
-                        itemStyle: {
-                            borderWidth: 5 * vm.scale
-                        },
-                        data: []
-                    }
-                ]
-            };
-            vm.chart6.setOption(option);
-        }
-        ,
-        updateChart6: function (data) {
-            var vm = this;
-            var colors = ['#BFBFBF', '#FFFFFF', '#5A20F5', '#313131', '#535353'];
-            var itemStylePlaceHolder = {
-                normal: {
-                    color: 'rgba(0,0,0,0)',
-                    borderColor: 'rgba(0,0,0,0)',
-                    borderWidth: 0
-                }
-            }
-            data = [
-                {
-                    name: "活动",
-                    value: 30000
-                },
-                {
-                    name: "临展",
-                    value: 32005
-                },
-                {
-                    name: "影院",
-                    value: 30033
-                },
-                {
-                    name: "自助导览机",
-                    value: 66126
-                },
-                {
-                    name: "讲解",
-                    value: 90155
-                }
-            ];
-            var total = 0;
-            data.forEach(function (a, i) {
-                total += a.value
-            });
-            var dataArr = [];
-            data.forEach(function (a, i) {
-                dataArr.push({
-                    name: a.name,
-                    value: a.value,
-                    label: {
-                        formatter: function (val) {
-                            return "{a|" + a.name + "}" + " " + "{b|" + Math.round(a.value / total * 10000) / 100 + "%}"
-                        },
-                        rich: {
-                            a: {
-                                color: '#fff'
-                            },
-                            b: {
-                                color: '#FF4E00'
-                            }
-                        }
-                    },
-                    itemStyle: {
-                        borderColor: colors[i]
-                    }
-                }, {
-                    name: "空格",
-                    value: total / 20,
-                    label: {show: false},
-                    itemStyle: itemStylePlaceHolder,
-                    tooltip: {
-                        backgroundColor: "rgba(0,0,0,0)",
-                        formatter: function (val) {
-                            return ""
-                        }
-                    }
-                })
-            })
-            vm.chart6.setOption({
-                title: {
-                    text: '{a|总收入：}{b|￥ ' + Comfun.toSplit(total) + ' 元}',
-                    textStyle: {
-                        color: '#FF4E00',
-                        rich: {
-                            a: {
-                                fontSize: 12 * vm.scale,
-                                lineHeight: 30 * vm.scale
-                            },
-                            b: {
-                                fontSize: 16 * vm.scale,
-                                lineHeight: 30 * vm.scale,
-                                fontWeight: 'bolder'
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    data: dataArr
-                }]
-            });
-        }
-        ,
-
-        // 影片累计观看人次-图表初始化
-        initChart7: function () {
-            var vm = this;
-            var option = {
-                title: {
-                    text: '七日上座率',
-                    textStyle: {
-                        fontSize: 12 * vm.scale,
-                        color: '#fff'
-                    }
-                },
-                grid: {
-                    top: 35 * vm.scale,
-                    bottom: 25 * vm.scale,
-                    left: 40 * vm.scale,
-                    right: '5%'
-                },
-                xAxis: {
-                    type: 'category',
-                    axisLabel: {
-                        color: '#fff'
-                    },
-                    splitLine: {show: false},
-                    axisLine: {show: false},
-                    axisTick: {show: false},
-                    data: []
-                },
-                yAxis: {
-                    type: 'value',
-                    splitNumber: 2 * vm.scale,
-                    axisLabel: {
-                        color: '#fff',
-                        formatter: function (val) {
-                            return val * 100 + "%"
-                        }
-                    },
-                    splitLine: {show: false},
-                    axisLine: {show: false},
-                    axisTick: {show: false}
-                },
-                series: [{
-                    type: 'bar',
-                    barWidth: 15 * vm.scale,
-                    barGap: '80%',
-                    itemStyle: {
-                        color: {
-                            type: 'linear',
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [{
-                                offset: 0, color: '#5A0AEC' // 0% 处的颜色
-                            }, {
-                                offset: 1, color: '#7F16E7' // 100% 处的颜色
-                            }]
-                        }
-                    },
-                    data: []
-                }]
-            };
-            vm.chart7.setOption(option);
-        }
-        ,
         // 影片累计观看人次-更新数据
         updateChart7: function (data) {
             var vm = this;
@@ -1420,70 +1218,26 @@ var VM = new Vue({
                     console.log(err)
                 }
             });
-        }
-        ,
-        // 获取微信/app 导览使用数量
-        // 热门参观路线top6
-        hotRoads: function () {
-            var vm = this;
-            $.ajax({
-                type: 'get',
-                data: {
-                    p: "w"
-                },
-                url: localStorage.getItem("baseweb") + "/api/road/hot_roads",
-                success: function (rlt) {
-                    var data = rlt.data
-                    vm.updateChart2(data);
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
-        }
-        ,
-        // 热门参观路线top6
-        activeNumPro: function () {
-            var vm = this;
-            $.ajax({
-                type: 'get',
-                data: {
-                    p: "w"
-                },
-                url: localStorage.getItem("baseactive") + "/api/active_num_pro",
-                success: function (rlt) {
-                    var data = rlt.data
-                    vm.updateChart3(data);
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
-        }
-        ,
-        // 获取影院统计
-        getCinemaData: function () {
-            var vm = this;
-            $.ajax({
-                type: 'get',
-                data: {
-                    p: "w"
-                },
-                url: localStorage.getItem("basecinema") + "/api/stat/cinema_stat",
-                success: function (rlt) {
-                    var data = rlt.data.attendance_rate;
-                    var data2 = rlt.data.today_attendance_rate_list;
-                    vm.today_num = rlt.data.today_num
-                    vm.total_num = rlt.data.total_num
-                    vm.movieData = rlt.data.movie_list;
-                    vm.updateChart7(data);
-                    vm.initChart8(data2);
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
         },
+        // 学习单正确率
+        _learn_rate: function () {
+            var vm = this;
+            $.ajax({
+                type: 'get',
+                data: {
+                    p: "t"
+                },
+                headers: {'Accept': 'application/json'},
+                url: baseurl1 + "api/learn_rate",
+                success: function (rlt) {
+                    vm.countDat = rlt.data;
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        }
+        ,
         // 获取下载量
         getAppnum: function () {
             var vm = this;
@@ -1495,7 +1249,7 @@ var VM = new Vue({
                 headers: {'Accept': 'application/json'},
                 url: baseurl1 + "api/version/download_num",
                 success: function (rlt) {
-                    vm.appdownloadnum=rlt.data;
+                    vm.appdownloadnum = rlt.data;
                 },
                 error: function (err) {
                     console.log(err)

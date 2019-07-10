@@ -50,8 +50,20 @@
         </div>
         <div class="section st1 st2">
             <div class="chart2">
-                <div class="label label1">APP累计下载量：</div>
-                <div class="label label2"></div>
+                <div class="label label1">
+                    <div class="left">
+                        <span>APP累计下载量：</span>
+                        <span class="unit">（单位：次）</span>
+                    </div>
+                    <div class="right"><span> <v-countup :start-value="0" :end-value="appdownloadnum"></v-countup></span></div>
+                </div>
+                <div class="label label2">
+                    <div class="left">
+                        <span>官网总浏览量：</span>
+                        <span class="unit">（单位：人）</span>
+                    </div>
+                    <div class="right"><span> <v-countup :start-value="0" :end-value="webvisit"></v-countup></span></div>
+                </div>
             </div>
         </div>
         <div class="section st1 st2">
@@ -81,6 +93,14 @@
                 <span class="icon_box1"><span class="iconfont  iconshouji"></span></span>
             </div>
         </div>
+        <div class="section st1 st6">
+            <div class="title">
+                <p>学习单答题率/正确率</p>
+            </div>
+            <div class="cont">
+                <div class="chart1" id="chart6"></div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
@@ -88,5 +108,6 @@
 <script src="public/js/vue.min.2.2.2.js"></script>
 <script src="public/js/echarts.min.js"></script>
 <script src="public/js/common.js"></script>
+<script src='https://unpkg.com/vue-countupjs'></script>
 <script src="public/js/index.js"></script>
 </html>
