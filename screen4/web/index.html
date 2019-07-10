@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>甘肃科技馆指挥中心信息管理平台</title>
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+
+<body>
+	<div class="main" id="main" v-cloak>
+		<!-- 甘肃科技馆指挥中心信息管理平台 screen header -->
+		<div class="head">
+			<!-- <p>甘肃科技馆指挥中心信息管理平台</p>
+			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p> -->
+		</div>
+		
+		<div class="st_top">
+			<div class="section st1">
+                <div class="title">
+                    <p>影院类型与总票量对比</p>
+                    <!-- <p class="en">Rankings of Popular Exhibition Halls</p> -->
+                </div>
+                <div class="cont">
+						<div class="st1-chart" id="chart1"></div>
+                </div>
+            </div>
+            
+            <div class="section st2">
+                <div class="title">
+                    <p>今日影院预约人数 2019年6月30日</p>
+                    <!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				</div>
+				<div class="st2-cards"></div>
+                <div class="cont">
+                    <div class="st2-chart" id="chart2"></div>
+                </div>
+			</div>
+			<div class="section st3">
+				<div class="title">
+					<p>热门影片累计观看人次</p>
+					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				</div>
+				<div class="cont">
+					
+					<div class="hallrangechart">
+							<ul>
+								<li v-for="a,i in hallrangelist">
+									<div class="c1">{{ a.name }}</div>
+									<div class="c2">
+										<div class="in" :style="{ 'width': comphallrangePerc(a.see_num)}"></div>
+									</div>
+									<div class="c3">NO.{{i+1}}</div>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>	
+		</div>
+		
+        <div class="st_bottom">
+			<div class="section st4">
+				<div class="title">
+					<p>故障原因统计占比</p>
+					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				</div>
+				<div class="cont">
+					<div class="exhibitchart" id="chart7"></div>
+				</div>
+			</div>	
+            <div class="section st5">
+                <div class="title">
+					<p>展项运行状态:</p>
+					<span class='total-value'>{{ ck_value_total }}</span>
+                </div>
+                <div class="cont">
+                    <div class="visitchart" id="chart2"></div>
+                </div>
+            </div>
+            <div class="section st6">
+                <div class="title">
+                    <p>会员人数/志愿者人数</p>
+                </div>
+                <div class="cont">
+					<div class="orderchart" id="chart1"></div>
+				</div>
+            </div>
+        </div>
+	</div>
+</body>
+<script src="lib/jquery.min.3.3.1.js"></script>
+<script src="lib/vue.min.2.2.2.js"></script>
+<script src="lib/echarts.min.js"></script>
+<script src="lib/heatmap.min.js"></script>
+<script src="lib/common.js"></script>
+<script src="js/index.js"></script>
+</html>
