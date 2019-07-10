@@ -36,6 +36,20 @@ var VM = new Vue({
 		//vm.chart3 = echarts.init(document.querySelector("#chart3"));
 		vm.chart7 = echarts.init(document.querySelector("#chart7"));
 		// 左侧3个图表：观众预约总数、进馆参观总数、证件类型
+		vm.chart2.showLoading({
+            text: 'loading',
+            color: '#fff',
+            textColor: '#fff',
+            maskColor: '#0E0E20',
+            zlevel: 0
+		});
+		vm.chart1.showLoading({
+            text: 'loading',
+            color: '#fff',
+            textColor: '#fff',
+            maskColor: '#0E0E20',
+            zlevel: 0
+        });
 		vm.initChart1();
 		vm.initChart2();
 		//vm.initChart3();
@@ -149,6 +163,7 @@ var VM = new Vue({
 						//vm.updateChart3(cardtypeData);
 					} else {
 						vm.updateChart2(reservationNumber);
+						vm.chart2.hideLoading();
 					}
 				},
 				error: function (err) {
@@ -181,6 +196,7 @@ var VM = new Vue({
 					} else {
 						console.log('最近7天预约',resSevenDay)
 						vm.updateChart1(resSevenDay);
+						vm.chart1.hideLoading();
 					}
 				},
 				error: function (err) {
