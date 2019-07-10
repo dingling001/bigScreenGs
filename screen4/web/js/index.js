@@ -1,6 +1,7 @@
 var VM = new Vue({
 	el: "#main",
 	data: {
+		newdate:"获取中....",
 		navi: 0,
 		timeQuantum: '',
 		chart1: null,
@@ -36,20 +37,6 @@ var VM = new Vue({
 		//vm.chart3 = echarts.init(document.querySelector("#chart3"));
 		vm.chart7 = echarts.init(document.querySelector("#chart7"));
 		// 左侧3个图表：观众预约总数、进馆参观总数、证件类型
-		vm.chart2.showLoading({
-            text: 'loading',
-            color: '#fff',
-            textColor: '#fff',
-            maskColor: '#0E0E20',
-            zlevel: 0
-		});
-		vm.chart1.showLoading({
-            text: 'loading',
-            color: '#fff',
-            textColor: '#fff',
-            maskColor: '#0E0E20',
-            zlevel: 0
-        });
 		vm.initChart1();
 		vm.initChart2();
 		//vm.initChart3();
@@ -87,6 +74,10 @@ var VM = new Vue({
 		setInterval(function(){
 			vm.navi = vm.navi<3?++vm.navi:0
 		},15000)
+		setInterval(function () {
+            var date = new Date();
+            vm.newdate = date.toLocaleString('chinese', {hour12: false});
+        }, 1000);
 	},
 	watch: {
 		navi: function (n, o) {
@@ -163,7 +154,6 @@ var VM = new Vue({
 						//vm.updateChart3(cardtypeData);
 					} else {
 						vm.updateChart2(reservationNumber);
-						vm.chart2.hideLoading();
 					}
 				},
 				error: function (err) {
@@ -196,7 +186,6 @@ var VM = new Vue({
 					} else {
 						console.log('最近7天预约',resSevenDay)
 						vm.updateChart1(resSevenDay);
-						vm.chart1.hideLoading();
 					}
 				},
 				error: function (err) {

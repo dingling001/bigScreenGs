@@ -21,81 +21,63 @@
 			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p> -->
 		</div>
 		
-		<div class="st_left">
+		<div class="st_top">
 			<div class="section st1">
                 <div class="title">
-                    <p>热门展厅排行</p>
+                    <p>影院类型与总票量对比</p>
                     <!-- <p class="en">Rankings of Popular Exhibition Halls</p> -->
                 </div>
                 <div class="cont">
-                    <div class="hallrangechart">
-                        <ul>
-                            <li v-for="a,i in hallrangelist">
-                                <div class="c1">{{ a.name }}</div>
-                                <div class="c2">
-                                    <div class="in" :style="{ 'width': comphallrangePerc(a.see_num)}"></div>
-								</div>
-								<div class="c3">NO.{{i+1}}</div>
-                            </li>
-                        </ul>
-                    </div>
+						<div class="st1-chart" id="chart1"></div>
                 </div>
             </div>
             
             <div class="section st2">
                 <div class="title">
-                    <p>热门展品排行</p>
+                    <p>今日影院预约人数 2019年6月30日</p>
                     <!-- <p class="en">Favorite Exhibit of the Audience</p> -->
-                </div>
+				</div>
+				<div class="st2-cards"></div>
                 <div class="cont">
-                    <div class="exhibitchart" id="chart7"></div>
+                    <div class="st2-chart" id="chart2"></div>
                 </div>
-            </div>	
-		</div>
-		<div class="section st4">
-			<div class="title">
-				<p>当前馆内观众热力图</p>
-				<!-- <p class="en">Heat Map of Current Audience</p> -->
-            </div>
-            <div class="heat-type" style=" background-image: url(images/relitu@2x.png);"></div>
-			<div class="cont">
-				<ul>
-					<li style="margin-top: 5.5rem;">
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">1F</div>
-								<div class="c2 status1">正常</div>
-							</div>
-						</div>
-						<div class="heatchart" id="chart4_1" style=" background-image: url(images/1F.png);"></div>
-					</li>
-					<li>
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">2F</div>
-								<div class="c2 status1">正常</div>
-							</div>	
-						</div>
-						<div class="heatchart" id="chart4_2" style=" background-image: url(images/2F.png);"></div>
-					</li>
-					<li>
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">3F</div>
-								<div class="c2 status1">正常</div>
-							</div>
-						</div>
-						<div class="heatchart" id="chart4_3" style=" background-image: url(images/3F.png);"></div>
-					</li>
-				</ul>
 			</div>
-        </div>
-        <div class="st_right">
+			<div class="section st3">
+				<div class="title">
+					<p>热门影片累计观看人次</p>
+					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				</div>
+				<div class="cont">
+					
+					<div class="hallrangechart">
+							<ul>
+								<li v-for="a,i in hallrangelist">
+									<div class="c1">{{ a.name }}</div>
+									<div class="c2">
+										<div class="in" :style="{ 'width': comphallrangePerc(a.see_num)}"></div>
+									</div>
+									<div class="c3">NO.{{i+1}}</div>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>	
+		</div>
+		
+        <div class="st_bottom">
+			<div class="section st4">
+				<div class="title">
+					<p>故障原因统计占比</p>
+					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				</div>
+				<div class="cont">
+					<div class="exhibitchart" id="chart7"></div>
+				</div>
+			</div>	
             <div class="section st5">
                 <div class="title">
-					<p>当前观众在馆人数</p>
+					<p>展项运行状态:</p>
 					<span class='total-value'>{{ ck_value_total }}</span>
-                    <!-- <p class="en">Current Visitors</p> -->
                 </div>
                 <div class="cont">
                     <div class="visitchart" id="chart2"></div>
@@ -103,7 +85,7 @@
             </div>
             <div class="section st6">
                 <div class="title">
-                    <p>七日预约/进馆人数</p>
+                    <p>会员人数/志愿者人数</p>
                 </div>
                 <div class="cont">
 					<div class="orderchart" id="chart1"></div>
@@ -118,5 +100,4 @@
 <script src="lib/heatmap.min.js"></script>
 <script src="lib/common.js"></script>
 <script src="js/index.js"></script>
-<!-- <script src="lib/fontsize.js"></script> -->
 </html>
