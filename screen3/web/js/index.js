@@ -1,7 +1,29 @@
 var VM = new Vue({
 	el: "#main",
 	data: {
+		newdate:"获取中....",
+		name: '甘肃科技馆指挥中心信息管理平台',
+        tmp: 0,//温度
+		qlty: '获取中...',//空气质量
+		cond_txt: '获取中...',
+		cond_code: '100',
+		windex: 4,
+		wlist: [
+            '#49008D',
+            '#0C43C4',
+            '#0294FB',
+            '#5EB7FB',
+            '#AAF3F7',
+            '#FFFEBD',
+            '#FFDB63',
+            '#FFAA01',
+            '#FE6400',
+            '#E40001',
+            '#A00010',
+            '#640000'
+        ],
 		navi: 0,
+		timeQuantum: '',
 		timeQuantum: '',
 		chart1: null,
 		yy_value_total:'',
@@ -54,6 +76,9 @@ var VM = new Vue({
 		vm.initChart2();
 		//vm.initChart3();
 		vm.initChart7();
+		vm.setWeather();
+		vm.air();
+		
 		// 热力图
 		vm.heatmap.forEach(function (a, i) {
 			var heatmapDom = document.querySelector('#chart4_' + (i + 1));
@@ -87,6 +112,10 @@ var VM = new Vue({
 		setInterval(function(){
 			vm.navi = vm.navi<3?++vm.navi:0
 		},15000)
+		setInterval(function () {
+            var date = new Date();
+            vm.newdate = date.toLocaleString('chinese', {hour12: false});
+        }, 1000);
 	},
 	watch: {
 		navi: function (n, o) {
@@ -102,6 +131,77 @@ var VM = new Vue({
 		}
 	},
 	methods: {
+		// 设置天气
+        setWeather: function () {
+            var vm = this;
+            $.ajax({
+                type: "get",
+                url: "https://free-api.heweather.com/s6/weather/now",
+                data: {
+                    location: "auto_ip",
+                    key: "4cb210538d2c4a27ae661140753c71d0"
+                },
+                success: function (rlt) {
+                    if (rlt.HeWeather6[0].status == 'ok') {
+                        var now = rlt.HeWeather6[0].now;
+                        // console.log(now)
+                        vm.tmp = now.tmp;
+                        var tmp = parseInt(vm.tmp);
+                        if (tmp <= -25) {
+                            vm.windex = 0;
+                        } else if (tmp > -25 && tmp <= -15) {
+                            vm.windex = 1;
+                        } else if (tmp > -15 && tmp <= -10) {
+                            vm.windex = 2;
+                        } else if (tmp > -10 && tmp <= -5) {
+                            vm.windex = 3;
+                        } else if (tmp > -5 && tmp <= 0) {
+                            vm.windex = 4;
+                        } else if (tmp > 6 && tmp <= 15) {
+                            vm.windex = 5;
+                        } else if (tmp > 15 && tmp <= 20) {
+                            vm.windex = 6;
+                        } else if (tmp > 20 && tmp <= 25) {
+                            vm.windex = 7;
+                        } else if (tmp > 25 && tmp <= 30) {
+                            vm.windex = 8;
+                        } else if (tmp > 30 && tmp <= 40) {
+                            vm.windex = 9;
+                        } else if (tmp > 40) {
+                            vm.windex = 10;
+                        }
+                        vm.cond_code = now.cond_code;
+                        vm.cond_txt = now.cond_txt;
+                    }
+                },
+                error: function (rlt) {
+                    console.log(rlt)
+                }
+            });
+        },
+        // 获取空气质量
+        air: function () {
+            var vm = this;
+            $.ajax({
+                type: "get",
+                url: "https://free-api.heweather.net/s6/air/now",
+                data: {
+                    location: "auto_ip",
+                    key: "4cb210538d2c4a27ae661140753c71d0",
+                    unit: '',
+                    lang: 'zh-cn'
+                },
+                success: function (rlt) {
+                    if (rlt.HeWeather6[0].status == 'ok') {
+                        var air_now_city = rlt.HeWeather6[0].air_now_city;
+                        vm.qlty = air_now_city.qlty;
+                    }
+                },
+                error: function (rlt) {
+                    console.log(rlt)
+                }
+            });
+        },
 		//获取时间段
 		getTimeQuantum: function () {
 			var mun = 1

@@ -1,12 +1,129 @@
 
 .main{ width: 100%; min-height: 56vw; overflow: hidden; position: relative;}
 
-.head{ width: 100%; height: 7rem; padding-top: 1rem; position: absolute; top: 0;  text-align: center;}
-.head p{ font-size: 2rem; line-height: 120%;}
-.head p.en{ font-size: 1.05rem;}
+.head{ width: 100%; height: 5rem; position: absolute; top: 0;  overflow: hidden; background-color: #0E0E20;}
+
+.head .head_left {
+    position: absolute;
+    left: 6rem;
+    top:1.5rem;
+    width: 20rem;
+    padding: .2rem .6rem;
+}
+
+.head_left span {
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.head_left .iconwendu {
+    color: #FDB201;
+    font-size: 1rem;
+    margin-right: 0.3rem
+}
+
+.head_left .iconshuye {
+    color: #0FDA00;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: .3s all;
+}
+
+.head_left .color1 span {
+    color: #FFFF00;
+}
+
+.head_left .color2 span {
+    color: #FF7E00;
+}
+
+.head_left .color3 span {
+    color: #FE0000;
+}
+
+.head_left .color4 span {
+    color: #97014B;
+}
+
+.head_left .color5 span {
+    color: #7D0022;
+}
+
+.head_left .l1 {
+    margin-right: 0.6rem;
+    font-size: 0.8rem;
+}
+
+.head_left .wcolor0 span {
+    color: #0FDA00;
+}
+
+.head_left .l2 {
+    color: #3ACE74;
+    font-size: 0.8rem;
+    margin-right: 0.6rem;
+}
+
+.head_left .l3 {
+    color: #AAE9FF;
+}
+
+.head_left .l3 span {
+}
+
+.head_left .l3 .cloudy {
+    width: 1.3rem;
+    height: 1.3rem;
+    position: relative;
+    margin-right: 0.2rem;
+}
 
 
-.st_left{ width: 32rem; height: 48rem; position: absolute; top: 7rem; z-index: 101;}
+.head_left .l3 .cloudy img {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 0.4rem;
+}
+
+.head .head_right {
+    width: 20rem;
+    position: absolute;
+    top:2rem;
+    right:6rem;
+    text-align: right;
+    color: #fff;
+    padding: 0 0.6rem;
+    line-height: .84rem;
+}
+
+.head_right span {
+    font-size: 0.8rem;
+}
+
+.head .head_right .iconshijian {
+    margin-right: .1rem;
+    color: #4EBBFC;
+    font-size: 0.8rem;
+}
+
+.head .head_mind {
+    font-weight: bold;
+    position: absolute;
+    top:1rem;
+    left: 33.5rem;
+    color: #fff;
+    font-size: 2rem;
+    /* padding: 2.5rem 0; */
+    width: 32.7rem;
+    text-align: center;
+}
+
+
+.st_left{ width: 32rem; height: 48rem; position: absolute; top: 6rem; z-index: 101;}
 
 .section{ padding: 1.5rem 1.5rem; background-color:#0E0E20;}
 .section>.title{ position: relative;}
@@ -15,7 +132,7 @@
 .section>.title span{ display: block; position: absolute; bottom: 0; left: 12rem; font-size: 1.6rem; font-weight: bold;}
 
 
-.st1{ width: 100%; height: 23.5rem;}
+.st1{ width: 100%; height: 24rem;}
 .st1 .cont{ padding-top: 2rem;}
 .st1 .hallrangechart{ width: 100%; height: 17rem;}
 .st1 .hallrangechart ul{}
@@ -43,13 +160,13 @@
 .st1 .hallrangechart li:nth-child(5) .c3,
 .st1 .hallrangechart li:nth-child(6) .c3{ background-color: #203544;color: #2A9FAA}
 
-.st2{ width: 100%; height: 23.5rem; margin-top: 1rem;}
+.st2{ width: 100%; height: 24rem; margin-top: 1rem;}
 .st2 .cont{ padding-top: 2rem;}
 .st2 .exhibitchart{ width: 100%; height: 17rem;}
 
 
 
-.st4{ width: 34rem; height: 48rem; position: absolute; top: 7rem; left: 33rem; background-color: #0E0E20;;}
+.st4{ width: 34rem; height: 49rem; position: absolute; top: 6rem; left: 33rem; background-color: #0E0E20;;}
 .st4 .heat-type{width: 2rem; height: 3.5rem; position: absolute; background-size: 100% 100%; margin-top: 1rem;}
 .st4 .cont{ padding-top: 0.5rem;}
 .st4 ul{ width: 100%; height: auto; position: absolute; top: 0; left: 0;}
@@ -71,14 +188,14 @@
 .st4 .heattitle .r2 .c2.down:after{ top: 0.75rem; border-color: #67B700 transparent transparent transparent;}
 .st4 .heattitle .r2 .c2.up:after{ bottom: 0.5rem; border-color: transparent transparent #FF4800 transparent;}
 
-.st_right{ width: 32rem; height: 90rem; position: absolute; top: 7rem; right: 0; z-index: 101;}
+.st_right{ width: 32rem; height: 90rem; position: absolute; top: 6rem; right: 0; z-index: 101;}
 
-.st5{ height: 23.5rem; }
+.st5{ height: 24rem; }
 .st5 .cont{ padding-top: 2rem;}
 /* .st5 .total-value{display: block;position: absolute;  left: 12rem; font-size: 3rem;font-weight: bold;} */
 .st5 .visitchart{ width: 100%; height: 17rem;}
 
-.st6{  height: 23.5rem; margin-top: 1rem;}
+.st6{  height: 24rem; margin-top: 1rem;}
 .st6 .cont{ padding-top: 2rem;}
 .st6 .orderchart{ width: 100%; height: 17rem;}
 
