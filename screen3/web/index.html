@@ -11,14 +11,30 @@
 <title>甘肃科技馆指挥中心信息管理平台</title>
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_ifvk4l1e4u.css">
 </head>
 
 <body>
 	<div class="main" id="main" v-cloak>
 		<!-- 甘肃科技馆指挥中心信息管理平台 screen header -->
 		<div class="head">
-			<!-- <p>甘肃科技馆指挥中心信息管理平台</p>
-			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p> -->
+			<div class="head_left left">
+				<span>
+					   <span class="l1" :style="{color:wlist[windex]}">
+						   <span class="iconfont iconwendu" :style="{color:wlist[windex]}"></span><span>{{tmp}} ℃</span>
+						 </span>
+				<span :class="['l2',qlty=='良'?'color1':'',qlty=='轻度污染'?'color2':'',qlty=='中度污染'?'color3':'',qlty=='重度污染'?'color4':'',qlty=='严重污染'?'color5':'' ]">
+					<span :class="['iconfont iconshuye' ]"></span>
+					<span>{{qlty}}</span>
+				</span>
+				<span class="l3"><span class="cloudy">
+					<img :src="'./images/cloudys/cond_icon_'+cond_code +'.png'" alt=""></span>
+					<span>{{cond_txt}}</span>
+				</span>
+				</span>
+			</div>
+			<div class="head_mind left">{{name}}</div>
+			<div class="head_right right"><span class="iconfont iconshijian"></span><span>{{newdate}}</span></div>
 		</div>
 		
 		<div class="st_left">

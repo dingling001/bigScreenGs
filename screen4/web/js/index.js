@@ -2,30 +2,49 @@ var VM = new Vue({
 	el: "#main",
 	data: {
 		newdate:"获取中....",
+		name: '甘肃科技馆指挥中心信息管理平台',
+        tmp: 0,//温度
+		qlty: '获取中...',//空气质量
+		cond_txt: '获取中...',
+		cond_code: '100',
+		windex: 4,
+		wlist: [
+            '#49008D',
+            '#0C43C4',
+            '#0294FB',
+            '#5EB7FB',
+            '#AAF3F7',
+            '#FFFEBD',
+            '#FFDB63',
+            '#FFAA01',
+            '#FE6400',
+            '#E40001',
+            '#A00010',
+            '#640000'
+        ],
 		navi: 0,
 		timeQuantum: '',
 		chart1: null,
 		yy_value_total:'',
 		ck_value_total:'',
+		chart1: null,
 		chart2: null,
 		chart3: null,
-		//		chart4: null,
-		//		chart5: null,
-		//		chart6: null,
-		chart7: null,
-		heatmap: [
-			{ map: null },
-			{ map: null },
-			{ map: null }
-		],
-		map1: '',
-		map2: '',
-		map3: '',
+		chart4: null,
+		scale: 2,
 		hallnumlist: [],
 		hallnumTotal: 0,
 		hallrangelist: [],
 		hallrangeTotal: 0,
+		today:'',
+		todayOrderFilm:0,//今日预约总数
+		moviesList:[],//电影列表
+		showMovies:[],
+		baseValue: 0,
+		member:0,//会员人数
+		volunteer:0,//志愿者
 		baseweb: "http://192.168.10.158:8316"
+
 	},
 	created: function () {
 		var vm = this;
@@ -34,42 +53,26 @@ var VM = new Vue({
 		var vm = this;
 		vm.chart1 = echarts.init(document.querySelector("#chart1"));
 		vm.chart2 = echarts.init(document.querySelector("#chart2"));
-		//vm.chart3 = echarts.init(document.querySelector("#chart3"));
-		vm.chart7 = echarts.init(document.querySelector("#chart7"));
-		// 左侧3个图表：观众预约总数、进馆参观总数、证件类型
+		vm.chart3 = echarts.init(document.querySelector("#chart3"));
+		vm.chart4 = echarts.init(document.querySelector("#chart4"));
+		
 		vm.initChart1();
 		vm.initChart2();
-		//vm.initChart3();
-		vm.initChart7();
-		// 热力图
-		vm.heatmap.forEach(function (a, i) {
-			var heatmapDom = document.querySelector('#chart4_' + (i + 1));
-			var scale = heatmapDom.clientWidth / 1400;
-			a.map = hmap.create({
-				container: heatmapDom,
-				radius: 80 * scale,
-				blur: .75,
-				maxOpacity: 1,
-				gradient: {
-					0.15: "rgb(100,162,5)",
-					0.5: "rgb(0,255,0)",
-					0.85: "rgb(255,255,0)",
-					1.0: "rgb(255,0,0)"
-				}
-			});
-		})
+		vm.initChart3();
+		vm.initChart4();
 		
-		vm.getVisitList();
-		vm.getReservationSevenDay();
-		vm.getProbeFbt();
-		vm.getHotExhibits();
+		vm.setWeather();
+        vm.air();
+		vm.getCurrentData();
+		
+		// vm.getProbeFbt();
+		// vm.getHotExhibits();
 		// 定时执行
 		setInterval(function(){
-			 vm.getVisitList();
-			 vm.getReservationSevenDay();
-		 
-		 	vm.getProbeFbt();
-		 	vm.getHotExhibits();
+			vm.getCurrentData();
+			
+		 	// vm.getProbeFbt();
+		 	// vm.getHotExhibits();
 		},60000)
 		setInterval(function(){
 			vm.navi = vm.navi<3?++vm.navi:0
@@ -78,6 +81,25 @@ var VM = new Vue({
             var date = new Date();
             vm.newdate = date.toLocaleString('chinese', {hour12: false});
         }, 1000);
+		//获取日期
+		var date = new Date();
+		vm.today = date.format('yyyy年MM月dd日');
+		
+		//循环电影列表
+		var n=4;
+		var start=0;
+		var end= start + n;
+		setInterval(function () {
+			if(vm.moviesList.length>0){
+				vm.showMovies=vm.moviesList.slice(start,end)
+				start += n;
+				end += n;
+			}
+			if(start>vm.moviesList.length){
+				 start=0;
+				 end= start + n;
+			}
+		},5000);
 	},
 	watch: {
 		navi: function (n, o) {
@@ -87,12 +109,83 @@ var VM = new Vue({
 			if(n==0){
 				//this.getScreeByDay()
 			}else{
-				this.getVisitList()
-				this.getReservationSevenDay();
+				// this.getVisitList()
+				// this.getReservationSevenDay();
 			}
 		}
 	},
 	methods: {
+		// 设置天气
+        setWeather: function () {
+            var vm = this;
+            $.ajax({
+                type: "get",
+                url: "https://free-api.heweather.com/s6/weather/now",
+                data: {
+                    location: "auto_ip",
+                    key: "4cb210538d2c4a27ae661140753c71d0"
+                },
+                success: function (rlt) {
+                    if (rlt.HeWeather6[0].status == 'ok') {
+                        var now = rlt.HeWeather6[0].now;
+                        // console.log(now)
+                        vm.tmp = now.tmp;
+                        var tmp = parseInt(vm.tmp);
+                        if (tmp <= -25) {
+                            vm.windex = 0;
+                        } else if (tmp > -25 && tmp <= -15) {
+                            vm.windex = 1;
+                        } else if (tmp > -15 && tmp <= -10) {
+                            vm.windex = 2;
+                        } else if (tmp > -10 && tmp <= -5) {
+                            vm.windex = 3;
+                        } else if (tmp > -5 && tmp <= 0) {
+                            vm.windex = 4;
+                        } else if (tmp > 6 && tmp <= 15) {
+                            vm.windex = 5;
+                        } else if (tmp > 15 && tmp <= 20) {
+                            vm.windex = 6;
+                        } else if (tmp > 20 && tmp <= 25) {
+                            vm.windex = 7;
+                        } else if (tmp > 25 && tmp <= 30) {
+                            vm.windex = 8;
+                        } else if (tmp > 30 && tmp <= 40) {
+                            vm.windex = 9;
+                        } else if (tmp > 40) {
+                            vm.windex = 10;
+                        }
+                        vm.cond_code = now.cond_code;
+                        vm.cond_txt = now.cond_txt;
+                    }
+                },
+                error: function (rlt) {
+                    console.log(rlt)
+                }
+            });
+        },
+        // 获取空气质量
+        air: function () {
+            var vm = this;
+            $.ajax({
+                type: "get",
+                url: "https://free-api.heweather.net/s6/air/now",
+                data: {
+                    location: "auto_ip",
+                    key: "4cb210538d2c4a27ae661140753c71d0",
+                    unit: '',
+                    lang: 'zh-cn'
+                },
+                success: function (rlt) {
+                    if (rlt.HeWeather6[0].status == 'ok') {
+                        var air_now_city = rlt.HeWeather6[0].air_now_city;
+                        vm.qlty = air_now_city.qlty;
+                    }
+                },
+                error: function (rlt) {
+                    console.log(rlt)
+                }
+            });
+        },
 		//获取时间段
 		getTimeQuantum: function () {
 			var mun = 1
@@ -125,44 +218,8 @@ var VM = new Vue({
 			var y2 = date2.getFullYear();
 			return y2 + "-" + m2 + "-" + d2 + " - " + y + "-" + m + "-" + d
 		},
-		// 切换时间段
-		changeNav: function (i) {
-			this.navi = i;
-		},
-		//获取观众在管人数
-		getVisitList: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					//p: "t",
-					//yy_t_date_range: vm.getTimeQuantum()
-				},
-				url: 'http://keliu.gsstm.org/api/time_flow?p=t',
-				success: function (rlt) {
-					
-					var arr = rlt.data.time_flow;
-					var reservationNumber = { dates: [], values: [] };
-					vm.ck_value_total = rlt.data.total_stay_num;
-					for(var j in arr ){
-						//arrList.push(arr[j]);
-						reservationNumber.dates.push(j)
-						reservationNumber.values.push(arr[j])
-					}	
-					console.log('获取在场观众人数',reservationNumber)
-					if (vm.navi==0) {
-						//vm.updateChart3(cardtypeData);
-					} else {
-						vm.updateChart2(reservationNumber);
-					}
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
-		//最近7天预约人数
-		getReservationSevenDay: function(){
+		//获取统计数据
+		getCurrentData: function(){
 			var vm = this;
 			$.ajax({
 				type: 'get',
@@ -172,40 +229,15 @@ var VM = new Vue({
 				},
 				url: 'http://192.168.10.158:18895/api/stat/stat?p=w',
 				success: function (rlt) {
+					var arr = rlt.data;
+					console.log('统计数据',arr)
+					vm.updateChart1(arr.cinema_stat)
+
+					vm.todayOrderFilm = arr.today_order_film;	
+					vm.updateChart2(arr.seven_film_stat);
 					
-					var arr = rlt.data.seven_order_stat;
-					var resSevenDay = { dates: [], yyValues: [], reValues:[]};
-					for (var i = 6; i >=0 ; i--) {
-						
-						resSevenDay.dates.push(arr[i].t_date)
-						resSevenDay.yyValues.push(arr[i].yy_count)
-						resSevenDay.reValues.push(arr[i].re_count)
-					}
-					if (vm.navi==0) {
-						//vm.updateChart3(cardtypeData);
-					} else {
-						console.log('最近7天预约',resSevenDay)
-						vm.updateChart1(resSevenDay);
-					}
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
-		// 热力图热力位置
-		getProbeFbt: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					p: "w"
-				},
-				url: "http://keliu.gsstm.org/api/keliu_combine?p=t",
-				success: function (rlt) {
-					console.log('热力图数据',rlt);
-					var data = rlt.data;
-					vm.renderHeatmap(data);
+					vm.moviesList = arr.movie_list;
+					vm.renderMoviesList(vm.moviesList);
 				},
 				error: function (err) {
 					console.log(err)
@@ -213,109 +245,135 @@ var VM = new Vue({
 			});
 		},
 
-		//获取热门展品&热门展厅
-		getHotExhibits: function () {
-			var vm = this;
-			$.ajax({
-				type: 'get',
-				data: {
-					p: "w"
-				},
-				url: this.baseweb + "/api/big_stat",
-				success: function (rlt) {
-					var data = rlt.data;
-					var exhibit = data.exhibit;
-					var exhibition = data.exhibition;
-					console.log('获取热门展品&热门展厅:',data)
-					vm.updateChart7(exhibit);
-					vm.getHallrange(exhibition);
-				},
-				error: function (err) {
-					console.log(err)
-				}
-			});
-		},
 		// 观众预约总数-图表初始化
 		initChart1: function () {
 			var vm = this;
+            var option = {
+                color: ['#FF00FC', '#1A42F2', '#7E32F7'],
+                series: [
+                    {
+                        type: 'pie',
+						hoverAnimation: false,
+						selectedMode:false,
+						startAngle: 120,
+                        center: ['50%', '50%'],
+                        radius: ['36%', '48%'],
+                        label: {
+                            color: '#fff'
+                        },
+                        clockwise: true,
+                        labelLine: {
+                            show: false,
+                        },
+                        itemStyle: {
+                            borderWidth: 2 
+                        },
+                        data: []
+                    }
+                ]
+            };
+			vm.chart1.setOption(option);
+		},
+		updateChart1: function (data) {
+            var vm = this;
+            var colors = ['#FF00FC', '#1A42F2', '#7E32F7'];
+            var itemStylePlaceHolder = {
+                normal: {
+                    color: 'rgba(0,0,0,0)',
+                    borderColor: 'rgba(0,0,0,0)',
+                    borderWidth: 1
+                }
+            };
+            var total = 0;
+            data.forEach(function (a, i) {
+                total += a.value
+            });
+            var dataArr = [];
+            data.forEach(function (a, i) {
+                dataArr.push({
+                    name: a.name,
+                    value: a.value,
+                    label: {
+                        formatter: function (val) {
+							return "{d|" + Math.round(a.value / total * 10000) / 100 + "%}" + " \n{b|" + a.name + "} {c|"+a.value+" 人}"
+						},
+						fontSize: 17,
+                        rich: {
+                            b: {
+								fontSize: 17,
+                                color: colors[i]
+                            }
+                        }
+                    },
+                    itemStyle: {
+						borderColor: colors[i],
+						borderWidth:2
+                    }
+                }, {
+                    name: "空格",
+                    value: total / 20,
+                    label: {show: false},
+                    itemStyle: itemStylePlaceHolder,
+                    tooltip: {
+                        backgroundColor: "rgba(0,0,0,0)",
+                        formatter: function (val) {
+                            return ""
+                        }
+                    }
+                })
+            })
+            vm.chart1.setOption({
+                series: [{
+                    data: dataArr
+                }]
+            });
+            //vm.chart1.hideLoading();
+        },
+		// 今日影院预约人数-图表初始化
+		initChart2: function () {
+			var vm = this;
 			var option = {
-				color:['#7F55C4','#DB5D09'],
-				grid: {
-					top: 60,
-					bottom: 30,
-					left: '15%',
-					right: 30
+				title: {
+					text: '七日上座率',
+					textStyle: {
+						fontSize: 14,
+						color: '#B6BDDA'
+					}
 				},
-				legend: {
-					icon: 'circle',
-					textStyle:{
-						color:'#ffffff',
-						fontSize: 10,
-					},
-					orient: 'vertical',
-					
-					right:'20%',
-					selectedMode:false,
-					data: ['预约人数','进馆人数']
+				grid: {
+					top: 35,
+					bottom: 25,
+					left: 40,
+					right: '5%'
 				},
 				xAxis: {
 					type: 'category',
-					boundaryGap: false,
-					axisLine: {
-						show: false
-					},
-					axisTick: {
-						show: false
-					},
-					splitLine: {
-						show: true,
-						lineStyle: {
-							color: ['rgba(150,108,247,0.5)']
-						}
-					},
 					axisLabel: {
-						show: true,
-						interval: 'auto',
-						fontSize: 10,
-						color: '#808080',
-						formatter: function (val) {
-							if (vm.navi == 0) {
-								return val
-							}else{
-								var arr = val.split('-');
-								return arr[1] + '/' + arr[2]
-							}
-						}
+						color: '#fff'
 					},
+					splitLine: { show: false },
+					axisLine: { show: false },
+					axisTick: { show: false },
 					data: []
 				},
 				yAxis: {
 					type: 'value',
-					splitNumber: 3,
-					name:'人数',
-					nameTextStyle:{
-						color:'#ffffff'
-					},
-					axisLine: {
-						show: false
-					},
-					axisTick: {
-						show: false
-					},
-					splitLine: {
-						show: false
-					},
+					splitNumber: 2,
 					axisLabel: {
-						showMinLabel: false,
-						fontSize: 12,
-						color: '#808080'
-					}
+						color: '#fff',
+						formatter: function (val) {
+							return val + "%"
+						}
+					},
+					splitLine: { show: false },
+					axisLine: { show: false },
+					axisTick: { show: false }
 				},
 				series: [{
-					type: 'line',
-					name: '进馆人数',
-					lineStyle: {
-						width: 3,
+					type: 'bar',
+					barWidth: 15,
+					barGap: '80%',
+					itemStyle: {
 						color: {
 							type: 'linear',
 							x: 0,
@@ -323,67 +381,38 @@ var VM = new Vue({
 							x2: 0,
 							y2: 1,
 							colorStops: [{
-								offset: 0, color: '#7349D0' // 0% 处的颜色
+								offset: 0, color: '#5A0AEC' // 0% 处的颜色
 							}, {
-								offset: 1, color: '#1A7FD6' // 100% 处的颜色
+								offset: 1, color: '#7F16E7' // 100% 处的颜色
 							}]
 						}
 					},
-					itemStyle: {
-						opacity: 0
-					},
-					areaStyle: {
-						color: 'rgba(255,153,153,0.2)'
-					},
 					data: []
-				},{
-					type: 'line',
-					name: '预约人数',
-					lineStyle: {
-						width: 3,
-						color: {
-							type: 'linear',
-							x: 0,
-							y: 0,
-							x2: 0,
-							y2: 1,
-							colorStops: [{
-								offset: 0, color: '#DB5D09' // 0% 处的颜色
-							}, {
-								offset: 1, color: '#FF9999' // 100% 处的颜色
-							}]
-						}
-					},
-					itemStyle: {
-						opacity: 0
-					},
-					areaStyle: {
-						color: 'rgba(255,153,153,0.2)'
-					},
-					data: []
-				}
-			]
-			}
-			vm.chart1.setOption(option);
-		},
-		// 观众预约总数-更新数据
-		updateChart1: async function (data) {
-			var vm = this;
-			vm.chart1.setOption({
-				xAxis: {
-					data: data.dates
-				},
-				series: [{
-					name: '预约人数',
-					data: data.yyValues
-				},{
-					name:'进馆人数',
-					data: data.reValues
 				}]
-			})
+			};
+			vm.chart2.setOption(option);
+			//vm.updateChart2();
 		},
-		// 观众进馆参观总数-图表初始化
-		initChart2: function () {
+		// 观众进馆参观总数-更新数据
+		updateChart2: function (data) {
+			var vm = this;
+			var xArr = [], dataArr = [];
+			
+			data.forEach(function (a, i) {
+				xArr.unshift(Number(a.t_date.split('-')[1]) + "/" + Number(a.t_date.split('-')[2]));
+				a.percentage = a.percentage > 100 ? 100 : a.percentage;
+				dataArr.unshift(a.percentage);
+			});
+			vm.chart2.setOption({
+				xAxis: {
+					data: xArr
+				},
+				series: [{
+					data: dataArr
+				}]
+			});
+		},
+		initChart3: function () {
 			var vm = this;
 			var option = {
 				grid: {
@@ -471,10 +500,10 @@ var VM = new Vue({
 					data: []
 				}]
 			}
-			vm.chart2.setOption(option);
+			vm.chart3.setOption(option);
 		},
 		// 观众进馆参观总数-更新数据
-		updateChart2: function (data) {
+		updateChart3: function (data) {
 			var vm = this;
 			// data = {
 			// 	dates: ['2019-03-12','2019-03-13','2019-03-14','2019-03-15','2019-03-16','2019-03-17','2019-03-18'],
@@ -501,253 +530,79 @@ var VM = new Vue({
 				}]
 			})
 		},
-		// 热力图数据渲染
-		renderHeatmap: function (data) {
+		// 热门电影排行-渲染数据
+		renderMoviesList: function (data) {
 			var vm = this;
-			var scale = document.querySelector("#chart4_1").clientWidth / 1400;
-			var list = [
-				[
-					
-					{
-						title: "甘肃科技展厅",
-						x: 1120,
-						y: 410,
-						value: 0
-					},
-					{
-						title: "科技馆展厅",
-						x: 830,
-						y: 380,
-						value: 0
-					},
-					{
-						title: "泡芙宝展厅",
-						x: 700,
-						y: 460,
-						value: 0
-					},
-					{
-						title: "像素世界展厅",
-						x: 820,
-						y: 560,
-						value: 0
-					},
-					{
-						title: "临时展厅",
-						x: 560,
-						y: 200,
-						value: 0
-					},
-					{
-						title: "预约门票取票处",
-						x: 440,
-						y: 290,
-						value: 0
-					}
-				],
-				[
-					{
-						title: "科技生活展厅",
-						x: 1050,
-						y: 360,
-						value: 0
-					},
-					{
-						title: "书吧",
-						x: 720,
-						y: 540,
-						value: 0
-					}
-				],
-				[
-					{
-						title: "宇宙探索展厅",
-						x: 1060,
-						y: 400,
-						value: 0
-					},
-					{
-						title: "探索发现B展厅",
-						x: 690,
-						y: 360,
-						value: 0
-					},
-					{
-						title: "探索发现A展厅",
-						x: 700,
-						y: 560,
-						value: 0
-					}
-				]
-			];
-			data.forEach(function (a, i) {
-				var tem = a.exhibition_list;
-				list[i].forEach(function(b){
-					tem.forEach(function (c) {
-						if(c.title === b.title){
-							delete b.title;
-							b.value = c.value;
-							b.x = parseInt(b.x * scale);
-							b.y = parseInt(b.y * scale);
-						}
-					});
-					
-				});
-				
-				// 取最大值作为参考阈值
-				vm.heatmap[i].map.setData({
-					min: 0,
-					max: 4,
-					data: list[i]
-				});
-			});
-			console.log(list);
-			
-		},
-		// 当前展厅人数-计算百分比
-		comphallnumPerc: function (val) {
-			var vm = this;
-			vm.hallnumTotal <= 0 ? vm.hallnumTotal = 1 : '';
-			var perc = Math.round(val / vm.hallnumTotal*10000)/100 + "%"
-			return perc
-		},
-		// 热门展厅排行-获取数据
-		getHallrange: function (data) {
-			var vm = this;
-			// data = vm.hallrangelist;
-			vm.renderHallrange(data);
-		},
-		// 热门展厅排行-渲染数据
-		renderHallrange: function (data) {
-			var vm = this;
-			data = data.sort(function (a, b) {
-				return b.see_num - a.see_num;
-			}).slice(0, 6);
 			vm.hallrangelist = data;
-			vm.hallrangeTotal = 0;
+			vm.baseValue = 0;
 			vm.hallrangelist.forEach(function (a, i) {
-				vm.hallrangeTotal += a.see_num
+				if( vm.baseValue < a.value){
+					vm.baseValue = a.value
+				}
 			})
 		},
-		// 热门展厅排行-计算百分比
-		comphallrangePerc: function (val) {
+		// 热门电影排行-计算百分比
+		compMoviesListRangePerc: function (val) {
 			var vm = this;
-			vm.hallrangeTotal <= 0 ? vm.hallrangeTotal = 1 : '';
-			var perc = Math.round((val / vm.hallrangeTotal) * 100) + "%"
+			vm.baseValue <= 0 ? vm.baseValue = 1 : '';
+			var perc = Math.round((val / vm.baseValue) * 100) + "%"
 			return perc
 		},
-		// 热门展品排行-图表初始化
-		initChart7: function (data) {
+		// 故障原因统计占比-雷达图初始化
+		initChart3: function (data) {
 			var vm = this;
-			var colors = ['#30D5ED', '#7349D0', '#CBCDCD', '#6B6B6B'];
 			var option = {
-				grid: {
-					top: 15,
-					bottom: 40,
-					left: 15,
-					right: 15
-				},
-				xAxis: {
-					type: 'category',
-					offset: 0,
-					axisLine: {
-						show: true,
-						lineStyle: {
-							color: '#8F8F8F'
+				tooltip: {},
+				radar: {
+					name: {
+						textStyle: {
+							color: '#fff',
+							fontSize:14
+					   }
+					},
+					axisLine:{
+						show:false
+					},
+					splitLine:{
+						lineStyle:{
+							color:'#556FB5'
 						}
 					},
-					axisTick: {
-						show: false
+					splitArea:{
+						show:false
 					},
-					axisLabel: {
-						show: true,
-						interval: 0,
-						fontSize: 10,
-						color: '#FFFFFF',
-						formatter: function (val) {
-							var str = val;
-							if (str.length > 5) {
-								str = str.slice(0, 5) + '…'
-							}
-							if (str.length > 3) {
-								str = str.slice(0, 3) + '\n' + str.slice(3);
-							}
-							return str
-						}
-					},
-					splitLine: {
-						show: false
-					},
-					data: []
-				},
-				yAxis: {
-					type: 'value',
-					show: false
+					indicator: [
+					   { name: '销超负荷使用', max: 100},
+					   { name: '异常操作', max: 100},
+					   { name: '设计上潜在不良因素', max: 100},
+					   { name: '非法改变其功能', max: 100},
+					   { name: '磨损老化', max: 100}
+					]
 				},
 				series: [{
-					type: 'bar',
-					name: '底部堆叠空格',
-					stack: '相同堆叠标志',
-					itemStyle: {
-						color: 'rgba(0,0,0,0)'
+					//name: '预算 vs 开销（Budget vs spending）',
+					type: 'radar',
+					lineStyle:{
+						color: '#E4007F',
 					},
-					data: []
-				}, {
-					type: 'bar',
-					name: '热门展品',
-					stack: '相同堆叠标志',
-					barWidth: 16,
-					label: {
-						show: true,
-						position: 'top',
-						fontSize: 10,
-						color: '#FFFFFF',
-						formatter: function (val) {
-							var str = "";
-							if (val.dataIndex < 3) {
-								str = '{a|' + val.value + '}'
-							} else if (val.dataIndex == 3) {
-								str = '{c|' + val.value + '}'
-							} else if (val.dataIndex > 3) {
-								str = '{d|' + val.value + '}'
-							}
-							return str
-						},
-						rich: {
-							a: { color: colors[0] },
-							b: { color: colors[1] },
-							c: { color: colors[2] },
-							d: { color: colors[3] }
+					areaStyle: {
+						color: '#E4007F',
+						opacity:0.3
+					},
+					data : [
+						{
+							value : [10, 100, 28, 35, 50, 19],
 						}
-					},
-					itemStyle: {
-						barBorderRadius: 8,
-						color: {
-							type: 'linear',
-							x: 0,
-							y: 0,
-							x2: 1,
-							y2: 0,
-							colorStops: [{
-								offset: 0, color: colors[0] // 0% 处的颜色
-							}, {
-								offset: 1, color: colors[1] // 100% 处的颜色
-							}]
-						}
-					},
-					data: []
+					]
 				}]
 			};
-			vm.chart7.setOption(option);
+			vm.chart3.setOption(option);
 		},
-		// 热门展品排行-更新数据
-		updateChart7: function (data) {
+		// 故障原因统计占比-更新数据
+		updateChart3: function (data) {
 			var vm = this;
 			var colors = ['#30D5ED', '#7349D0', '#CBCDCD', '#6B6B6B'];
 			var xArr = [], dataArr = [], dataArrstack = [];
-			// data = data.sort(function (a, b) {
-			// 	return b.total - a.total
-			// }).slice(0, 7);
 			data.forEach(function (a, i) {
 				xArr.push(a.exhibit_name);
 				dataArrstack.push(data.length * 0.05)
@@ -778,7 +633,7 @@ var VM = new Vue({
 				}
 				dataArr.push(obj);
 			});
-			vm.chart7.setOption({
+			vm.chart4.setOption({
 				xAxis: {
 					data: xArr
 				},
@@ -791,6 +646,38 @@ var VM = new Vue({
 				}]
 			});
 		},
+		// 展项运行状态:
+		initChart4:function () {
+			var vm = this;
+			var option = {
+				series: [
+					{
+						name: '业务指标',
+						type: 'gauge',
+						radius:'95%',
+						title : {               //设置仪表盘中间显示文字样式
+							textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+								fontWeight: 'bolder',
+								fontSize: 16,
+								color:"#fff"
+							}
+						},
+						axisLine:{
+							lineStyle: {       // 属性lineStyle控制线条样式
+								width: 15,
+								shadowBlur: 10
+							}
+						},
+						splitLine: {           // 分隔线
+							length :15,         // 属性length控制线长	
+						},
+						detail: {formatter:'{value}个'},
+						data: [{value: 5, name: '异常报警数量'}]
+					}
+				]
+			};
+			vm.chart4.setOption(option);	
+		}
 	}
 });
 

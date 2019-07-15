@@ -11,21 +11,36 @@
 <title>甘肃科技馆指挥中心信息管理平台</title>
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_ifvk4l1e4u.css">
 </head>
 
 <body>
 	<div class="main" id="main" v-cloak>
 		<!-- 甘肃科技馆指挥中心信息管理平台 screen header -->
 		<div class="head">
-			<!-- <p>甘肃科技馆指挥中心信息管理平台</p>
-			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p> -->
+			<div class="head_left left">
+				<span>
+					   <span class="l1" :style="{color:wlist[windex]}">
+						   <span class="iconfont iconwendu" :style="{color:wlist[windex]}"></span><span>{{tmp}} ℃</span>
+						 </span>
+				<span :class="['l2',qlty=='良'?'color1':'',qlty=='轻度污染'?'color2':'',qlty=='中度污染'?'color3':'',qlty=='重度污染'?'color4':'',qlty=='严重污染'?'color5':'' ]">
+					<span :class="['iconfont iconshuye' ]"></span>
+					<span>{{qlty}}</span>
+				</span>
+				<span class="l3"><span class="cloudy">
+					<img :src="'./images/cloudys/cond_icon_'+cond_code +'.png'" alt=""></span>
+					<span>{{cond_txt}}</span>
+				</span>
+				</span>
+			</div>
+			<div class="head_mind left">{{name}}</div>
+			<div class="head_right right"><span class="iconfont iconshijian"></span><span>{{newdate}}</span></div>
 		</div>
 		
 		<div class="st_top">
 			<div class="section st1">
                 <div class="title">
                     <p>影院类型与总票量对比</p>
-                    <!-- <p class="en">Rankings of Popular Exhibition Halls</p> -->
                 </div>
                 <div class="cont">
 						<div class="st1-chart" id="chart1"></div>
@@ -33,11 +48,11 @@
             </div>
             
             <div class="section st2">
-                <div class="title">
-                    <p>今日影院预约人数 2019年6月30日</p>
-                    <!-- <p class="en">Favorite Exhibit of the Audience</p> -->
+				<div class="st2-cards">
+					<p class="st2-cards-title"> 今日影院预约人数 </p>
+					<p class="st2-cards-date"> {{today}} </p>
+					<p class="st2-cards-num"> {{todayOrderFilm}} </p>
 				</div>
-				<div class="st2-cards"></div>
                 <div class="cont">
                     <div class="st2-chart" id="chart2"></div>
                 </div>
@@ -45,21 +60,15 @@
 			<div class="section st3">
 				<div class="title">
 					<p>热门影片累计观看人次</p>
-					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
 				</div>
 				<div class="cont">
-					
-					<div class="hallrangechart">
-							<ul>
-								<li v-for="a,i in hallrangelist">
-									<div class="c1">{{ a.name }}</div>
-									<div class="c2">
-										<div class="in" :style="{ 'width': comphallrangePerc(a.see_num)}"></div>
-									</div>
-									<div class="c3">NO.{{i+1}}</div>
-								</li>
-							</ul>
+					<div class="info" v-for="(item, index) in showMovies" :key="index">
+						<div class="c1">《{{item.name}}》</div>
+						<div class="c2" >
+							<div class="c2-icon" :style="{ 'width': compMoviesListRangePerc(item.value)}"></div>
 						</div>
+						<div class="c3">{{item.value}}</div>
+					</div>
 				</div>
 			</div>	
 		</div>
@@ -68,10 +77,9 @@
 			<div class="section st4">
 				<div class="title">
 					<p>故障原因统计占比</p>
-					<!-- <p class="en">Favorite Exhibit of the Audience</p> -->
-				</div>
+				</div> 
 				<div class="cont">
-					<div class="exhibitchart" id="chart7"></div>
+					<div class="st4-chart" id="chart3"></div>
 				</div>
 			</div>	
             <div class="section st5">
@@ -80,15 +88,19 @@
 					<span class='total-value'>{{ ck_value_total }}</span>
                 </div>
                 <div class="cont">
-                    <div class="visitchart" id="chart2"></div>
+                    <div class="st5-chart" id="chart4"></div>
                 </div>
             </div>
             <div class="section st6">
-                <div class="title">
-                    <p>会员人数/志愿者人数</p>
+                <div class="st6-left">
+					<p class="st6-title st6-title-left">会员人数</p>
+					<div class="img" style=" background-image: url(images/member.png);"></div>
+					<p class="st6-count">{{member}}</p>
                 </div>
-                <div class="cont">
-					<div class="orderchart" id="chart1"></div>
+                <div class="st6-right">
+					<p class="st6-title st6-title-right">志愿者人数</p>
+					<div class="img" style=" background-image: url(images/volunteer.png);"></div>
+					<p class="st6-count">{{volunteer}}</p>
 				</div>
             </div>
         </div>
