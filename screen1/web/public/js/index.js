@@ -35,50 +35,6 @@ var VM = new Vue({
         appdownloadnum: 0,
         webvisit: 0,
         numTimer: null,
-        oneData: {},
-        countDat: {},
-        total: 0,
-        scale: 2,
-        chart1: null,
-        chart2: null,
-        chart3: null,
-        chart4: null,
-        watchFilmNu: 0,
-        chart51: null,
-        chart52: null,
-        chart6: null,
-        chart7: null,
-        chart8: null,
-        cabinet_i: 0,
-        current_i: 0,
-        cabinet_list: [],
-        cabinet_list_init: [
-            {
-                cabinet_num: 12000304,
-                addr: "龙的时代展厅对面"
-            },
-            {
-                cabinet_num: 12000306,
-                addr: "龙的时代展厅对面"
-            },
-            {
-                cabinet_num: 12000302,
-                addr: "龙的时代展厅对面"
-            },
-            {
-                cabinet_num: 12000305,
-                addr: "二楼服务台处"
-            },
-            {
-                cabinet_num: 12000303,
-                addr: "二楼服务台处"
-            },
-            {
-                cabinet_num: 12000301,
-                addr: "二楼服务台处"
-            }
-        ],
-        guidUseData: {},
         initChart1Data: [
             {
                 name: '智慧导览笔使用',
@@ -92,10 +48,20 @@ var VM = new Vue({
                 value: 0
             }
         ],
-        movieI: 0,
-        today_num: 0, //今日观影人数
-        total_num: 0, //累计观影人数
-        movieData: [], //影片信息
+        oneData: {},
+        countData: {},
+        total: 0,
+        scale: 2,
+        chart1: null,
+        chart2: null,
+        chart3: null,
+        chart4: null,
+        watchFilmNu: 0,
+        chart51: null,
+        chart52: null,
+        chart6: null,
+        chart7: null,
+        chart8: null,
     },
     created: function () {
         var vm = this;
@@ -108,8 +74,7 @@ var VM = new Vue({
         vm.chart4 = echarts.init(document.querySelector("#chart4"));
         vm.chart51 = echarts.init(document.querySelector("#chart51"));
         vm.chart52 = echarts.init(document.querySelector("#chart52"));
-
-        // // vm.chart6 = echarts.init(document.querySelector("#chart6"));
+        vm.chart6 = echarts.init(document.querySelector("#chart6"));
         // vm.chart7 = echarts.init(document.querySelector("#chart7"));
         // vm.chart8 = echarts.init(document.querySelector("#chart8"));
 
@@ -157,16 +122,9 @@ var VM = new Vue({
         //     // vm.activeNumPro();
         //     // vm.getCinemaData();
         // }, 10000);
-
-        setInterval(function () {
-            vm.movieI == vm.movieData.length - 1 ? vm.movieI = 0 : vm.movieI++
-            vm.cabinet_i == vm.cabinet_list_init.length - 1 ? vm.cabinet_i = 0 : vm.cabinet_i++
-        }, 10000);
-
     },
     methods: {
-
-// 设置天气
+        // 设置天气
         setWeather: function () {
             var vm = this;
             $.ajax({
@@ -308,7 +266,6 @@ var VM = new Vue({
                 }
             });
         },
-        // 数字智慧导览使用情况-图表初始化
         initChart1: function () {
             var vm = this;
             var data = vm.initChart1Data;
@@ -567,8 +524,6 @@ var VM = new Vue({
             });
             vm.chart3.hideLoading();
         },
-        // 七日智慧笔租赁次数
-        // 观众预约总数-图表初始化
         initChart4: function () {
             var vm = this;
             var option = {
@@ -658,7 +613,6 @@ var VM = new Vue({
             vm.chart4.setOption(option);
             vm.chart4.hideLoading();
         },
-        // 观众意见反馈-pc端、移动端反馈
         initChart5: function () {
             var vm = this;
             var data = vm.feedback;
@@ -882,137 +836,6 @@ var VM = new Vue({
                     ]
                 }
             ];
-
-            // data.forEach(function (item, index) {
-            //     seriesArr.push(
-            //         {
-            //             type: 'pie',
-            //             name: item.name,
-            //             clockWise: true,
-            //             startAngle: 180,
-            //             hoverAnimation: false,
-            //             radius: ['25%', '25%'],
-            //             center: [index * 30 + 37 + '%', '50%'],
-            //             itemStyle: {
-            //                 normal: {
-            //                     color: '#EA68A2',
-            //                     borderWidth: 10,
-            //                     borderColor: '#EA68A2',
-            //                     label: {
-            //                         show: false
-            //                     },
-            //                     labelLine: {
-            //                         show: false
-            //                     }
-            //                 }
-            //             },
-            //             data: [{
-            //                 name: '',
-            //                 value: item.value==0?.001:0,
-            //                 itemStyle: {
-            //                     normal: {
-            //                         color: 'rgba(255,255,255,0)',
-            //                         borderColor: 'rgba(255,255,255,0)'
-            //                     }
-            //                 }
-            //             }, {
-            //                 name: '',
-            //                 value: total - item.value - 0.15 * total,
-            //                 itemStyle: {
-            //                     normal: {
-            //                         color: '#666F9A',
-            //                         borderColor: '#666F9A'
-            //                     }
-            //                 }
-            //             }, {
-            //                 name: item.name,
-            //                 value: item.value,
-            //                 itemStyle: {
-            //                     normal: {
-            //                         color: (function (val) {
-            //                             if (item.name == data[0].name) {
-            //                                 return '#2FE4C3'
-            //                             } else if (item.name == data[1].name) {
-            //                                 return '#EA68A2'
-            //                             }
-            //                         })(),
-            //                         borderColor: (function (val) {
-            //                             if (item.name == data[0].name) {
-            //                                 return '#2FE4C3'
-            //                             } else if (item.name == data[1].name) {
-            //                                 return '#EA68A2'
-            //                             }
-            //                         })(),
-            //                     }
-            //                 },
-            //                 label: {
-            //                     normal: {
-            //                         show: true,
-            //                         position: 'center',
-            //                         padding: (function (val) {
-            //                             if (item.name == data[0].name) {
-            //                                 return [0, 300, 0, 0]
-            //                             } else if (item.name == data[1].name) {
-            //                                 return [0, 0, 0, 300]
-            //                             }
-            //                         })(),
-            //                         formatter: function (val) {
-            //                             var str1, str2, str3,str4;
-            //                             if (val.name == data[0].name) {
-            //                                 str1 = '{a1|' + item.name + '}' + '\n';
-            //                                 str2 = '{b1|' + Math.round(val.value / total*100) + '%}' + '\n';
-            //                                 str3 = '{c1|' + val.value + '}';
-            //                             } else if (val.name == data[1].name) {
-            //                                 str1 = '{a2|' + item.name + '}' + '\n';
-            //                                 str2 = '{b2|' + Math.round(val.value / total*100) + '%}' + '\n';
-            //                                 str3 = '{c2|' + val.value + '}';
-            //                             }
-            //                             return str1 + str2 + str3
-            //                         },
-            //                         rich: {
-            //                             a1: {
-            //                                 color: "#808080",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 40,
-            //                                 align: 'center'
-            //                             },
-            //                             b1: {
-            //                                 color: "#fff",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 30,
-            //                                 align: 'center'
-            //                             },
-            //                             c1: {
-            //                                 color: "#fff",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 20,
-            //                                 align: 'center'
-            //                             },
-            //                             a2: {
-            //                                 color: "#808080",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 40,
-            //                                 align: 'center'
-            //                             },
-            //                             b2: {
-            //                                 color: "#fff",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 30,
-            //                                 align: 'center'
-            //                             },
-            //                             c2: {
-            //                                 color: "#fff",
-            //                                 fontSize: 19,
-            //                                 lineHeight: 20,
-            //                                 align: 'center'
-            //                             }
-            //                         }
-            //                     }
-            //                 }
-            //             }]
-            //         }
-            //     )
-            // });
             var option1 = {
                 series: seriesArr1
             };
@@ -1022,98 +845,50 @@ var VM = new Vue({
             vm.chart51.setOption(option1);
             vm.chart52.setOption(option2);
         },
-
-        // 影片累计观看人次-更新数据
-        updateChart7: function (data) {
+        initChart6: function () {
             var vm = this;
-            // data = [
-            // 	{
-            // 		date: '2019-05-01',
-            // 		attendance_rate: 0.2
-            // 	},
-            // 	{
-            // 		date: '2019-05-02',
-            // 		attendance_rate: 0.2
-            // 	},
-            // 	{
-            // 		date: '2019-05-03',
-            // 		attendance_rate: 0.65
-            // 	},
-            // 	{
-            // 		date: '2019-05-04',
-            // 		attendance_rate: 0.72
-            // 	},
-            // 	{
-            // 		date: '2019-05-05',
-            // 		attendance_rate: 0.8
-            // 	},
-            // 	{
-            // 		date: '2019-05-06',
-            // 		attendance_rate: 0.62
-            // 	},
-            // 	{
-            // 		date: '2019-05-07',
-            // 		attendance_rate: 0.67
-            // 	}
-            // ]
-            var xArr = [], dataArr = [];
-            data.forEach(function (a, i) {
-                xArr.push(Number(a.date.split('-')[1]) + "/" + Number(a.date.split('-')[2]));
-                a.attendance_rate = a.attendance_rate > 1 ? 1 : a.attendance_rate;
-                dataArr.push(a.attendance_rate);
-            });
-            vm.chart7.setOption({
-                xAxis: {
-                    data: xArr
-                },
-                series: [{
-                    data: dataArr
-                }]
-            });
-        }
-        ,
-        // 今日影院预约人数-图表初始化
-        initChart8: function (data) {
-            var vm = this;
-            // var data = [
-            // 	{
-            // 		start_time: '10:00',
-            // 		attendance_rate: 50
-            // 	},
-            // 	{
-            // 		start_time: '14:00',
-            // 		attendance_rate: 60
-            // 	},
-            // 	{
-            // 		start_time: '16:00',
-            // 		attendance_rate: 80
-            // 	}
-            // ];
+            var data = [
+                {
+                    name: '0-17',
+                    value: vm.countData.wx_num / vm.countData.learn_num
+                }, {
+                    name: '18-30',
+                    value: vm.countData.app_num / vm.countData.learn_num
+                }, {
+                    name: '31-40',
+                    value: vm.countData.wx_correct_num / vm.countData.wx_num
+                }, {
+                    name: '41-64',
+                    value: vm.countData.app_correct_num / vm.countData.app_num
+                }
+            ];
+            var total = 0;
+            data.forEach(function (a) {
+                total += a.value
+            })
             var titleArr = [], seriesArr = [];
             data.forEach(function (item, index) {
                 titleArr.push(
                     {
-                        text: item.start_time,
-                        left: index * 30 + 20 + '%',
-                        bottom: '10%',
+                        text: item.name,
+                        left: index * 20 + 9 + '%',
+                        bottom: '5%',
                         textAlign: 'center',
                         textStyle: {
                             fontWeight: 'normal',
-                            fontSize: '14' * vm.scale,
-                            color: '#fff',
+                            fontSize: '24',
+                            color: '#808080',
                             textAlign: 'center',
                         }
                     }
                 );
                 seriesArr.push(
                     {
-                        name: item.start_time,
+                        name: item.name,
                         type: 'pie',
                         clockWise: false,
+                        radius: ['50%', '51%'],
                         startAngle: 90,
-                        hoverAnimation: false,
-                        radius: ["48%", "50%"],
-                        center: [index * 30 + 20 + '%', '40%'],
                         itemStyle: {
                             normal: {
                                 color: {
@@ -1123,9 +898,9 @@ var VM = new Vue({
                                     x2: 0,
                                     y2: 1,
                                     colorStops: [{
-                                        offset: 0, color: '#3B7D00' // 0% 处的颜色
+                                        offset: 0, color: '#F1AA3A' // 0% 处的颜色
                                     }, {
-                                        offset: 1, color: '#92FF50' // 100% 处的颜色
+                                        offset: 1, color: '#F7563E' // 100% 处的颜色
                                     }]
                                 },
                                 label: {
@@ -1134,7 +909,7 @@ var VM = new Vue({
                                 labelLine: {
                                     show: false
                                 },
-                                borderWidth: 4 * vm.scale,
+                                borderWidth: 5,
                                 borderColor: {
                                     type: 'linear',
                                     x: 0,
@@ -1142,16 +917,18 @@ var VM = new Vue({
                                     x2: 0,
                                     y2: 1,
                                     colorStops: [{
-                                        offset: 0, color: '#3B7D00' // 0% 处的颜色
+                                        offset: 0, color: '#F1AA3A' // 0% 处的颜色
                                     }, {
-                                        offset: 1, color: '#92FF50' // 100% 处的颜色
+                                        offset: 1, color: '#F7563E' // 100% 处的颜色
                                     }]
                                 },
                             }
                         },
+                        hoverAnimation: false,
+                        center: [index *20 + '%', index%2*10+ 50+'%'],
                         data: [{
-                            // value: item.total - item.value,
-                            value: 100 - item.attendance_rate,
+                            value: total - item.value,
+                            name: 'invisible',
                             itemStyle: {
                                 normal: {
                                     color: '#535353',
@@ -1162,17 +939,16 @@ var VM = new Vue({
                                 }
                             }
                         }, {
-                            value: item.attendance_rate,
-                            // value: item.attendance_rate  + '%',
+                            value: item.value,
                             label: {
                                 normal: {
                                     formatter: function (val) {
-                                        return item.attendance_rate + '%';
+                                        return Math.round(val.value / total * 10000) / 100 + '%';
                                     },
                                     position: 'center',
                                     show: true,
                                     textStyle: {
-                                        fontSize: 12 * vm.scale,
+                                        fontSize: 24,
                                         color: '#fff'
                                     }
                                 }
@@ -1185,39 +961,7 @@ var VM = new Vue({
                 title: titleArr,
                 series: seriesArr
             }
-            vm.chart8.setOption(option);
-        }
-        ,
-        // 今日影院预约人数-更新数据
-        updateChart8: function (data) {
-            var vm = this;
-        }
-        ,
-        // 自助租赁柜使用情况
-        chooseCabinet: function (i) {
-            var vm = this;
-            vm.cabinet_i = i;
-        }
-        ,
-        // 获取自助导览机使用数量
-        guideData: function () {
-            var vm = this;
-            $.ajax({
-                type: 'get',
-                data: {
-                    p: "w"
-                },
-                url: baseurl1 + "api/big_stat",
-                success: function (rlt) {
-                    console.log(rlt)
-                    if (rlt.status == 1) {
-                        vm.oneData = rlt.data;
-                    }
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
+            vm.chart6.setOption(option);
         },
         // 学习单正确率
         _learn_rate: function () {
@@ -1230,14 +974,14 @@ var VM = new Vue({
                 headers: {'Accept': 'application/json'},
                 url: baseurl1 + "api/learn_rate",
                 success: function (rlt) {
-                    vm.countDat = rlt.data;
+                    vm.countData = rlt.data;
+                    vm.initChart6()
                 },
                 error: function (err) {
                     console.log(err)
                 }
             });
-        }
-        ,
+        },
         // 获取下载量
         getAppnum: function () {
             var vm = this;
