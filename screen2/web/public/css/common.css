@@ -15,7 +15,6 @@
   -ms-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  color: #fff;
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
@@ -38,7 +37,7 @@
 
 body {
 	min-width: 1300px;
-  background-color: #000015;
+  background-color: #000000;
 }
 a {
   text-decoration: none;

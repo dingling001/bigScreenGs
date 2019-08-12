@@ -1,42 +1,237 @@
 
 .main{ width: 100%; min-height: 56vw; /*overflow: hidden;*/ position: relative;}
 
-.head{ width: 100%; height: 7rem; padding-top: 1rem; position: absolute; top: 0; background: url(../img/head_bg.png) center top / 100% 100% no-repeat; text-align: center;}
-.head p{ font-size: 2rem; line-height: 120%;}
-.head p.en{ font-size: 1.05rem;}
+/* 头部样式开始 */
+.head {
+    /*height: .84rem;*/
+    overflow: hidden;
+    background-color: #0E0E20;
+}
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.head .head_left {
+    width: 33%;
+    padding: 1.0417rem 3.125rem;
+    overflow: hidden;
+}
+
+.head_left span {
+    font-size: 0.9375rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.head_left .iconwendu {
+    color: #FDB201;
+    font-size:  1.5625rem;
+}
+
+.head_left .iconshuye {
+    color: #0FDA00;
+    font-size: 1.5625rem;
+    font-weight: normal;
+    transition: .3s all;
+}
+
+.head_left .color1 span {
+    color: #FFFF00;
+}
+
+.head_left .color2 span {
+    color: #FF7E00;
+}
+
+.head_left .color3 span {
+    color: #FE0000;
+}
+
+.head_left .color4 span {
+    color: #97014B;
+}
+
+.head_left .color5 span {
+    color: #7D0022;
+}
+
+.head_left .l1 {
+    margin-right: 1.875rem;
+    font-size: 0.9375rem;
+}
+
+.head_left .wcolor0 span {
+    color: #0FDA00;
+}
+
+.head_left .l2 {
+    color: #3ACE74;
+    font-size: 0.9375rem;
+    margin-right:  1.875rem;
+}
+
+.head_left .l3 {
+    color: #AAE9FF;
+}
 
 
-.st_left{ width: 25rem; height: 50rem; position: absolute; top: 5rem; left: 1rem; z-index: 101; background-color: #1D1D32;}
-.left_btn{ width: 100%; height: 3rem; padding-top: 1rem; padding-left: 1rem; display: flex; justify-content: flex-start;}
-.left_btn li{ width: 4rem; height: 2rem; margin-right: 1rem; padding: 0 0.5rem; border-radius: 1rem; background-color: #374466; font-size: 0.95rem; line-height: 2rem; text-align: center; color: #fff; cursor: pointer; transition: all .2s ease-out 0s; -webkit-user-select: auto;}
-.left_btn li:hover,
-.left_btn li.on{ background-color: #53B0FF;}
+
+.head_left .l3 .cloudy {
+    width: 2.03125rem;
+    height: 2.03125rem;
+    position: relative;
+    margin-right: .2604rem;
+}
 
 
-.section{ padding: 0.5rem 1rem; background-color: #1D1D32;}
-.section>.title{ position: relative;}
-.section>.title p{ font-size: 0.95rem; line-height: 150%;}
+.head_left .l3 .cloudy img {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: .52rem;
+}
+
+.head .head_right {
+    width: 33%;
+    text-align: right;
+    color: #fff;
+    padding: 0 3.125rem;
+    line-height: 4.375rem;
+}
+
+.head_right span {
+    font-size: .9375rem;
+}
+
+.head .head_right .iconshijian {
+    margin-right: .52rem;
+    color: #4EBBFC;
+    font-size: 1.4583rem;
+}
+
+.head .head_mind {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.875rem;
+    padding: 1.3020rem 0;
+    width: 34%;
+    text-align: center;
+}
+/* 头部样式结束 */
+
+
+.st_left{ width: 32.8125rem; height: 50rem; position: absolute; top: 5rem; left: 0rem; z-index: 101; background-color: #000;}
+
+
+
+
+.section{  background-color: #1D1D32;}
+.section>.title{ position: relative; padding: 2.604rem 2.604rem 0;}
+.section>.title p{color:#B7BEDB;font-weight: 800;font-size:24px;}
 .section>.title p.en{ font-size: 0.7rem;}
 .section>.title span{ display: block; position: absolute; bottom: 0; left: 8rem; font-size: 1.1rem; font-weight: bold;}
 
 
-.st1{ width: 25rem; height: 14rem; margin-top: 1rem;}
+.st1{ width:32.8125rem; height: 25rem; }
 .st1 .cont{ padding-top: 0.5rem;}
-.st1 .orderchart{ width: 100%; height: 10rem;}
+.st1 .visitchart{ width: 100%; height: 18rem;margin-top:-1rem;}
 
 
-.st2{ width: 25rem; height: 14.5rem; margin-top: 1rem;}
-.st2 .cont{ padding-top: 0.5rem;}
-.st2 .visitchart{ width: 100%; height: 10.5rem;}
+.st2{ width:32.8125rem; height: 25rem; margin-top: 0.78125rem;}
+.st2 .cont{ padding-top: 0.5rem;position: relative;}
+.icon{
+	position: absolute;
+	font-size:40px;
+	top:50%;
+	left:50%;
+	z-index:800;
+	width: 120px;
+  height: 40px;
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+.icon span{
+	display: inline-block;
+	margin:0 -10px;
+	color:#E90079;
+	font-size:60px;
+}
+.icon span.iconnanren{
+	color:#0A89EA;
+}
+.st2 .visitchart{ width: 100%; height: 20rem;}
 
-
-.st3{ width: 25rem; height: 15.5rem; margin-top: 1rem;}
-.st3 .cont{ padding-top: 0.5rem;}
-.st3 .cardtypechart{ width: 100%; height: 11.5rem;}
-
-
-.st4{ width: 46rem; height: 48rem; position: absolute; top: 7rem; left: 27rem; background: none;}
-.st4 .cont{ padding-top: 0.5rem;}
+.st4{ width: 66.5rem; height: 51rem; position: absolute; top:5rem; left: 33.5rem; background:#1D1D32;}
+#city{
+	width:55rem;
+	height:46rem;
+	overflow: hidden;
+}
+.nums{
+	position: absolute;
+	top: 70px;
+  left: 36%;
+	transform: translateX(-50%);
+	width:920px;
+	z-index:3000;
+}
+.nums h3{
+	text-align: center;
+	color:#fff;
+	letter-spacing: 3px;
+}
+#dataNums {
+  position: relative;
+  z-index: 6;
+  height: 60px;
+	margin-top: 60px;
+}
+.rank{
+	width:16.5rem;
+	height:46rem;
+	position: absolute;
+	right:10px;
+	top:50px;
+}
+.rank .title p{
+	color:#B7BEDB;font-weight: 800;font-size:24px;
+}
+.rank .item{
+	height:4.5rem;
+	line-height: 4.5rem;
+	position: relative;
+}
+.rank-circle{
+	width:5rem;
+	height:5rem;
+	position: absolute;
+	top:0;
+	right:40px;
+}
+.rank .item .title{
+	color:#6272B6;
+	font-size:19px;
+	font-weight: bold;
+	margin-right:50px;
+}
+.rank .item .precent{
+	color:#fff;
+	font-size:19px;
+	font-weight: blod;
+	display: inline-block;
+	text-align: right;
+	width:60px;
+}
+#rank{
+	widows: 100%;
+	height:44rem;
+}
 .st4 ul{ width: 100%; height: auto; position: absolute; top: 0; left: 0;}
 .st4 ul li{ width: 100%; height: 15rem; margin-top: 1rem; position: relative;}
 .st4 .heatchart{ /*width: 34rem;*/ width: 26.25rem; height: 15rem; position: absolute; top: 0; right: 3rem; background-size: 100% 100%;}

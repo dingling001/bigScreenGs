@@ -9,164 +9,85 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0">
 <title>监控中心二</title>
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1274714_epjty71dpzv.css">
+<link rel="stylesheet" href="public/css/number.css" />
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="public/css/index.css" />
 </head>
 
 <body>
 	<div class="main" id="main" v-cloak>
-		<div class="head">
-			<p>国家海洋博物馆智慧博物馆数据监控中心</p>
-			<p class="en">National Marine Museum Intelligence Museum Data Monitoring Center</p>
-		</div>
+	<div class="head">
+     <div class="head_left left">
+         <span>
+         <span class="l1" :style="{color:wlist[windex]}">
+             <span class="iconfont iconwendu" :style="{color:wlist[windex]}"></span><span>{{tmp}} ℃</span>
+           </span>
+            <span :class="['l2',qlty=='良'?'color1':'',qlty=='轻度污染'?'color2':'',qlty=='中度污染'?'color3':'',qlty=='重度污染'?'color4':'',qlty=='严重污染'?'color5':'' ]">
+                <span :class="['iconfont iconshuye' ]"></span>
+                <span>{{qlty}}</span>
+            </span>
+            <span class="l3"><span class="cloudy">
+                <img :src="'./public/img/cloudys/cond_icon_'+cond_code +'.png'" alt=""></span>
+                <span>{{cond_txt}}</span>
+            </span>
+            </span>
+        </div>
+        <div class="head_mind left">{{name}}</div>
+        <div class="head_right right"><span class="iconfont iconshijian"></span><span>{{newdate}}</span></div>
+    </div>
 		
 		<div class="st_left">
-			<ul class="left_btn">
-				<li :class="{'on':navi==0}" @click="changeNav(0)">今日</li>
-				<li :class="{'on':navi==1}" @click="changeNav(1)">近一周</li>
-				<li :class="{'on':navi==2}" @click="changeNav(2)">近一月</li>
-				<li :class="{'on':navi==3}" @click="changeNav(3)">近一年</li>
-			</ul>
-			
 			<div class="section st1">
 				<div class="title">
-					<p>观众预约总数</p>
-					<p class="en">Total Reservations</p>
-					<span style=" left: 7.5rem;">{{ Comfun.toSplit(yy_value_total) }}</span>
+					<p>观众年龄分布</p>
 				</div>
 				<div class="cont">
-					<div class="orderchart" id="chart1"></div>
+					<div class="visitchart" id="age"></div>
 				</div>
 			</div>
 			
 			<div class="section st2">
 				<div class="title">
-					<p>观众进馆参观总数</p>
-					<p class="en">Total Visitors</p>
-					<span style=" left: 9rem;">{{ Comfun.toSplit(ck_value_total) }}</span>
+					<p>观众性别分布</p>
 				</div>
 				<div class="cont">
-					<div class="visitchart" id="chart2"></div>
-				</div>
-			</div>
-			
-			<div class="section st3">
-				<div class="title">
-					<p>预约证件类型</p>
-					<p class="en">Types of Certificates for Reservation</p>
-				</div>
-				<div class="cont">
-					<div class="cardtypechart" id="chart3"></div>
+					<div class="icon">
+						<span class="iconfont iconnvren"></span>
+						<span class="iconfont iconnanren"></span>
+					</div>
+					<div class="visitchart" id="sex"></div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="section st4">
 			<div class="title">
-				<p>当前馆内观众热力图</p>
-				<p class="en">Heat Map of Current Audience</p>
+				<p>观众来源地分布图</p>
 			</div>
-			<div class="cont">
-				<ul>
-					<li>
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">1F</div>
-								<div class="c2 status1">正常</div>
-							</div>
-							<div class="r2">
-								<div class="c1">环比</div>
-								<!-- <div :class="[map3>0 ? 'up' : 'down', 'c2']">{{map1}}%</div> -->
-								<div class="c2">{{map1}}%</div>
-							</div>
-						</div>
-						<div class="heatchart" id="chart4_1" style=" background-image: url(public/img/map1.png);"></div>
-					</li>
-					<li>
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">2F</div>
-								<div class="c2 status1">正常</div>
-							</div>
-							<div class="r2">
-								<div class="c1">环比</div>
-								<div class="c2">{{map2}}%</div>
-							</div>
-						</div>
-						<div class="heatchart" id="chart4_2" style=" background-image: url(public/img/map2.png);"></div>
-					</li>
-					<li>
-						<div class="heattitle">
-							<div class="r1">
-								<div class="c1">3F</div>
-								<div class="c2 status1">正常</div>
-							</div>
-							<div class="r2">
-								<div class="c1">环比</div>
-								<div class="c2">{{map3}}%</div>
-							</div>
-						</div>
-						<div class="heatchart" id="chart4_3" style=" background-image: url(public/img/map3.png);"></div>
-					</li>
-				</ul>
+			<div class="nums">
+				<h3>今日到馆累计人数</h3>
+			  <div id="dataNums"></div>
 			</div>
-		</div>
-		
-		<div class="section st5">
-			<div class="title">
-				<p>当前展厅人数</p>
-				<p class="en">Current Visitors</p>
-			</div>
-			<div class="cont">
-				<div class="hallnumchart">
-					<ul>
-						<li v-for="a,i in hallnumlist">
-							<div class="c1">{{ a.probe_exhibition_name }}</div>
-							<div class="c2">
-								<div class="in" :style="{ 'width': comphallnumPerc(a.counts)}"></div>
-							</div>
-							<div class="c3">{{ comphallnumPerc(a.counts) }}</div>
-						</li>
-					</ul>
+			<div class="city" id="city"></div>
+			<div class="rank">
+				<div class="title">
+					<p>省份前十排序</p>
+				</div>
+				<div class="item" v-for="(item,index) in rank" :key="index">
+					<span class="title">{{item.name}}</span><span class="precent">{{item.percentage}}%</span>
+					<div class="rank-circle" :id="'rank_'+index"></div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="section st6">
-			<div class="title">
-				<p>热门展厅排行</p>
-				<p class="en">Rankings of Popular Exhibition Halls</p>
-			</div>
-			<div class="cont">
-				<div class="hallrangechart">
-					<ul>
-						<li v-for="a,i in hallrangelist">
-							<div class="c1">{{ a.probe_exhibition_name }}</div>
-							<div class="c2">
-								<div class="in" :style="{ 'width': comphallrangePerc(a.counts)}"></div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		
-		<div class="section st7">
-			<div class="title">
-				<p>热门展品排行</p>
-				<p class="en">Favorite Exhibit of the Audience</p>
-				<span style=" left: 12rem;">点赞数</span>
-			</div>
-			<div class="cont">
-				<div class="exhibitchart" id="chart7"></div>
-			</div>
-		</div>
 	</div>
 </body>
 <script src="public/js/jquery.min.3.3.1.js"></script>
 <script src="public/js/vue.min.2.2.2.js"></script>
 <script src="public/js/echarts.min.js"></script>
-<script src="public/js/heatmap.min.js"></script>
+<script src="public/js/china.js"></script>
 <script src="public/js/common.js"></script>
+<script src="public/js/number.js"></script>
 <script src="public/js/index.js"></script>
 </html>
