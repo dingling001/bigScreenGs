@@ -845,14 +845,14 @@ var VM = new Vue({
             vm.chart51.setOption(option1);
             vm.chart52.setOption(option2);
         },
-        initChart6: function () {
+        initChart6: function (dataarr) {
             var vm = this;
             var data = [
                 {
-                    name: '0-17',
+                    name: '答题率',
                     value: vm.countData.wx_num / vm.countData.learn_num
                 }, {
-                    name: '18-30',
+                    name: '正确率',
                     value: vm.countData.app_num / vm.countData.learn_num
                 }, {
                     name: '31-40',
@@ -865,100 +865,82 @@ var VM = new Vue({
             var total = 0;
             data.forEach(function (a) {
                 total += a.value
-            })
-            var titleArr = [], seriesArr = [];
-            data.forEach(function (item, index) {
-                titleArr.push(
-                    {
-                        text: item.name,
-                        left: index * 20 + 9 + '%',
-                        bottom: '5%',
-                        textAlign: 'center',
-                        textStyle: {
-                            fontWeight: 'normal',
-                            fontSize: '24',
-                            color: '#808080',
-                            textAlign: 'center',
+            });
+            var seriesArr = [
+                {
+                    type: 'pie',
+                    clockWise: false,
+                    radius: ['28%', '26%'],
+                    startAngle: 90,
+                    itemStyle: {
+                        normal: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0, color: '#F1AA3A' // 0% 处的颜色
+                                }, {
+                                    offset: 1, color: '#F7563E' // 100% 处的颜色
+                                }]
+                            },
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            borderWidth: 5,
+                            borderColor: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0, color: '#F1AA3A' // 0% 处的颜色
+                                }, {
+                                    offset: 1, color: '#F7563E' // 100% 处的颜色
+                                }]
+                            },
                         }
-                    }
-                );
-                seriesArr.push(
-                    {
-                        name: item.name,
-                        type: 'pie',
-                        clockWise: false,
-                        radius: ['50%', '51%'],
-                        startAngle: 90,
+                    },
+                    hoverAnimation: false,
+                    // center: [index * 20 + 11 + '%', index % 2 * 40 + 40 + '%'],
+                    center: [  20 + 20 + '%',   20 + '%'],
+                    data: [
+                        {
+                        value: total - 10,
                         itemStyle: {
                             normal: {
-                                color: {
-                                    type: 'linear',
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                        offset: 0, color: '#F1AA3A' // 0% 处的颜色
-                                    }, {
-                                        offset: 1, color: '#F7563E' // 100% 处的颜色
-                                    }]
-                                },
-                                label: {
-                                    show: false
-                                },
-                                labelLine: {
-                                    show: false
-                                },
-                                borderWidth: 5,
-                                borderColor: {
-                                    type: 'linear',
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                        offset: 0, color: '#F1AA3A' // 0% 处的颜色
-                                    }, {
-                                        offset: 1, color: '#F7563E' // 100% 处的颜色
-                                    }]
-                                },
+                                color: '#535353',
+                                borderWidth: 0
+                            },
+                            emphasis: {
+                                show: false
                             }
-                        },
-                        hoverAnimation: false,
-                        center: [index *20 + '%', index%2*10+ 50+'%'],
-                        data: [{
-                            value: total - item.value,
-                            name: 'invisible',
-                            itemStyle: {
-                                normal: {
-                                    color: '#535353',
-                                    borderWidth: 0
+                        }
+                    },
+                        {
+                        value: 10,
+                        label: {
+                            normal: {
+                                formatter: function (val) {
+                                    return Math.round(val.value / total * 10000) / 100 + '%';
                                 },
-                                emphasis: {
-                                    show: false
+                                position: 'center',
+                                show: true,
+                                textStyle: {
+                                    fontSize: 24,
+                                    color: '#fff'
                                 }
                             }
-                        }, {
-                            value: item.value,
-                            label: {
-                                normal: {
-                                    formatter: function (val) {
-                                        return Math.round(val.value / total * 10000) / 100 + '%';
-                                    },
-                                    position: 'center',
-                                    show: true,
-                                    textStyle: {
-                                        fontSize: 24,
-                                        color: '#fff'
-                                    }
-                                }
-                            }
-                        }]
-                    }
-                )
-            });
+                        }
+                    }]
+                }]
             var option = {
-                title: titleArr,
                 series: seriesArr
             }
             vm.chart6.setOption(option);
