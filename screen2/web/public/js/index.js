@@ -40,7 +40,15 @@ var VM = new Vue({
 		setInterval(function () {
 	      var date = new Date();
 	      vm.newdate = date.toLocaleString('chinese', {hour12: false});
-	  }, 1000);
+		}, 1000);
+		setInterval(function () {
+		vm.getData();
+		}, 6000)
+		setInterval(() => {
+			vm.air();
+				vm.setWeather();
+			
+		},60000)
 	},
 	methods: {
 		 setWeather: function () {
@@ -203,7 +211,7 @@ var VM = new Vue({
 		},
 		initRank(id, value,color) {
       option = {
-			    color: ['#131C45'],
+			    color: ['#283146'],
 			    series: [{
 			        name: 'Line 1',
 			        type: 'pie',
@@ -620,7 +628,7 @@ var VM = new Vue({
               avoidLabelOverlap: false,
               itemStyle: { //图形样式
                   normal: {
-                      borderColor: '#1D1D32',
+                      borderColor: '#0E0E20',
                       borderWidth: 10,
                   },
               },

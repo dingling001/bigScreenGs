@@ -195,6 +195,177 @@ var VM = new Vue({
                 }
             });
         },
+      initOnline(date, orderD, visitedD) {
+      var dom = document.getElementById("echart4");
+      var myChart = echarts.init(dom);
+      option = null;
+      option = {
+        color: ["#7F55C4", "#DB5D09"],
+        grid: {
+          left: "3%",
+          right: "150",
+          bottom: "3%",
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+        },
+          label: {
+              show: true
+          }
+        },
+        xAxis: {
+          type: "category",
+          data: date,
+          // nameGap: 15,
+          // boundaryGap: false,
+          // scale: true,
+          axisLine: {
+            show:false,
+            lineStyle: {
+              width: 2,
+              color: "rgba(255,255,255,0.75) "
+            }
+          },
+          axisLabel: {
+            fontSize: 30
+          },
+          axisTick: {
+            show: false //隐藏X轴刻度
+          },
+          splitLine: {
+            show: true,
+            width:1.5,
+            lineStyle:{
+              color: "#333"
+            }
+          },
+        },
+        yAxis: {
+          type: "value",
+          axisLine: {
+            show:false,
+            lineStyle: {
+              width: 2,
+              color: "rgba(255,255,255,0.75) "
+            }
+          },
+           splitLine: {
+             show: true,
+             lineStyle: {
+               width:1.5,
+              color: "#333"
+            }
+          },
+          axisTick: {
+            show: false //隐藏X轴刻度
+          },
+          axisLabel: {
+            fontSize: 30,
+            formatter: function(val) {
+              if (val >= 10000) {
+                return val / 10000 + "万";
+              }
+              return val;
+            },
+            grid: {
+              left: 100
+            }
+          }
+        },
+        series: [
+          {
+            data: orderD,
+            type: "line",
+            name: "预约人数 ",
+            // symbol: "circle", //标记的图形为实心圆
+            symbolSize: 10, //标记的大小
+            itemStyle: {
+                //折线拐点标志的样式
+                color: "#DB5D09"
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#FF9999"
+                  },
+                  {
+                    offset: 1,
+                    color: "#FF9999"
+                  }
+                ])
+                
+              }
+            },
+            itemStyle: {
+              normal: {
+                lineStyle: { width: 5 },
+                fontSize: 30,
+                color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#FDFF79"
+                  },
+                  {
+                    offset: 1,
+                    color: "#DB5D09"
+                  }
+                ])
+              }
+            },
+          },
+          {
+            data: visitedD,
+            type: "line",
+            name: "进馆人数",
+            // symbol: "circle", //标记的图形为实心圆
+            symbolSize: 10, //标记的大小
+            itemStyle: {
+                //折线拐点标志的样式
+                color: "#7F55C4"
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#7349D0"
+                  },
+                  {
+                    offset: 1,
+                    color: "#1A7FD6"
+                  }
+                ])
+              }
+            },
+            itemStyle: {
+              normal: {
+                lineStyle: { width: 5 },
+                fontSize: 30,
+                color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#7F55C4"
+                  },
+                  {
+                    offset: 1,
+                    color: "#78b1f2"
+                  }
+                ])
+              }
+            },
+          }
+        ]
+      };
+      if (option && typeof option === "object") {
+        myChart.clear();
+        myChart.setOption(option, true);
+      }
+    },
         // 获取数字智慧导览使用情况
         wxData: function () {
             var vm = this;
@@ -211,22 +382,9 @@ var VM = new Vue({
                     vm.initChart1Data[1].value = rlt.data.dlstat.wx_total;
                     vm.initChart1Data[2].value = rlt.data.dlstat.app_total;
                     vm.webvisit = rlt.data.webvisit;
-                    // vm.numTimer = setInterval(
-                    //     function () {
-                    //         if (vm.webvisit > rlt.data.webvisit) {
-                    //             clearInterval(vm.numTimer)
-                    //             vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
-                    //         } else {
-                    //             vm.webvisit++
-                    //         }
-                    //     }, );
-                    // vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
                     vm.feedback[0].value = rlt.data.feedback.pc;
                     vm.feedback[1].value = rlt.data.feedback.wap;
                     vm.total = rlt.data.feedback.total;
-                    // vm.feedback[0].value=10;
-                    // vm.feedback[1].value=10;
-                    // vm.total=22;
                     vm.initChart1();
                     vm.initChart5();
                     vm.chart1.hideLoading();
@@ -258,7 +416,33 @@ var VM = new Vue({
                                 name: vm.order_stat[i].name
                             })
                         }
-                        vm.updateChart3(order_stat)
+                        vm.updateChart3(order_stat);
+                        let data = rlt.data;
+                        data.seven_order_stat.map((item,index) => {
+                          var dates = new Date();
+                          var year =dates.getFullYear();
+                        
+                          //如果年份相同，则去掉年的显示
+                          let date = '';
+                         
+                            if (year != item.t_date.substring(0, 4)) {
+                              date = year;
+                            }
+                            if (item.t_date.substring(5, 6) == 0) {
+                                date= item.t_date.substring(6,7)
+                              } else {
+                                date = item.t_date.substring(5,7)
+                              }
+                              if (item.t_date.substring(8, 9) == 0) {
+                                date= date+'月'+item.t_date.substring(9,10)+'日'
+                              } else {
+                                date= date+'月'+item.t_date.substring(8,10)+"日"
+                              }
+                              vm.date.push(date);
+                              vm.orderD.push(item.value);
+                              vm.visitedD.push(item.value_ck);
+                            })
+                            vm.initOnline(vm.date,vm.orderD,vm.visitedD)
                     }
                 },
                 error: function (err) {

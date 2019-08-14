@@ -3,7 +3,7 @@
 
 /* 头部样式开始 */
 .head {
-    /*height: .84rem;*/
+    height: 4.375rem;
     overflow: hidden;
     background-color: #0E0E20;
 }
@@ -119,7 +119,7 @@
     font-weight: bold;
     color: #fff;
     font-size: 1.875rem;
-    padding: 1.3020rem 0;
+    padding:1.0417rem 0;
     width: 34%;
     text-align: center;
 }
@@ -131,7 +131,7 @@
 
 
 
-.section{  background-color: #1D1D32;}
+.section{  background-color: #0E0E20;}
 .section>.title{ position: relative; padding: 2.604rem 2.604rem 0;}
 .section>.title p{color:#B7BEDB;font-weight: 800;font-size:24px;}
 .section>.title p.en{ font-size: 0.7rem;}
@@ -167,7 +167,7 @@
 }
 .st2 .visitchart{ width: 100%; height: 20rem;}
 
-.st4{ width: 66.5rem; height: 51rem; position: absolute; top:5rem; left: 33.5rem; background:#1D1D32;}
+.st4{ width: 66.5rem; height: 51rem; position: absolute; top:5rem; left: 33.5rem; background:#0E0E20;}
 #city{
 	width:55rem;
 	height:46rem;
