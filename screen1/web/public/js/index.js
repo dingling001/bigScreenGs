@@ -195,177 +195,6 @@ var VM = new Vue({
                 }
             });
         },
-      initOnline(date, orderD, visitedD) {
-      var dom = document.getElementById("echart4");
-      var myChart = echarts.init(dom);
-      option = null;
-      option = {
-        color: ["#7F55C4", "#DB5D09"],
-        grid: {
-          left: "3%",
-          right: "150",
-          bottom: "3%",
-          containLabel: true
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
-        },
-          label: {
-              show: true
-          }
-        },
-        xAxis: {
-          type: "category",
-          data: date,
-          // nameGap: 15,
-          // boundaryGap: false,
-          // scale: true,
-          axisLine: {
-            show:false,
-            lineStyle: {
-              width: 2,
-              color: "rgba(255,255,255,0.75) "
-            }
-          },
-          axisLabel: {
-            fontSize: 30
-          },
-          axisTick: {
-            show: false //隐藏X轴刻度
-          },
-          splitLine: {
-            show: true,
-            width:1.5,
-            lineStyle:{
-              color: "#333"
-            }
-          },
-        },
-        yAxis: {
-          type: "value",
-          axisLine: {
-            show:false,
-            lineStyle: {
-              width: 2,
-              color: "rgba(255,255,255,0.75) "
-            }
-          },
-           splitLine: {
-             show: true,
-             lineStyle: {
-               width:1.5,
-              color: "#333"
-            }
-          },
-          axisTick: {
-            show: false //隐藏X轴刻度
-          },
-          axisLabel: {
-            fontSize: 30,
-            formatter: function(val) {
-              if (val >= 10000) {
-                return val / 10000 + "万";
-              }
-              return val;
-            },
-            grid: {
-              left: 100
-            }
-          }
-        },
-        series: [
-          {
-            data: orderD,
-            type: "line",
-            name: "预约人数 ",
-            // symbol: "circle", //标记的图形为实心圆
-            symbolSize: 10, //标记的大小
-            itemStyle: {
-                //折线拐点标志的样式
-                color: "#DB5D09"
-            },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  {
-                    offset: 0,
-                    color: "#FF9999"
-                  },
-                  {
-                    offset: 1,
-                    color: "#FF9999"
-                  }
-                ])
-                
-              }
-            },
-            itemStyle: {
-              normal: {
-                lineStyle: { width: 5 },
-                fontSize: 30,
-                color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  {
-                    offset: 0,
-                    color: "#FDFF79"
-                  },
-                  {
-                    offset: 1,
-                    color: "#DB5D09"
-                  }
-                ])
-              }
-            },
-          },
-          {
-            data: visitedD,
-            type: "line",
-            name: "进馆人数",
-            // symbol: "circle", //标记的图形为实心圆
-            symbolSize: 10, //标记的大小
-            itemStyle: {
-                //折线拐点标志的样式
-                color: "#7F55C4"
-            },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  {
-                    offset: 0,
-                    color: "#7349D0"
-                  },
-                  {
-                    offset: 1,
-                    color: "#1A7FD6"
-                  }
-                ])
-              }
-            },
-            itemStyle: {
-              normal: {
-                lineStyle: { width: 5 },
-                fontSize: 30,
-                color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  {
-                    offset: 0,
-                    color: "#7F55C4"
-                  },
-                  {
-                    offset: 1,
-                    color: "#78b1f2"
-                  }
-                ])
-              }
-            },
-          }
-        ]
-      };
-      if (option && typeof option === "object") {
-        myChart.clear();
-        myChart.setOption(option, true);
-      }
-    },
         // 获取数字智慧导览使用情况
         wxData: function () {
             var vm = this;
@@ -382,9 +211,22 @@ var VM = new Vue({
                     vm.initChart1Data[1].value = rlt.data.dlstat.wx_total;
                     vm.initChart1Data[2].value = rlt.data.dlstat.app_total;
                     vm.webvisit = rlt.data.webvisit;
+                    // vm.numTimer = setInterval(
+                    //     function () {
+                    //         if (vm.webvisit > rlt.data.webvisit) {
+                    //             clearInterval(vm.numTimer)
+                    //             vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
+                    //         } else {
+                    //             vm.webvisit++
+                    //         }
+                    //     }, );
+                    // vm.webvisit = parseInt(rlt.data.webvisit, 10) > 100000 ? Comfun.toSplit(rlt.data.webvisit) : Comfun.toWan(rlt.data.webvisit);
                     vm.feedback[0].value = rlt.data.feedback.pc;
                     vm.feedback[1].value = rlt.data.feedback.wap;
                     vm.total = rlt.data.feedback.total;
+                    // vm.feedback[0].value=10;
+                    // vm.feedback[1].value=10;
+                    // vm.total=22;
                     vm.initChart1();
                     vm.initChart5();
                     vm.chart1.hideLoading();
@@ -416,33 +258,7 @@ var VM = new Vue({
                                 name: vm.order_stat[i].name
                             })
                         }
-                        vm.updateChart3(order_stat);
-                        let data = rlt.data;
-                        data.seven_order_stat.map((item,index) => {
-                          var dates = new Date();
-                          var year =dates.getFullYear();
-                        
-                          //如果年份相同，则去掉年的显示
-                          let date = '';
-                         
-                            if (year != item.t_date.substring(0, 4)) {
-                              date = year;
-                            }
-                            if (item.t_date.substring(5, 6) == 0) {
-                                date= item.t_date.substring(6,7)
-                              } else {
-                                date = item.t_date.substring(5,7)
-                              }
-                              if (item.t_date.substring(8, 9) == 0) {
-                                date= date+'月'+item.t_date.substring(9,10)+'日'
-                              } else {
-                                date= date+'月'+item.t_date.substring(8,10)+"日"
-                              }
-                              vm.date.push(date);
-                              vm.orderD.push(item.value);
-                              vm.visitedD.push(item.value_ck);
-                            })
-                            vm.initOnline(vm.date,vm.orderD,vm.visitedD)
+                        vm.updateChart3(order_stat)
                     }
                 },
                 error: function (err) {
@@ -1029,101 +845,121 @@ var VM = new Vue({
             vm.chart51.setOption(option1);
             vm.chart52.setOption(option2);
         },
-        initChart6: function (dataarr) {
+        initChart6: function (data) {
             var vm = this;
-            var data = [
-                {
-                    name: '答题率',
-                    value: vm.countData.wx_num / vm.countData.learn_num
-                }, {
-                    name: '正确率',
-                    value: vm.countData.app_num / vm.countData.learn_num
-                }, {
-                    name: '31-40',
-                    value: vm.countData.wx_correct_num / vm.countData.wx_num
-                }, {
-                    name: '41-64',
-                    value: vm.countData.app_correct_num / vm.countData.app_num
+            var titleArr = [], seriesArr = [], center = [], color = '', color1 = '', str = '', total = 0;
+            data.forEach(function (item, index) {
+                if (index == 0) {
+                    center = ['25%', '30%'];
+                    color = '#EF45AC';
+                    color1 = '#412A4E';
+                    total = vm.countData.count;
+                    // str = Math.round(item.value / total * 10000) / 100 + '%';
+                } else if (index == 1) {
+                    center = ['75%', '30%'];
+                    color = '#EF45AC';
+                    color1 = '#412A4E';
+                    total = vm.countData.count;
+                    // str = Math.round(item.value / total * 10000) / 100 + '%';
+                } else if (index == 2) {
+                    center = ['25%', '75%'];
+                    color = '#613FD1';
+                    color1 = '#453284';
+                    total = vm.countData.learn_num;
+                    // str = Math.round(item.value / total * 10000) / 100 + '%';
+                } else if (index == 3) {
+                    center = ['75%', '75%'];
+                    color = '#613FD1';
+                    color1 = '#453284';
+                    total = vm.countData.learn_num;
+                    // str = Math.round(item.value / total * 10000) / 100 + '%';
                 }
-            ];
-            var total = 0;
-            data.forEach(function (a) {
-                total += a.value
-            });
-            var seriesArr = [
-                {
-                    type: 'pie',
-                    clockWise: false,
-                    radius: ['28%', '26%'],
-                    startAngle: 90,
-                    itemStyle: {
-                        normal: {
-                            color: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [{
-                                    offset: 0, color: '#F1AA3A' // 0% 处的颜色
-                                }, {
-                                    offset: 1, color: '#F7563E' // 100% 处的颜色
-                                }]
-                            },
-                            label: {
-                                show: false
-                            },
-                            labelLine: {
-                                show: false
-                            },
-                            borderWidth: 5,
-                            borderColor: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [{
-                                    offset: 0, color: '#F1AA3A' // 0% 处的颜色
-                                }, {
-                                    offset: 1, color: '#F7563E' // 100% 处的颜色
-                                }]
-                            },
-                        }
-                    },
-                    hoverAnimation: false,
-                    // center: [index * 20 + 11 + '%', index % 2 * 40 + 40 + '%'],
-                    center: [  20 + 20 + '%',   20 + '%'],
-                    data: [
-                        {
-                        value: total - 10,
+                if (total <= 0) return;
+                seriesArr.push(
+                    {
+                        type: 'pie',
+                        name: item.name,
+                        clockWise: false,
+                        radius: ['28%', '26%'],
+                        startAngle: -225,
                         itemStyle: {
                             normal: {
-                                color: '#535353',
-                                borderWidth: 0
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        }
-                    },
-                        {
-                        value: 10,
-                        label: {
-                            normal: {
-                                formatter: function (val) {
-                                    return Math.round(val.value / total * 10000) / 100 + '%';
+                                // color: {
+                                //     type: 'linear',
+                                //     x: 0,
+                                //     y: 0,
+                                //     x2: 0,
+                                //     y2: 1,
+                                //     colorStops: [{
+                                //         offset: 0, color: color // 0% 处的颜色
+                                //     }, {
+                                //         offset: 1, color: '#F7563E' // 100% 处的颜色
+                                //     }]
+                                // },
+                                color: color,
+                                label: {
+                                    show: false
                                 },
-                                position: 'center',
-                                show: true,
-                                textStyle: {
-                                    fontSize: 24,
-                                    color: '#fff'
+                                labelLine: {
+                                    show: false
+                                },
+                                borderWidth: 5,
+                                borderColor: {
+                                    type: 'linear',
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [{
+                                        offset: 0, color: color // 0% 处的颜色
+                                    }, {
+                                        offset: 1, color: color // 100% 处的颜色
+                                    }]
+                                },
+                            }
+                        },
+                        hoverAnimation: false,
+                        // center: [index * 20 + 11 + '%', index % 2 * 40 + 40 + '%'],
+                        center: center,
+                        data: [{
+                            value: total - item.value,
+                            name: 'invisible',
+                            itemStyle: {
+                                normal: {
+                                    color: color1,
+                                    borderWidth: 0
+                                },
+                                emphasis: {
+                                    show: false
                                 }
                             }
-                        }
-                    }]
-                }]
+                        }, {
+                            value: item.value,
+                            label: {
+                                normal: {
+                                    formatter: function (val) {
+                                        console.log(val)
+                                        return `${item.title}\n` + '{a|' + val.percent + '%}' + `\n${val.seriesName}\n`
+                                    },
+                                    rich: {
+                                        a: {
+                                            color: color,
+                                            fontSize: 18,
+                                        }
+                                    },
+                                    position: 'center',
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: 12,
+                                        color: '#fff',
+                                        padding: [40, 0, 0, 0],
+                                        lineHeight: 30
+                                    }
+                                }
+                            }
+                        }]
+                    })
+            });
             var option = {
                 series: seriesArr
             }
@@ -1141,7 +977,26 @@ var VM = new Vue({
                 url: baseurl1 + "api/learn_rate",
                 success: function (rlt) {
                     vm.countData = rlt.data;
-                    vm.initChart6()
+                    var data = [
+                        {
+                            name: '微信',
+                            title: '答题率',
+                            value: vm.countData.wx_num
+                        }, {
+                            name: 'APP',
+                            title: '答题率',
+                            value: vm.countData.app_num
+                        }, {
+                            name: '微信',
+                            title: '正确率',
+                            value: vm.countData.wx_correct_num
+                        }, {
+                            name: 'APP',
+                            title: '正确率',
+                            value: vm.countData.app_correct_num
+                        }
+                    ];
+                    vm.initChart6(data)
                 },
                 error: function (err) {
                     console.log(err)
