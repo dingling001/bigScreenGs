@@ -1,0 +1,293 @@
+@charset "utf-8";
+/* CSS Document */
+body,div,p,ul,ol,li,dl,dt,dd,table,tr,td,th,form,h1,h2,h3,h4,h5,h6,input,textarea{
+	margin:0;
+	padding:0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+img{
+	display:block;
+	border:0;
+}
+
+html,body{
+    /*width: 1920px;*/
+    /*height: 1080px;*/
+}
+.f28{
+    font-size: 28px;
+}
+.f21{
+    font-size: 21px;
+}
+.f22{
+    font-size: 22px;
+}
+.lh48{
+    line-height: 48px;
+}
+.ell{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.wind_dir{
+    font-size: 14px;
+}
+
+.content{
+    /*width: 1920px;*/
+    height: 100%;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.content_top{
+    /*width: 1796px;*/
+    height: 84px;
+    background: #0e0e20;
+    padding: 0 62px;
+    display: flex;
+    justify-content: space-between;
+}
+.content_top .title{
+    font-size: 20px;
+    line-height: 84px;
+    color: #ffffff;
+    text-align: center;
+}
+.content_top .air_quality{
+    font-size: 10px;
+    color: #3acd73;
+    line-height: 50px;
+}
+.content_top .time{
+    font-size: 10px;
+    line-height: 84px;
+    color: #3a88ba;
+}
+.content_top .time span{
+    margin: 0 15px;
+}
+.content_bottom{
+    height: 981px;
+    display: flex;
+    justify-content: space-between;
+}
+.weather{
+    width: 952px;
+    height: 100%;
+    background: #0e0e20;
+}
+.weather .info{
+    width: 832px;
+    height: 210px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+}
+.weather1{
+    /*width: 242px;*/
+    height: 130px;
+    padding: 0 26px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    margin-right: 10px;
+}
+.weather1::before{
+    content: '';
+    width: 0;
+    height: 0;
+    border: 3px solid #0e0e20;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.weather1::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border: 3px solid #0e0e20;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.weather1_content{
+    width: 140px;
+}
+.bgBlue{
+    background: #0076c8;
+}
+.bgRed{
+    background: #d53737;
+}
+.bgPurple{
+    background: #6f61ae;
+}
+.weather .hz{
+    font-size: 17px;
+}
+.weatherIcon{
+    width: 86px;
+    height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+.weather1:nth-of-type(1) .weatherIcon img{
+    width: 42px;
+    /*height: 42px;*/
+}
+#cityName{
+    font-size: 18px;
+    color: #ffffff;
+    position: absolute;
+    right: 11px;
+    top: 9px;
+}
+
+.atualWeatherBox{
+    /*width: 100%;*/
+    height: 410px;
+    position: relative;
+}
+#atualWeather{
+    /*width: 100%;*/
+    height: 410px;
+}
+.imgTip{
+    width: 36px;
+    font-size: 18px;
+    color: #ddddde;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.imgTip img{
+    width: 37px;
+    height: 37px;
+}
+.weatherDetailBox{
+    width: 100%;
+    height: 362px;
+    position: relative;
+}
+#weatherDetail{
+    width: 100%;
+    height: 362px;
+}
+.toolBox{
+    position: absolute;
+    top: 45px;
+    right: 150px;
+    width: 280px;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.toolBox .tool{
+    width: 72px;
+    height: 30px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 30px;
+    color: #ffffff;
+    cursor: pointer;
+}
+.toolBox .tool:nth-of-type(2){
+    background: #1f3f5d;
+}
+.toolBox .toolselect{
+    background: #1f3f5d;
+}
+
+/* 右侧 */
+.stream{
+    width: 952px;
+    height: 100%;
+    background: #0e0e20;
+}
+.streamInfo{
+    width: 100%;
+    height: 210px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.streamInfo1{
+    width: 420px;
+    height: 130px;
+    border-radius: 6px;
+    background: #fd284f;
+    margin-right: 12px;
+    position: relative;
+}
+#streamInfo .title{
+    width: 164px;
+    height: 100%;
+    font-size: 23px;
+    color: #ffffff;
+    line-height: 48px;
+    padding-top: 16px;
+    margin-left: 20px;
+}
+#streamInfo .content1{
+    font-size: 56px;
+    text-align: center;
+    color: #ffffff;
+    line-height: 130px;
+    width: 265px;
+    height: 130px;
+    background: #fe4371;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#streamInfo .content2{
+    font-size: 56px;
+    text-align: center;
+    color: #ffffff;
+    line-height: 130px;
+    width: 265px;
+    height: 130px;
+    background: #9542f4;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.streamInfo2{
+    width: 420px;
+    height: 130px;
+    border-radius: 6px;
+    background: #9837e8;
+    position: relative;
+}
+.age{
+    width: 100%;
+    height: 310px;
+}
+.bottom{
+    width: 100%;
+    height: 461px;
+    display: flex;
+}
+.cinema{
+    width: 500px;
+    height: 100%;
+}
+.sex{
+    width: 452px;
+    height: 100%;
+}

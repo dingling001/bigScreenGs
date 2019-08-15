@@ -112,16 +112,21 @@ var VM = new Vue({
         vm.initChart4();
         vm.getAppnum();
         vm._learn_rate();
-        // setInterval(function () {
-        //     // 温度
-        //     vm.setWeather();
-        //     vm.air();
-        //     // 导览使用情况
-        //     vm.wxData()
-        //     // vm.hotRoads();
-        //     // vm.activeNumPro();
-        //     // vm.getCinemaData();
-        // }, 10000);
+        setInterval(function () {
+            // 温度
+            vm.setWeather();
+            vm.air();
+            // 导览使用情况
+            vm.wxData()
+        }, 72000);
+        setInterval(function () {
+            vm.wxData();
+            vm.getStat();
+            vm.initChart1();//第一屏
+            vm.initChart4();
+            vm.getAppnum();
+            vm._learn_rate();
+        }, 60000)
     },
     methods: {
         // 设置天气
@@ -524,90 +529,136 @@ var VM = new Vue({
             });
             vm.chart3.hideLoading();
         },
-        initChart4: function () {
+        initChart4:function(datas,xdatas){
             var vm = this;
+            var data = [2220, 1682, 2791, 3000, 4090, 3230, 2910];
+            var xdata = ['3/12', '3/13', '3/14', '3/15', '3/16', '3/17', '3/18'];
             var option = {
                 grid: {
-                    top: 20,
+                    left: 60,
+                    right: 50,
+                    top: 50,
                     bottom: 30,
-                    left: '15%',
-                    right: 30
+                    // containLabel: true
                 },
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
+                    data: xdata,
+                    triggerEvent: true,
                     splitLine: {
                         show: true,
                         lineStyle: {
-                            width: 2,
+                            width: 1,
                             color: ['rgba(150,108,247,0.5)']
                         }
                     },
-                    axisLabel: {
-                        show: true,
-                        interval: 'auto',
-                        fontSize: 12 * 2,
-                        color: '#808080',
-                        formatter: function (val) {
-                            if (vm.navi == 0) {
-                                return val
-                            } else {
-                                var arr = val.split('-');
-                                return arr[1] + '/' + arr[2]
-                            }
-                        }
-                    },
-                    data: []
-                },
-                yAxis: {
-                    type: 'value',
-                    splitNumber: 3,
+                    // splitLine:{
+                    //     show:false     //去掉网格线
+                    // },
                     axisLine: {
-                        show: false
+                        show: true,
+                        lineStyle: {
+                            width: 2,
+                            color: 'rgba(255,255,255,.6)'
+                        }
                     },
                     axisTick: {
                         show: false
                     },
+                    axisLabel: {
+                        color: '#fff',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        textShadowColor: '#000',
+                        textShadowOffsetY: 2
+                    }
+                },
+                yAxis: {
+                    name: '次数',
+                    nameTextStyle: {
+                        color: '#fff',
+                        fontSize: 16,
+                        textShadowColor: '#000',
+                        textShadowOffsetY: 2
+                    },
+                    type: 'value',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 2,
+                            color: 'rgba(255,255,255,.6)'
+                        }
+                    },
                     splitLine: {
                         show: false
                     },
+                    axisTick: {
+                        show: true
+                    },
                     axisLabel: {
-                        showMinLabel: false,
-                        fontSize: 12 * 2,
-                        color: '#808080'
+                        color: '#fff',
+                        fontSize: 16,
+                        textShadowColor: '#000',
+                        textShadowOffsetY: 2
                     }
                 },
                 series: [{
+                    data: data,
                     type: 'line',
-                    name: 'number',
+                    symbol: 'none',
+                    // symbol:{
+                    //     show:false
+                    // },
+                    // itemStyle: { //折线的样式设置
+                    //     normal: {
+                    //         lineStyle: { //折线线条的设置
+                    //             borderWidth:10,
+                    //             color: ["#7453D4","#78AEF8","#7453D4"]
+                    //         },
+                    //     },
+                    // },
                     lineStyle: {
-                        width: 4,
-                        color: {
-                            type: 'linear',
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [{
-                                offset: 0, color: '#DB5D09' // 0% 处的颜色
-                            }, {
-                                offset: 1, color: '#FF9999' // 100% 处的颜色
-                            }]
+                        normal: {
+                            width: 8,
+                            color: {
+                                type: 'linear',
+
+                                colorStops: [{
+                                    offset: 0,
+                                    color: '#7453D4' // 0% 处的颜色
+                                }, {
+                                    offset: .5,
+                                    color: '#78AEF8' // 100% 处的颜色
+                                },
+                                    {
+                                        offset: 1,
+                                        color: '#7453D4' // 0% 处的颜色
+                                    }
+                                ],
+                                globalCoord: false // 缺省为 false
+                            },
                         }
                     },
-                    itemStyle: {
-                        opacity: 0
+                    smooth:false,
+                    // color: '#FEC201',
+                    // lineStyle: {
+                    //     show:false,
+                    //     borderWidth:10,
+                    //     color: ["#7453D4","#78AEF8","#7453D4"]
+                    // },
+                    label: {
+                        show: false,
+                        position: 'top',
+                        textStyle: {
+                            color: '#FEC201',
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        }
                     },
                     areaStyle: {
-                        color: 'rgba(255,153,153,0.2)'
-                    },
-                    data: []
+                        color: ['rgba(150,108,247,0.5)']
+                    }
                 }]
             }
             vm.chart4.setOption(option);
@@ -879,9 +930,12 @@ var VM = new Vue({
                     {
                         type: 'pie',
                         name: item.name,
-                        clockWise: false,
                         radius: ['28%', '26%'],
-                        startAngle: -225,
+                        startAngle: '90',
+                        minAngle:0,
+                        "clockwise": true,
+                        "hoverAnimation": false,
+                        "legendHoverLink": false,
                         itemStyle: {
                             normal: {
                                 // color: {
@@ -918,7 +972,6 @@ var VM = new Vue({
                                 },
                             }
                         },
-                        hoverAnimation: false,
                         // center: [index * 20 + 11 + '%', index % 2 * 40 + 40 + '%'],
                         center: center,
                         data: [{

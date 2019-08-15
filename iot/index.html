@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>甘肃科技馆IOT数据监测平台</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="content" id="app">
+    <div class="content_top">
+        <p class="air_quality">当前空气质量：<span id="airQuality">良</span></p>
+        <p class="title">甘肃科技馆IOT数据监测平台</p>
+        <p class="time"><span id="nosolarCalendar"></span><span id="lunarCalendar"></span></p>
+    </div>
+    <div class="content_bottom">
+        <div class="weather">
+            <div class="info" id="info"></div>
+            <div class="atualWeatherBox">
+                <div id="atualWeather"></div>
+            </div>
+            <div class="weatherDetailBox">
+                <div id="weatherDetail"></div>
+                <div class="toolBox">
+                    <div onclick="setWeatherDetail(0)" class="tool">
+                        温度
+                    </div>
+                    <div onclick="setWeatherDetail(1)" class="tool">
+                        湿度
+                    </div>
+                    <div onclick="setWeatherDetail(2)" class="tool">
+                        降水概率
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stream">
+            <div class="streamInfo" id="streamInfo">
+                <div class="streamInfo1">
+                    <div class="title">
+                        <p>今日到馆</p>
+                        <p>累计人数</p>
+                    </div>
+                    <div class="content1">
+                        <v-countup :start-value="0" :end-value="total"></v-countup>
+                    </div>
+                </div>
+                <div class="streamInfo2">
+                    <div class="title">
+                        <p>今日影院</p>
+                        <p>预约人数</p>
+                    </div>
+                    <div class="content2">
+                        <v-countup :start-value="0" :end-value="today_order_film"></v-countup>
+                    </div>
+                </div>
+            </div>
+            <div class="age" id="age"></div>
+            <div class="bottom">
+                <div class="cinema" id="cinema"></div>
+                <div class="sex" id="sex"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/echarts.min.js"></script>
+<script src="js/vue.min.2.2.2.js"></script>
+<script src='https://unpkg.com/vue-countupjs'></script>
+<script src="js/time.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/index.js"></script>
+</html>
